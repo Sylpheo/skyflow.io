@@ -7,6 +7,3 @@
     RewriteRule ^ index.php [QSA,L] 
 </IfModule>
 
-<Directory>
-	AllowOverride All
-</Directory>
