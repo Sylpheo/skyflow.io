@@ -11,7 +11,7 @@
         "symfony/validator": "~2.4",
         "symfony/config": "~2.4",
         "symfony/monolog-bridge": "~2.4",
-        "opauth/opauth": ">=0.4.0",
+        
         "ext-soap": "*"
     },
     "autoload": {
