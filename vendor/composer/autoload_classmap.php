@@ -61,6 +61,7 @@ return array(
     'NumberFormatter' => $vendorDir . '/symfony/intl/Resources/stubs/NumberFormatter.php',
     'Opauth' => $vendorDir . '/opauth/opauth/lib/Opauth/Opauth.php',
     'OpauthStrategy' => $vendorDir . '/opauth/opauth/lib/Opauth/OpauthStrategy.php',
+    'SalesforceStrategy' => $vendorDir . '/opauth/opauth/lib/Opauth/Strategy/salesforce/SalesforceStrategy.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Resources/stubs/SessionHandlerInterface.php',
     'WSSESoap' => $baseDir . '/exacttarget/soap-wsse.php',
     'XMLSecEnc' => $baseDir . '/exacttarget/xmlseclibs.php',

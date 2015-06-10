@@ -19,7 +19,8 @@ class ExactTarget {
 			    	'clientid' => $clientid,
 			   		'clientsecret' => $clientsecret,
 					'defaultwsdl' => 'https://webservice.exacttarget.com/etframework.wsdl',
-			    	'xmlloc' => '../exacttarget/exact.xml',
+			    	//'xmlloc' => '../exacttarget/exact.xml',
+			    	'xmlloc' => 'https://skyflow.heroku-app.com/exacttarget/exact.xml',
 				);
 
         	return new ET_Client(false,false,$params);
