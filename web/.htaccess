@@ -1,6 +1,3 @@
-    <Directory>
-	AllowOverride All
-</Directory>
 # Redirect incoming URLs to index.php
 <IfModule mod_rewrite.c>
     Options -MultiViews
