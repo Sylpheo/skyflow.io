@@ -11,8 +11,9 @@
         "symfony/validator": "~2.4",
         "symfony/config": "~2.4",
         "symfony/monolog-bridge": "~2.4",
-        
-        "ext-soap": "*"
+        "opauth/opauth": ">=0.4.0",
+        "ext-soap": "*",
+        "betterbrief/opauth-salesforce": "dev-master"
     },
     "autoload": {
         "psr-4": {

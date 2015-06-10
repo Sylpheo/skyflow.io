@@ -4,8 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b8b2cf965ebc50a4da3f8d8768c56719",
+    "hash": "fb50b9575f7497851fe73f5f82f9d6c2",
     "packages": [
+        {
+            "name": "betterbrief/opauth-salesforce",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BetterBrief/opauth-salesforce.git",
+                "reference": "3c280d3eedf04145cd4108d8ab3944c7ac587814"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BetterBrief/opauth-salesforce/zipball/3c280d3eedf04145cd4108d8ab3944c7ac587814",
+                "reference": "3c280d3eedf04145cd4108d8ab3944c7ac587814",
+                "shasum": ""
+            },
+            "require": {
+                "opauth/opauth": ">=0.4.0",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Hensby",
+                    "email": "github@hens.by",
+                    "homepage": "http://hens.by"
+                }
+            ],
+            "description": "Salesforce authentication strategy for Opauth",
+            "homepage": "https://github.com/BetterBrief/opauth-salesforce",
+            "keywords": [
+                "Authentication",
+                "auth",
+                "salesforce"
+            ],
+            "time": "2014-04-30 09:00:39"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.4",
@@ -1903,7 +1947,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "betterbrief/opauth-salesforce": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
