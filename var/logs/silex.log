@@ -6780,3 +6780,7 @@
 [2015-06-10 11:18:09] silex.INFO: Matched route "emails". {"route_parameters":{"_controller":"exactSilex\\Controller\\EmailController::emailsAction","_route":"emails"},"request_uri":"http://localhost/emails"} []
 [2015-06-10 11:18:09] silex.INFO: > GET /emails [] []
 [2015-06-10 11:18:22] silex.INFO: < 200 [] []
+[2015-06-10 12:08:04] silex.INFO: Matched route "_auth_strategy". {"route_parameters":{"_controller":"[object] (Closure: {})","strategy":"salesforce","_route":"_auth_strategy"},"request_uri":"http://localhost/auth/salesforce"} []
+[2015-06-10 12:08:05] silex.INFO: > GET /auth/salesforce [] []
+[2015-06-10 12:09:47] silex.INFO: Matched route "_auth_strategy". {"route_parameters":{"_controller":"[object] (Closure: {})","strategy":"salesforce","_route":"_auth_strategy"},"request_uri":"http://localhost/auth/salesforce"} []
+[2015-06-10 12:09:48] silex.INFO: > GET /auth/salesforce [] []

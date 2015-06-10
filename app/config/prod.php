@@ -11,4 +11,10 @@ $app['db.options'] = array(
     'password' => 'YT5kh8cYoPq4e9Xa2i2cWWz7rs',
 );
 // define log level
-$app['monolog.level'] = 'WARNING';
+//$app['monolog.level'] = 'WARNING';
+
+//A ENLEVER 
+// enable the debug mode
+$app['debug'] = true;
+// define log level
+$app['monolog.level'] = 'INFO';
