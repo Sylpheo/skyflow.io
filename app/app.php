@@ -57,19 +57,16 @@ $app['opauth'] = array(
       'config' => array(
         'security_salt' => '_SECURE_RANDOM_SALT_',
         'Strategy' => array(
-            'facebook' => array(
-    'app_id' => '836814073045294',
-    'app_secret' => '73574b398f11a7e280d7179c1cfc1e62'
-),
+            'salesforce' => array( // Is available at /auth/login/facebook
+           'client_id' => '3MVG9SemV5D80oBcbOkdI2WCxIIA5fZMPI3ZDTZBBU_6E6zc8Z5wKZ4DCh.bPDxBEV4PocUnC3ELl70tjOSof',
+           'client_secret' => '8180025755972035170'
+         ),
         )
         
       )
     );
 
-/*'salesforce' => array( // Is available at /auth/login/facebook
-           'client_id' => '3MVG9SemV5D80oBcbOkdI2WCxIIA5fZMPI3ZDTZBBU_6E6zc8Z5wKZ4DCh.bPDxBEV4PocUnC3ELl70tjOSof',
-           'client_secret' => '8180025755972035170'
-         ),*/
+
 $app->register(new OpauthExtension());
 
 
