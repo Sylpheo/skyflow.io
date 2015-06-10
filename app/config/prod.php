@@ -2,13 +2,13 @@
 
 // Doctrine (db)
 $app['db.options'] = array(
-    'driver'   => 'pdo_mysql',
+    'driver'   => 'pdo_pgsql',
     'charset'  => 'utf8',
-    'host'     => 'localhost',
-    'port'     => '3306',
-    'dbname'   => 'microcms',
-    'user'     => 'root',
-    'password' => 'swiffer',
+    'host'     => 'ec2-54-83-57-86.compute-1.amazonaws.com',
+    'port'     => '5432',
+    'dbname'   => 'd70b123ck17v74',
+    'user'     => 'yasrxhlztiwpnq',
+    'password' => 'YT5kh8cYoPq4e9Xa2i2cWWz7rs',
 );
 // define log level
 $app['monolog.level'] = 'WARNING';
