@@ -6784,3 +6784,6 @@
 [2015-06-10 12:08:05] silex.INFO: > GET /auth/salesforce [] []
 [2015-06-10 12:09:47] silex.INFO: Matched route "_auth_strategy". {"route_parameters":{"_controller":"[object] (Closure: {})","strategy":"salesforce","_route":"_auth_strategy"},"request_uri":"http://localhost/auth/salesforce"} []
 [2015-06-10 12:09:48] silex.INFO: > GET /auth/salesforce [] []
+[2015-06-10 14:10:20] silex.INFO: Matched route "_auth_strategy". {"route_parameters":{"_controller":"[object] (Closure: {})","strategy":"salesforce","_route":"_auth_strategy"},"request_uri":"http://localhost/auth/salesforce"} []
+[2015-06-10 14:10:20] silex.INFO: Populated the TokenStorage with an anonymous Token. [] []
+[2015-06-10 14:10:20] silex.INFO: > GET /auth/salesforce [] []
