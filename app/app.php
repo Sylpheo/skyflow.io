@@ -57,7 +57,7 @@ $app['opauth'] = array(
       'config' => array(
         'security_salt' => '_SECURE_RANDOM_SALT_',
         'Strategy' => array(
-            'Salesforce' => array( // Is available at /auth/login/facebook
+            'salesforce' => array( // Is available at /auth/login/facebook
            'client_id' => '3MVG9SemV5D80oBcbOkdI2WCxIIA5fZMPI3ZDTZBBU_6E6zc8Z5wKZ4DCh.bPDxBEV4PocUnC3ELl70tjOSof',
            'client_secret' => '8180025755972035170'
          ),
