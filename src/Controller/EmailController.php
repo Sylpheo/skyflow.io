@@ -15,6 +15,7 @@ namespace exactSilex\Controller;
 			$email = new ET_Email();
 			$email->authStub = $myclient;
 			$response = $email->get();
+			var_dump($response);
 
         	return $app['twig']->render('emails.html.twig',
         		array('emails' => $response->results));
