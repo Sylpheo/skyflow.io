@@ -1,0 +1,42 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}List Subscriber{% endblock %}
+
+{% block content %}
+	<a href="addSubToList"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add subscriber to list</button></a>
+	<div class="tab-content">
+   		<div class="tab-pane fade in active" >
+			{% if lists %}
+				 <div class="table-responsive">
+           			 <table class="table table-hover table-condensed viewTable" id="list_sub">
+                		<thead>
+		                    <tr>
+		                        <th>List ID</th>
+		                        <th>Subscriber Key</th>  
+		                        <th>Status</th>
+		                    </tr>
+		                </thead>
+							{% if lists|length > 1 %}
+								{% for list in lists %}
+									<tr>
+										<td>{{ list.ListID }}</td>
+										<td>{{ list.SubscriberKey }}</td>
+										<td>{{ list.Status }}</td>
+									</tr>
+								{% endfor %}
+							{% else %}
+									<tr>
+										<td>{{ lists.ListID }}</td>
+										<td>{{ lists.SubscriberKey }}</td>
+										<td>{{ lists.Status }}</td>
+									</tr>
+							{% endif %}
+					</table>
+				</div>
+			{% else %}
+				<div class="alert alert-warning">No lists subscribers found ! </div>
+			{% endif %}
+
+		</div>
+	</div>
+{% endblock %}

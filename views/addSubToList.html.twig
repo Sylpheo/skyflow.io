@@ -1,0 +1,12 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Add Subscriber To List{% endblock %}
+
+{% block content %}
+	{{ form_start(form) }}
+		{{form_row(form.Subscriber, {'label': 'Subscriber'}) }}
+		{{ form_row(form.Lists, {'label':'List(s)'}) }}
+
+		<input type="submit" name="submit" value="Add Subscriber To List" />
+	{{ form_end(form) }}
+{% endblock %}

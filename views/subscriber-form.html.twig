@@ -1,0 +1,17 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Add Subscriber{% endblock %}
+
+{% block content %}
+
+<form action="#" method="post">
+	{{ form_start(subForm) }}
+		{{ form_row(subForm.EmailAddress, {'label':'Email Address'}) }}
+		{{ form_row(subForm.SubscriberKey, {'label' :'Subscriber Key'}) }}
+		{{ form_row(subForm.Status, {'label' : 'Status'}) }}
+		
+		 <input type="submit" name="submit" value="Add Subscriber" />
+	{{ form_end(subForm) }}
+        
+</form>
+{% endblock %}

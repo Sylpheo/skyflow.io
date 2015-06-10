@@ -1,0 +1,38 @@
+body { 
+    padding-top: 60px; 
+}
+
+.footer {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    text-align: center;
+}
+
+
+.viewTable {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#errorPanel {
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+label
+{
+	width: 150px;
+
+}
+ input,select,textarea {
+	padding: 5px 10px;
+	margin : 7px;
+	min-width : 160px;
+}
+
+input[type=submit], input[type=reset] {
+	min-width : 100px;
+	margin-left : 250px;
+	margin-top : 30px;
+}
+

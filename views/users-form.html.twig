@@ -1,0 +1,37 @@
+{% extends 'layout.html.twig' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h2 class="text-center">{{ block('title') }}</h2>
+{% for flashMessage in app.session.flashbag.get('success') %}
+<div class="alert alert-success">
+    {{ flashMessage }}
+</div>
+{% endfor %}
+{% if form_errors(userForm.password.first) %}
+<div class="alert alert-danger">
+    {{ form_errors(userForm.password.first) }}
+</div>
+{% endif %}
+
+<div class="well">
+{{ form_start(userForm)}}
+   
+        {{ form_row(userForm.username) }}
+        
+        {{ form_row(userForm.password.first) }}
+        
+        {{ form_row(userForm.password.second) }}
+       
+        {{ form_row(userForm.clientid) }}
+
+        {{ form_row(userForm.clientsecret) }}
+       
+        {{ form_row(userForm.role) }}
+      
+            <input type="submit" class="btn btn-primary" value="Save" />
+{{ form_end(userForm) }}
+</div>
+{% endblock %}

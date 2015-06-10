@@ -1,0 +1,18 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Add List{% endblock %}
+
+{% block content %}
+
+<form action="#" method="post">
+	{{ form_start(listForm) }}
+		{{ form_row(listForm.ListName, {'label' :'List Name'}) }}
+		{{ form_row(listForm.Description, {'label':'Description'}) }}
+		{{ form_row(listForm.Type, {'label':'Type' }) }}
+		{{ form_row(listForm.CustomerKey, {'label' : 'Customer Key'}) }}
+		{{ form_row(listForm.Category, {'label':'Category'}) }}
+		 <input type="submit" name="submit" value="Add List" />
+	{{ form_end(listForm) }}
+   
+</form>
+{% endblock %}

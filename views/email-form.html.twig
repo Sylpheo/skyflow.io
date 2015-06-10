@@ -1,0 +1,20 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Create Email{% endblock %}
+
+{% block content %}
+
+<form action="#" method="post">
+	{{ form_start(emailForm) }}
+		{{ form_row(emailForm.Name, {'label': 'Name'}) }}
+		{{ form_row(emailForm.CustomerKey, {'label' : 'Customer Key'}) }}
+		{{form_row(emailForm.Description, {'label': 'Description'}) }}
+		{{form_row(emailForm.CustomerKey, {'label' : 'Customer Key'}) }}
+		{{ form_row(emailForm.Subject, {'label' : 'Subject'}) }}
+		{{ form_row(emailForm.HTMLBody, {'label': 'Body'}) }}
+		{{ form_row(emailForm.Category, {'label' : 'Category'})}}
+		 <input type="submit" name="submit" value="Create Email" />
+	{{ form_end(emailForm) }}
+   
+</form>
+{% endblock %}

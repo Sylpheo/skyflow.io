@@ -1,0 +1,11 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Send TriggeredSend{% endblock %}
+
+{% block content %}
+<form action="#" method="post">
+	{{form_widget(sendForm)}}
+
+	 <input type="submit" name="submit" value="Send ! " />
+</form>
+{% endblock %}

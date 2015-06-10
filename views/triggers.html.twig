@@ -1,0 +1,38 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}All TriggeredSend{% endblock %}
+
+{% block content %}
+	 <a href="createTrigger"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create TriggeredSend</button></a>
+	 <a href="send"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Send TriggeredSend</button></a>
+	<div class="tab-content">
+   		<div class="tab-pane fade in active" >
+   			{% if triggers %}
+   				<div class="table-responsive">
+		       		<table class="table table-hover table-condensed viewTable" id="triggers" class="display table" width="100%">
+		            	<thead>
+				            <tr>
+				            	<th>Name</th>
+				                <th>Customer Key</th>
+				                <th>Description</th>
+				                <th>Status</th> 
+				                <th>Email ID</th>
+				            </tr>
+				        </thead>
+								{% for trigger in triggers %}
+									<tr>
+										<td>{{trigger.Name}}</td>
+										<td>{{trigger.CustomerKey}}</td>
+										<td>{{trigger.Description}}</td>
+										<td>{{trigger.TriggeredSendStatus}}</td>
+										<td>{{trigger.Email.ID}}</td>
+									</tr>
+								{% endfor %}
+					</table>
+				</div>
+			{% else %}
+				<div class="alert alert-warning">No triggers found ! </div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
