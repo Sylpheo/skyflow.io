@@ -89,7 +89,7 @@ $app->register(new OpauthExtension());
         */
        // $e->setArgument('result', $app->redirect('/'));
 
-           $app->redirect('/');
+          return $app['twig']->render('index.html.twig');
     });
 
 // Register services
