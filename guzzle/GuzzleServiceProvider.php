@@ -1,32 +1,3 @@
-
-Skip to content
-This repository
-
-    Explore
-    Gist
-    Blog
-    Help
-
-    @elodie05 elodie05
-
-3
-32
-
-    11
-
-Guzzle3/guzzle-silex-extension
-
-guzzle-silex-extension/GuzzleServiceProvider.php
-@logocomune logocomune on 18 Nov 2014 Update GuzzleServiceProvider.php
-
-6 contributors
-@igorw
-@mtdowling
-@jjungnickel
-@logocomune
-@lightglitch
-@darklow
-68 lines (58 sloc) 2.022 kB
 <?php
 namespace Guzzle;
 use Silex\Application;
@@ -85,8 +56,3 @@ class GuzzleServiceProvider implements ServiceProviderInterface
     {
     }
 }
-
-    Status API Training Shop Blog About 
-
-    © 2015 GitHub, Inc. Terms Privacy Security Contact 
-
