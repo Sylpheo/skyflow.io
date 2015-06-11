@@ -56,3 +56,5 @@ $app->get('/event/{id}/delete',"exactSilex\Controller\EventController::deleteEve
 $app->post('api/event/{event}',"exactSilex\Controller\ApiController::eventAction");
 
 $app->get('/wave',"exactSilex\Controller\ApiController::waveAction");
+
+$app->get('/auth/callback',"exactSilex\Controller\ApiController::OpauthAction");
