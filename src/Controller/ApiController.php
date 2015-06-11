@@ -9,9 +9,9 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use ET_Subscriber;
 use ET_TriggeredSend;
 
-use GuzzleHttp\Client;
+/*use GuzzleHttp\Client;
 use GuzzleHttp\Message\Request;
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Message\Response;*/
 
 
 class ApiController {
