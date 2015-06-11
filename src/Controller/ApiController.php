@@ -3,8 +3,8 @@
 namespace exactSilex\Controller;
 
 use Silex\Application;
-//use Symfony\Component\HttpFoundation\Response;
-//use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use ET_Subscriber;
 use ET_TriggeredSend;
