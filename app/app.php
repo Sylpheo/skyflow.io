@@ -75,7 +75,7 @@ $app->on(OpauthExtension::EVENT_ERROR, function($e) {
     $this->log->error('Auth error: ' . $e['message'], ['response' => $e->getSubject()]);
     $e->setArgument('result', $this->redirect('/'));
 });
-$app->on(OpauthExtension::EVENT_SUCCESS, function($e) {
+$app->on(OpauthExtension::EVENT_SUCCESS, function($e) use ($app){
     $response = $e->getSubject();
 
     $app['access_token'] = $response['auth']['raw']['access_token'];
