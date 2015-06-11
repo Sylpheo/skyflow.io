@@ -86,7 +86,7 @@ $app->register(new OpauthExtension());
 
         $token = $response['auth']['raw']['access_token'];
 
-       $token2= $app['session']->set('token',$token);
+       $token2= $app['token']= $token;
        echo $token2;
 
 
