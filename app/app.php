@@ -80,14 +80,19 @@ $app->on(OpauthExtension::EVENT_ERROR, function($e) use ($app){
 $app->on(OpauthExtension::EVENT_SUCCESS, function($e) use ($app){
     $response = $e->getSubject();
 
-    $app['access_token'] = $response['auth']['raw']['access_token'];
-    $app['instance_url'] = $response['auth']['raw']['instance_url'];
+    $access_token = $response['auth']['raw']['access_token'];
+    $instance_url= $response['auth']['raw']['instance_url'];
+
+    $app['session']->set('access_token',$access_token);
+    $app['session']->set('instance_url',$instance_url);
+
+    //var_dump($app['session']);
 
     /*
         find/create a user, oauth response is in $response and it's already validated!
        store the user in the session
     */
-        $e->setArgument('result', $app->redirect('/'));
+        $e->setArgument('result', $app->redirect('/wave'));
 });
 
 // Register services

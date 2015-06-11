@@ -3,13 +3,16 @@
 namespace exactSilex\Controller;
 
 use Silex\Application;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\HttpFoundation\Response;
+//use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use ET_Subscriber;
 use ET_TriggeredSend;
 
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
+use GuzzleHttp\Message\Request;
+use GuzzleHttp\Message\Response;
+
 
 class ApiController {
 
@@ -68,35 +71,31 @@ class ApiController {
         }
     }
 
-    /*public function waveAction(Application $app){
+    public function waveAction(Application $app){
 
-      $access_token = $app['access_token'];
-        $instance_url = $app['instance_url'];
+        $access_token = $app['session']->get('access_token');
+        $instance_url = $app['session']->get('instance_url');
+      
 
-        echo $access_token;
+
        
         $headers =array();
         $headers[]='Authorization: Bearer '.$access_token;
-        $curl2 =curl_init($instance_url.'/services/data/v34.0/wave');
+        $curl2 =curl_init($instance_url.'/services/data/v34.0/wave/datasets');
         curl_setopt($curl2, CURLOPT_HTTPHEADER, $headers);
         $rep = curl_exec($curl2);
 
+           return $app->json($rep);
 
-            return $app->json($rep);
+           /* foreach($rep as $r){
+                echo $r;
+            }*/
 
-  $client = new Client();
-
-           $request =$client->get($instance_url.'/services/data/v34.0/wave',
-            array('Authorization: Bearer'=>$access_token));
-
-           $response = $request->send();
-
-           var_dump($response);
 
 
         
     
-    }*/
+    }
 
 
 
