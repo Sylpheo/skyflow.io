@@ -69,6 +69,9 @@ class ApiController {
     }
 
     public function waveAction(Application $app){
+        
+        $access_token = $app['access_token'];
+        $instance_url = $app['instance_url'];
        
         $headers =array();
         $headers[]='Authorization: Bearer '.$access_token;
@@ -76,19 +79,17 @@ class ApiController {
         curl_setopt($curl2, CURLOPT_HTTPHEADER, $headers);
         $rep = curl_exec($curl2);
 
-        $access_token = $app['access_token'];
-        $instance_url = $app['instance_url'];
 
             return $app->json($rep);
 
-           $client = new Client();
+         /*  $client = new Client();
 
            $request =$client->get($instance_url.'/services/data/v34.0/wave',
             array('Authorization: Bearer'=>$access_token));
 
            $response = $request->send();
 
-           var_dump($response);
+           var_dump($response);*/
 
 
         
