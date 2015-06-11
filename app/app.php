@@ -6,6 +6,7 @@ use Silex\Provider\FormServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 
 use exactSilex\SilexOpauth\OpauthExtension;
+use Guzzle\GuzzleServiceProvider;
 
 
 // Register global error and exception handlers
@@ -50,6 +51,9 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.level' => $app['monolog.level']
 ));
 
+$app->register(new GuzzleServiceProvider(), array(
+    'guzzle.services' => '/vendor/guzzle/guzzle/tests/Guzzle/Tests/TestData/services.json',
+    ));
 
 $app['opauth'] = array(
       'login' => '/auth',
@@ -71,9 +75,9 @@ $app['opauth'] = array(
 $app->register(new OpauthExtension());
 
   // Listen for events
-$app->on(OpauthExtension::EVENT_ERROR, function($e) {
-    $this->log->error('Auth error: ' . $e['message'], ['response' => $e->getSubject()]);
-    $e->setArgument('result', $this->redirect('/'));
+$app->on(OpauthExtension::EVENT_ERROR, function($e) use ($app){
+    $app->log->error('Auth error: ' . $e['message'], ['response' => $e->getSubject()]);
+    $e->setArgument('result', $app->redirect('/'));
 });
 $app->on(OpauthExtension::EVENT_SUCCESS, function($e) use ($app){
     $response = $e->getSubject();
@@ -98,10 +102,6 @@ $app['exacttarget'] = $app->share(function($app) {
     return $exact;
 });
 
-$app['wave'] = $app->share(function($app) {
-    $wave = new exactSilex\Service\Wave();
-    return $wave;
-});
 
 $app['dao.user'] = $app->share(function ($app) {
     return new exactSilex\DAO\UsersDAO($app['db']);
