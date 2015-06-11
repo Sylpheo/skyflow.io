@@ -80,22 +80,16 @@ $app->register(new OpauthExtension());
     $app->on(OpauthExtension::EVENT_SUCCESS, function($e) {
         $response = $e->getSubject();
 
-       //var_dump($response);
-        var_dump($response['auth']['raw']['access_token']);
-        var_dump($response['auth']['raw']['instance_url']);
-
-        $token = $response['auth']['raw']['access_token'];
-
-       $token2= $app['token']= $token;
-       echo $token2;
-
+        $app['access_token'] = $response['auth']['raw']['access_token'];
+        $app['instance_url'] = $response['auth']['raw']['instance_url'];
 
         /*
            find/create a user, oauth response is in $response and it's already validated!
            store the user in the session
         */
+       // $e->setArgument('result', $app->redirect('/'));
 
-        $e->setArgument('result', $app->redirect('/'));
+           $app->redirect('/');
     });
 
 // Register services
