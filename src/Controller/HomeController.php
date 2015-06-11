@@ -16,7 +16,7 @@ class HomeController {
      *
      */
     public function indexAction(Application $app) {
-        echo realpath('salesforceStrategy.php');
+       
      return $app['twig']->render('index.html.twig');
     
     }
