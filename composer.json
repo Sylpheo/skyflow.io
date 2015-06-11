@@ -13,8 +13,7 @@
         "symfony/monolog-bridge": "~2.4",
         "opauth/opauth": ">=0.4.0",
         "ext-soap": "*",
-        "betterbrief/opauth-salesforce": "dev-master",
-         "guzzle/guzzle": ">=2.0.0"
+        "betterbrief/opauth-salesforce": "dev-master"
     },
     "autoload": {
         "psr-4": {

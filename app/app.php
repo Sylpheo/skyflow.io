@@ -6,7 +6,7 @@ use Silex\Provider\FormServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 
 use exactSilex\SilexOpauth\OpauthExtension;
-use Guzzle\GuzzleServiceProvider;
+
 
 
 // Register global error and exception handlers
@@ -51,9 +51,7 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.level' => $app['monolog.level']
 ));
 
-$app->register(new GuzzleServiceProvider(), array(
-    'guzzle.services' => '/vendor/guzzle/guzzle/tests/Guzzle/Tests/TestData/services.json',
-    ));
+
 
 $app['opauth'] = array(
       'login' => '/auth',
