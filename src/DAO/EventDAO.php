@@ -9,10 +9,14 @@ class EventDAO extends DAO {
 
 
 	public function findOne($event,$idUser){
-		$sql = "select * from event where event =? and id_user=?";
-		$row = $this->getDb()->fetchAssoc($sql,array($event,$idUser));
+/*		$sql = "select * from event where event =? and id_user=?";
+		$row = $this->getDb()->fetchAssoc($sql,array($event,$idUser));*/
 
-		return $this->getDb();
+		$sql = $this->getDb()->prepare("select * from event");
+		$sql->execute();
+		$events = $sql->fetchAll();
+
+		return $events;
 		/*if($row){
 			return $row;
 		}*/
