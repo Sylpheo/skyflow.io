@@ -12,7 +12,9 @@ class EventDAO extends DAO {
 /*		$sql = "select * from event where event =? and id_user=?";
 		$row = $this->getDb()->fetchAssoc($sql,array($event,$idUser));*/
 
-		$sql = $this->getDb()->prepare("select * from event");
+		$sql = $this->getDb()->prepare("select * from event where event = ? and id_user = ?");
+		$sql->bindValue(1,$event);
+		$sql->bindValue(2,$idUser);
 		$sql->execute();
 		$events = $sql->fetchAll();
 
