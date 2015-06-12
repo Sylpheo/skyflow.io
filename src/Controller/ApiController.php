@@ -43,7 +43,7 @@ class ApiController {
                         "EmailAddress" => $email,
                         "SubscriberKey" => $email
                         );
-                    $results = $subscriber->post();
+                    $resultsSub = $subscriber->post();
 
                     $subKey = $email;   
                 }else{
