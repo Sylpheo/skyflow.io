@@ -56,6 +56,7 @@ class ApiController {
                 $triggeredsend->subscribers = array(array("EmailAddress"=>$email,"SubscriberKey" => $subKey));
                 $results = $triggeredsend->send();
 
+                return $app->json($results);
 
                     if($results->results[0]->StatusCode == 'OK'){
                         return $app->json('Message : SUCCESS ! ');
