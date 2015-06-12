@@ -12,9 +12,10 @@ class EventDAO extends DAO {
 		$sql = "select * from event where event =? and id_user=?";
 		$row = $this->getDb()->fetchAssoc($sql,array($event,$idUser));
 
-		if($row){
+		return $this->getDb();
+		/*if($row){
 			return $row;
-		}
+		}*/
 	}
 
 	public function findAllByUser($id_user){	

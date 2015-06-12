@@ -22,7 +22,7 @@ class ApiController {
             $unEvent = $app['dao.event']->findOne($event,$idUser);
             $trigger=$unEvent['triggerSend'];
 
-            return $app->json($trigger);
+            return $app->json($unEvent);
 
              if($request->request->has('email')){
                 $email = $request->request->get('email');
