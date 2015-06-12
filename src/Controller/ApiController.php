@@ -33,11 +33,10 @@ class ApiController {
                 $subscriber->props=array('EmailAddress','SubscriberKey');
                 $subscriber->filter=array('Property'=>'EmailAddress','SimpleOperator'=>'equals','Value'=>$email);
                 $response = $subscriber->get();
-                $subKey = $response->results[0]->SubscriberKey;
-              
+
              // return var_dump($response);
 
-               /* if(empty($response->results)){
+                if(empty($response->results)){
                     $subscriber = new ET_Subscriber();
                     $subscriber->authStub = $myclient;
                     $subscriber->props = array(
@@ -49,7 +48,7 @@ class ApiController {
                     $subKey = $email;   
                 }else{
                       $subKey = $response->results[0]->SubscriberKey;
-                }*/
+                }
 
                 //Retrieve TriggeredSend
                 $triggeredsend = new ET_TriggeredSend();
@@ -92,11 +91,8 @@ class ApiController {
 
         $access_token = $app['session']->get('access_token');
         $instance_url = $app['session']->get('instance_url');
-      
-
-
        
-        $headers =array();
+        /*$headers =array();
         $headers[]='Authorization: Bearer '.$access_token;
         $curl2 =curl_init($instance_url.'/services/data/v34.0/wave/datasets');
         curl_setopt($curl2, CURLOPT_HTTPHEADER, $headers);
@@ -104,12 +100,21 @@ class ApiController {
 
            return $app->json($rep);
 
-           /* foreach($rep as $r){
+            foreach($rep as $r){
                 echo $r;
             }*/
+            $client = new GuzzleHttp\Client(]);
 
+            $request = $client->createRequest('GET', $instance_url.'/services/data/v34.0/wave/datasets', [
+                'headers' => ['Authorization' => 'Bearer '.$access_token]
+            ]);
 
+            // Modify the request as needed
+               // $request->setHeader('Baz', 'bar');
 
+            $response = $client->send($request);
+
+            var_dump($response);
         
     
     }
