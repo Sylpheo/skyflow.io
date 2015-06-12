@@ -104,20 +104,16 @@ class ApiController {
                 echo $r;
             }*/
             $client = new Client();
-/*
+
             $request = $client->createRequest('GET', $instance_url.'/services/data/v34.0/wave/datasets', [
                 'headers' => ['Authorization' => 'Bearer '.$access_token]
-            ]);*/
+            ]);
 
-$request = $client->createRequest('GET','http://www.google.com');
-
-            // Modify the request as needed
-               // $request->setHeader('Baz', 'bar');
+//$request = $client->createRequest('GET','http://www.google.com');
 
             $response = $client->send($request);
 
-            var_dump($response);
-
+            echo $response->getBody();
          
         
     
