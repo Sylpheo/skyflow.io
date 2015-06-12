@@ -109,7 +109,7 @@ class ApiController {
                 'headers' => ['Authorization' => 'Bearer '.$access_token]
             ]);*/
 
-$request = $client('GET','http://httpbin.org');
+$request = $client->createRequest('GET','http://httpbin.org');
 
             // Modify the request as needed
                // $request->setHeader('Baz', 'bar');
