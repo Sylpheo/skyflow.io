@@ -9,8 +9,8 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use ET_Subscriber;
 use ET_TriggeredSend;
 
-/*use GuzzleHttp\Client;
-use GuzzleHttp\Message\Request;
+use GuzzleHttp\Client;
+/*use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\Response;*/
 
 
@@ -103,18 +103,22 @@ class ApiController {
             foreach($rep as $r){
                 echo $r;
             }*/
-            $client = new GuzzleHttp\Client();
+            $client = new Client();
 
             $request = $client->createRequest('GET', $instance_url.'/services/data/v34.0/wave/datasets', [
                 'headers' => ['Authorization' => 'Bearer '.$access_token]
             ]);
 
+var_dump($request);
+   echo 'ok';
             // Modify the request as needed
                // $request->setHeader('Baz', 'bar');
 
             $response = $client->send($request);
 
             var_dump($response);
+
+         
         
     
     }
