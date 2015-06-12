@@ -103,7 +103,7 @@ class ApiController {
             foreach($rep as $r){
                 echo $r;
             }*/
-            $client = new GuzzleHttp\Client(]);
+            $client = new GuzzleHttp\Client();
 
             $request = $client->createRequest('GET', $instance_url.'/services/data/v34.0/wave/datasets', [
                 'headers' => ['Authorization' => 'Bearer '.$access_token]
