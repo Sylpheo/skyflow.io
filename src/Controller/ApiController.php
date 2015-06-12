@@ -20,9 +20,8 @@ class ApiController {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $idUser= $app['security']->getToken()->getUser()->getId();
             $unEvent = $app['dao.event']->findOne($event,$idUser);
-            //$trigger=$unEvent['triggerSend'];
+            $trigger=$unEvent['triggerSend'];
 
-            return $app->json($unEvent);
 
              if($request->request->has('email')){
                 $email = $request->request->get('email');
@@ -58,7 +57,6 @@ class ApiController {
                 $triggeredsend->subscribers = array(array("EmailAddress"=>$email,"SubscriberKey" => $subKey));
                 $results = $triggeredsend->send();
 
-                return $app->json($results);
 
                     if($results->results[0]->StatusCode == 'OK'){
                         return $app->json('Message : SUCCESS ! ');

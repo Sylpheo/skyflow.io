@@ -16,12 +16,12 @@ class EventDAO extends DAO {
 		$sql->bindValue(1,$event);
 		$sql->bindValue(2,$idUser);
 		$sql->execute();
-		$events = $sql->fetchAll();
+		$event = $sql->fetch();
 
-		return $events;
-		/*if($row){
-			return $row;
-		}*/
+		
+		if($event){
+			return $event;
+		}
 	}
 
 	public function findAllByUser($id_user){	
