@@ -15,8 +15,8 @@ class EventDAO extends DAO {
 		$sql = $this->getDb()->prepare("select * from event where event = ? and id_user = ?");
 		$sql->bindValue(1,$event);
 		$sql->bindValue(2,$idUser);
-		//$sql->execute();
-		$event = $sql->execute();
+		$sql->execute();
+		$event = $sql->fetchOne();
 
 		
 		if($event){
