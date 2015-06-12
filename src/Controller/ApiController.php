@@ -115,7 +115,7 @@ class ApiController {
 
             $response = $client->send($request);
 
-            var_dump($response->getResponse());
+            var_dump($response->getBody());
 
          
         
