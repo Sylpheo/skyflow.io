@@ -36,7 +36,7 @@ class ApiController {
               
              // return var_dump($response);
 
-                if(empty($response->results){
+                if(empty($response->results)){
                     $subscriber = new ET_Subscriber();
                     $subscriber->authStub = $myclient;
                     $subscriber->props = array(
