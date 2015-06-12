@@ -21,9 +21,6 @@ class ApiController {
             $idUser= $app['security']->getToken()->getUser()->getId();
             $unEvent = $app['dao.event']->findOne($event,$idUser);
             $trigger=$unEvent['triggersend'];
-            
-
-            return var_dump($unEvent);
 
 
              if($request->request->has('email')){
