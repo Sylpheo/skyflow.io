@@ -20,7 +20,7 @@ class ApiController {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $idUser= $app['security']->getToken()->getUser()->getId();
             $unEvent = $app['dao.event']->findOne($event,$idUser);
-            $trigger=$unEvent['triggerSend'];
+            //$trigger=$unEvent['triggerSend'];
 
             return $app->json($unEvent);
 
