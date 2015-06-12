@@ -22,6 +22,8 @@ class ApiController {
             $unEvent = $app['dao.event']->findOne($event,$idUser);
             $trigger=$unEvent['triggerSend'];
 
+            return $app->json($trigger);
+
 
              if($request->request->has('email')){
                 $email = $request->request->get('email');
