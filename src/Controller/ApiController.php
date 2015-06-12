@@ -33,7 +33,21 @@ class ApiController {
                 $subscriber->props=array('EmailAddress','SubscriberKey');
                 $subscriber->filter=array('Property'=>'EmailAddress','SimpleOperator'=>'equals','Value'=>$email);
                 $response = $subscriber->get();
-                $subKey = $response->results[0]->SubscriberKey;
+              
+
+                if(empty($response)){
+                    $subscriber = new ET_Subscriber();
+                    $subscriber->authStub = $myclient;
+                    $subscriber->props = array(
+                        "EmailAddress" => $email,
+                        "SubscriberKey" => $email
+                        );
+                    $results = $subscriber->post();
+
+                    $subKey = $email;   
+                }else{
+                      $subKey = $response->results[0]->SubscriberKey;
+                }
 
                 //Retrieve TriggeredSend
                 $triggeredsend = new ET_TriggeredSend();
