@@ -34,9 +34,9 @@ class ApiController {
                 $subscriber->filter=array('Property'=>'EmailAddress','SimpleOperator'=>'equals','Value'=>$email);
                 $response = $subscriber->get();
               
-              return var_dump($response);
+             // return var_dump($response);
 
-                if(empty($response)){
+                if($response->message == "NULL")){
                     $subscriber = new ET_Subscriber();
                     $subscriber->authStub = $myclient;
                     $subscriber->props = array(
