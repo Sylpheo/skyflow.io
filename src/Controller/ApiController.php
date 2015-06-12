@@ -109,14 +109,13 @@ class ApiController {
                 'headers' => ['Authorization' => 'Bearer '.$access_token]
             ]);
 
-var_dump($request);
-   echo 'ok';
+
             // Modify the request as needed
                // $request->setHeader('Baz', 'bar');
 
             $response = $client->send($request);
 
-            var_dump($response);
+            var_dump($response->getResponse());
 
          
         
