@@ -16,7 +16,7 @@ class EventDAO extends DAO {
 		$sql->bindValue(1,$event);
 		$sql->bindValue(2,$idUser);
 		$sql->execute();
-		$event = $sql->fetchOne();
+		$event = $sql->fetchAssoc();
 
 		
 		if($event){
