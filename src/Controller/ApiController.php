@@ -96,32 +96,65 @@ class ApiController {
         $headers[]='Authorization: Bearer '.$access_token;
         $curl2 =curl_init($instance_url.'/services/data/v34.0/wave/datasets');
         curl_setopt($curl2, CURLOPT_HTTPHEADER, $headers);
-        $rep = curl_exec($curl2);
+        $rep = curl_exec($curl2);*/
+           
+        $client = new Client();
 
-           return $app->json($rep);
-
-            foreach($rep as $r){
-                echo $r;
-            }*/
-            $client = new Client();
-
-            $request = $client->createRequest('GET', $instance_url.'/services/data/v34.0/wave/datasets', [
-                'headers' => ['Authorization' => 'Bearer '.$access_token]
-            ]);
+        $request = $client->createRequest('GET', $instance_url.'/services/data/v34.0/wave', [
+            'headers' => ['Authorization' => 'Bearer '.$access_token]
+        ]);
 
 //$request = $client->createRequest('GET','http://www.google.com');
 
-            $response = $client->send($request);
+        $response = $client->send($request);
+        $body = $response->getBody();
 
-            echo $response->getBody();
-         
-        
-    
+        return $body;
     }
 
+    public function testAction(Application $app){
+          /* if($request->request->has('query')){
+                    $data = $request->request->get('query');*/
+/*
+        $access_token = $app['session']->get('access_token');
+        $instance_url = $app['session']->get('instance_url');
+     $client = new Client();
+          
+        $request = $client->createRequest('GET', $instance_url.'/services/data/v34.0/wave/lenses', [
+            'headers' => ['Authorization' => 'Bearer '.$access_token]
+        ]);
+
+        $response = $client->send($request);
+        $body = $response->getBody();
+        $data = $response->json();
+       // var_dump($data['lenses'][0]['url']);
+      //  var_dump($data);
+
+       foreach($data['lenses'] as $l){
+         $url_lense =$l['url']; //lense url
+         $url_dataset = $l['dataset']['url'];
+       // echo $l['assetSharingUrl'];
+         echo $url_lense; echo '<br />';
+         echo $url_dataset; echo '<br />';
+           //var_dump($data);
+
+          }
+            $request = $client->createRequest('GET', $instance_url.'/services/data/v34.0/wave/lenses/0FKB00000004HHaOAM', [
+            'headers' => ['Authorization' => 'Bearer '.$access_token]]);
+
+        $response = $client->send($request);
+        $body = $response->getBody();
+        $a = $response->json();
+         var_dump($a);
 
 
-  
+      //  echo $url;
+             
+          
+            
+        
+        return 'a';*/
 
-
- }
+       
+    }
+}
