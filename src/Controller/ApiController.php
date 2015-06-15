@@ -23,7 +23,7 @@ class ApiController {
             $trigger=$unEvent['triggersend'];
 
 
-echo $trigger;
+
              if($request->request->has('email')){
                 $email = $request->request->get('email');
 
@@ -73,7 +73,7 @@ echo $trigger;
                 $triggeredsend->subscribers = array(array("EmailAddress"=>$email,"SubscriberKey" => $subKey));
                 $results = $triggeredsend->send();
 
-
+                    var_dump($results);
                     if($results->results[0]->StatusCode == 'OK'){
                         return $app->json('Message : SUCCESS ! ');
                     }else{
