@@ -63,17 +63,18 @@ class ApiController {
                         $triggeredsend = new ET_TriggeredSend();
                         $triggeredsend->authStub = $myclient;
                         $triggeredsend->props = array("CustomerKey" => $trigger, "TriggeredSendStatus"=> "Active");
-                        $results = $triggeredsend->patch();
+                        $resultsTrig = $triggeredsend->patch();
+                        var_dump($resultsTrig);
                     }
 
-                //Send !
+
+               //Send !
                 $triggeredsend = new ET_TriggeredSend();
                 $triggeredsend->authStub = $myclient;
                 $triggeredsend->props = array("CustomerKey" => $trigger);
                 $triggeredsend->subscribers = array(array("EmailAddress"=>$email,"SubscriberKey" => $subKey));
                 $results = $triggeredsend->send();
 
-                    var_dump($results);
                     if($results->results[0]->StatusCode == 'OK'){
                         return $app->json('Message : SUCCESS ! ');
                     }else{
