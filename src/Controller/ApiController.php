@@ -23,6 +23,7 @@ class ApiController {
             $trigger=$unEvent['triggersend'];
 
 
+echo $trigger;
              if($request->request->has('email')){
                 $email = $request->request->get('email');
 
