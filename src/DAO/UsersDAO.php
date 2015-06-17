@@ -27,6 +27,16 @@ class UsersDAO extends DAO implements UserProviderInterface
             throw new \Exception("No user matching id " . $id);
     }
 
+    public function findByToken($skyflowToken) {
+        $sql = "select * from users where skyflowtoken=?";
+        $row = $this->getDb()->fetchAssoc($sql, array($skyflowToken));
+
+        if ($row)
+            return $this->buildDomainObject($row);
+       /* else
+            throw new \Exception("No user matching token " . $skyflowToken);*/
+    }
+
     /**
      * {@inheritDoc}
      */

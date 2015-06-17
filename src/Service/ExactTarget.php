@@ -27,6 +27,19 @@ class ExactTarget {
 		}
 	}
 
+	public static function loginByApi($clientid,$clientsecret){
+		$params =array(
+			        'appsignature' => 'none', 
+			    	'clientid' => $clientid,
+			   		'clientsecret' => $clientsecret,
+					'defaultwsdl' => 'https://webservice.exacttarget.com/etframework.wsdl',
+			    	'xmlloc' => '../exacttarget/exact.xml',
+			    	//'xmlloc' => 'https://skyflow.herokuapp.com/exacttarget/exact.xml',
+				);
+
+        	return new ET_Client(false,false,$params);
+	}
+
 
  }
 

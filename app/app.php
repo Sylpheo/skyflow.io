@@ -86,8 +86,6 @@ $app->on(OpauthExtension::EVENT_SUCCESS, function($e) use ($app){
     $app['session']->set('access_token',$access_token);
     $app['session']->set('instance_url',$instance_url);
 
-    //var_dump($app['session']);
-
     /*
         find/create a user, oauth response is in $response and it's already validated!
        store the user in the session

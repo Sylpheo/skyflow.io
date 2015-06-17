@@ -62,7 +62,7 @@ class EventDAO extends DAO {
 		$event = new Event();
 		$event->setId($row['id']);
 		$event->setEvent($row['event']);
-		$event->setTriggerSend($row['triggerSend']);
+		$event->setTriggerSend($row['triggersend']);
 		$event->setIdUsers($row['id_user']);
 		return $event;
     }

@@ -57,4 +57,4 @@ $app->post('api/event/{event}',"exactSilex\Controller\ApiController::eventAction
 
 $app->get('/wave',"exactSilex\Controller\ApiController::waveAction");
 
-$app->get('/test',"exactSilex\Controller\ApiController::testAction");
+$app->match('/test',"exactSilex\Controller\ApiController::testAction");
