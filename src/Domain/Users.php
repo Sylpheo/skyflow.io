@@ -58,6 +58,14 @@ class Users implements UserInterface
      */
     private $clientsecret;
 
+    /**
+     * 
+     * skyflow token
+     *
+     * @var string
+     */
+    private $skyflowtoken;
+
 
 
     public function getId() {
@@ -127,6 +135,14 @@ class Users implements UserInterface
 
     public function setClientsecret($clientsecret) {
         $this->clientsecret = $clientsecret;
+    }
+
+    public function getSkyflowtoken() {
+        return $this->skyflowtoken;
+    }
+
+    public function setSkyflowtoken($skyflowtoken) {
+        $this->skyflowtoken = $skyflowtoken;
     }
 
 

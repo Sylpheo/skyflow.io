@@ -22,9 +22,9 @@ class ApiController {
 
           $user = $app['dao.user']->findByToken($token);
 
-         /*   if(empty($user)){
+          if(empty($user)){
                 return $app->json('No user matching');
-            }*/
+            }
           
           
           $clientid = $user->getClientid();

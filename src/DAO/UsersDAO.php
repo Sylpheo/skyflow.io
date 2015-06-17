@@ -71,7 +71,8 @@ class UsersDAO extends DAO implements UserProviderInterface
             'password' => $user->getPassword(),
             'role' => $user->getRole(),
             'clientid' => $user->getClientid(),
-            'clientsecret' => $user->getClientsecret()
+            'clientsecret' => $user->getClientsecret(),
+            'skyflowtoken' => $user->getSkyflowtoken()
             );
 
         if ($user->getId()) {
@@ -109,6 +110,7 @@ class UsersDAO extends DAO implements UserProviderInterface
         $user->setRole($row['role']);
         $user->setClientid($row['clientid']);
         $user->setClientsecret($row['clientsecret']);
+        $user->setSkyflowtoken($row['skyflowtoken']);
         return $user;
     }
 }

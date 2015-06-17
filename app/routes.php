@@ -3,10 +3,10 @@
 // Login form
 $app->get('/login', "exactSilex\Controller\HomeController::loginAction")
 ->bind('login');
-
-$app->get('/new_account', "exactSilex\Controller\HomeController::addUserAction")
+$app->match('/new_account', "exactSilex\Controller\HomeController::addUserAction")
 ->bind('account');
-
+$app->match('/ET_credentials', "exactSilex\Controller\HomeController::setCredentialsETAction")
+->bind('ET_credentials');
 
 // Home page
 $app->get('/', "exactSilex\Controller\HomeController::indexAction");
@@ -58,3 +58,7 @@ $app->post('api/event/{event}',"exactSilex\Controller\ApiController::eventAction
 $app->get('/wave',"exactSilex\Controller\ApiController::waveAction");
 
 $app->match('/test',"exactSilex\Controller\ApiController::testAction");
+
+//ExactTarget API Helper
+$app->get('/et-helper',"exactSilex\Controller\ExactTargetController::exactTargetHelperAction")
+->bind('et-helper');

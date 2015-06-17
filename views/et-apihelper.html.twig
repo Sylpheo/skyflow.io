@@ -1,0 +1,198 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}ExatTarget API Helper{% endblock %}
+
+{% block content %}
+      <a href="addSub"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add subscriber</button></a>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" >
+            {% if subscribers %}
+                 <div class="table-responsive">
+                     <table class="table table-hover table-condensed viewTable" id="subscribers">
+                        <thead>
+                            <tr>
+                                <th>Email Address</th>
+                                <th>Subscriber Key</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                                {% for subscriber in subscribers %}
+                                    <tr>
+                                        <td>{{ subscriber.EmailAddress}}</td>
+                                        <td>{{ subscriber.SubscriberKey}}</td>
+                                        <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#subDialog{{ subscriber.ID }}"><span class="glyphicon glyphicon-trash"></span></button>
+ <div class="modal fade" id="subDialog{{ subscriber.ID }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">Confirmation needed</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Do you really want to delete this subscriber ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <a href="/subscriber/{{ subscriber.ID }}/delete" class="btn btn-danger">Confirm</a>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                       
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">No subscribers found ! </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <div class="footer"></div>
+
+    <a href="addList"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add list</button></a>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" >
+            {% if lists %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed viewTable" id="lists">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th> 
+                                <th>Description</th> 
+                                <th>Customer Key</th>
+                                <th>Type</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                                {% for list in lists %}
+                                    <tr>
+                                        <td>{{list.ID}}</td>
+                                        <td>{{list.ListName}}</td>
+                                        <td>{{list.Description}}</td>
+                                        <td>{{list.CustomerKey}}</td>
+                                        <td>{{list.Type}}</td>
+                                        <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#listDialog{{ list.ID }}"><span class="glyphicon glyphicon-trash"></span></button>
+
+                                        <div class="modal fade" id="listDialog{{ list.ID }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">Confirmation needed</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Do you really want to delete this list ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <a href="/list/{{list.ID}}/delete" class="btn btn-danger">Confirm</a>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">No lists found ! </div>
+            {% endif %}
+        </div>
+    </div>
+
+ <div class="footer"></div>
+
+     <a href="createTrigger"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create TriggeredSend</button></a>
+     <a href="send"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Send TriggeredSend</button></a>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" >
+            {% if triggers %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed viewTable" id="triggers" class="display table" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Customer Key</th>
+                                <th>Description</th>
+                                <th>Status</th> 
+                                <th>Email ID</th>
+                            </tr>
+                        </thead>
+                                {% for trigger in triggers %}
+                                    <tr>
+                                        <td>{{trigger.Name}}</td>
+                                        <td>{{trigger.CustomerKey}}</td>
+                                        <td>{{trigger.Description}}</td>
+                                        <td>{{trigger.TriggeredSendStatus}}</td>
+                                        <td>{{trigger.Email.ID}}</td>
+                                    </tr>
+                                {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">No triggers found ! </div>
+            {% endif %}
+        </div>
+    </div>
+
+     <div class="footer"></div>
+
+     <a href="createEmail"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Email</button></a>
+<div class="tab-content">
+    <div class="tab-pane fade in active" >
+    {% if emails %}
+        
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed viewTable" id="emails">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Subject</th>
+                        <th>Customer Key</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                    {% for email in emails %}
+                        <tr>
+                            <td>{{ email.ID}}</td>
+                            <td>{{email.Name}}</td>
+                            <td>{{email.Subject}}</td>
+                            <td>{{email.CustomerKey}}</td>
+                            <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#emailDialog{{ email.ID }}"><span class="glyphicon glyphicon-trash"></span></button>
+
+                                <div class="modal fade" id="emailDialog{{ email.ID }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">Confirmation needed</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you really want to delete this email ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                <a href="/email/{{email.ID}}/delete" class="btn btn-danger">Confirm</a>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                                                </td>
+                        </tr>
+                    {% endfor %}
+            </table> 
+        </div>
+      
+            {% else %}
+            <div class="alert alert-warning">No emails found ! </div>
+    {% endif %}
+</div>
+</div>
+{% endblock %}

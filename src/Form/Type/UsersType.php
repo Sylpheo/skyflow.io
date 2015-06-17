@@ -18,8 +18,6 @@ class UsersType extends AbstractType
                 'first_options'   => array('label' => 'Password'),
                 'second_options'  => array('label' => 'Repeat password'),
             ))
-            ->add('clientid','text')
-            ->add('clientsecret','text')
             ->add('role', 'choice', array(
                 'choices' => array('ROLE_ADMIN' => 'Admin', 'ROLE_USER' => 'User')
             ));
