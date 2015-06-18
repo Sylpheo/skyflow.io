@@ -51,7 +51,7 @@ class SubscriberController{
 					$results = $subscriber->post();
 					
 						if ($results->results[0]->StatusCode == 'OK') {
-							return $app->redirect('/subscribers');
+							return $app->redirect('/et-helper');
 						}	
 			}
 	    	return $app['twig']->render('subscriber-form.html.twig',
@@ -72,7 +72,7 @@ class SubscriberController{
 	 		$subscriber1->props = array("ID" => $id);
 			$results = $subscriber1->delete();
 		
-	     		return $app->redirect('/subscribers');
+	     		return $app->redirect('/et-helper');
 	    }else{
 	    	return $app->redirect('/login');
 	    }

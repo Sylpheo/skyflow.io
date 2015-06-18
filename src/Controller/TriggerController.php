@@ -73,7 +73,7 @@ class TriggerController {
 					//print_r($results);
 
 					if ($results->results[0]->StatusCode == 'OK') {
-							return $app->redirect('/triggers');
+							return $app->redirect('/et-helper');
 						}	
 				}
 
@@ -160,8 +160,9 @@ class TriggerController {
 					$triggeredsend->subscribers = array(array("EmailAddress"=>$data['Subscriber'],"SubscriberKey" => $subKey));
 					$results = $triggeredsend->send();
 					
+					var_dump($results);
 					if ($results->results[0]->StatusCode == 'OK') {
-							return $app->redirect('/triggers');
+							return $app->redirect('/et-helper');
 					}	
 				}
 

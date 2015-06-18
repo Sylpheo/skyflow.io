@@ -52,7 +52,6 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 ));
 
 
-
 $app['opauth'] = array(
       'login' => '/auth',
       'callback' => '/auth/callback',
@@ -83,6 +82,7 @@ $app->on(OpauthExtension::EVENT_SUCCESS, function($e) use ($app){
     $access_token = $response['auth']['raw']['access_token'];
     $instance_url= $response['auth']['raw']['instance_url'];
 
+//var_dump($response);
     $app['session']->set('access_token',$access_token);
     $app['session']->set('instance_url',$instance_url);
 

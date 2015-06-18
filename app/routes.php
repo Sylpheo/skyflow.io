@@ -7,7 +7,8 @@ $app->match('/new_account', "exactSilex\Controller\HomeController::addUserAction
 ->bind('account');
 $app->match('/ET_credentials', "exactSilex\Controller\HomeController::setCredentialsETAction")
 ->bind('ET_credentials');
-
+$app->match('/wave_credentials',"exactSilex\Controller\HomeController::setCredentialsWaveAction")
+->bind('wave_credentials');
 // Home page
 $app->get('/', "exactSilex\Controller\HomeController::indexAction");
 

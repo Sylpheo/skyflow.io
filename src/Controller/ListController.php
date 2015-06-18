@@ -92,7 +92,7 @@ namespace exactSilex\Controller;
 				$results = $list->post();
 
 			        if ($results->results[0]->StatusCode == 'OK') {
-						return $app->redirect('/lists');
+						return $app->redirect('/et-helper');
 			    	}
 				
 			}
@@ -113,7 +113,7 @@ namespace exactSilex\Controller;
 			$list->props = array("ID" => $id);
 			$results = $list->delete();
 
-				return $app->redirect('/lists');
+				return $app->redirect('/et-helper');
 		}else{
 				return $app->redirect('/login');
 		}

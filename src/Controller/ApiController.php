@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use ET_Subscriber;
 use ET_TriggeredSend;
+use ET_Email;
 
 use GuzzleHttp\Client;
 /*use GuzzleHttp\Message\Request;
@@ -29,11 +30,16 @@ class ApiController {
           
           $clientid = $user->getClientid();
           $clientsecret = $user->getClientsecret();
+          $waveid = $user->getWaveid();
+          $wavesecret = $user->getWavesecret();
+          $wavelogin = $user->getWavelogin();
+          $wavepassword = $user->getWavepassword();
+
           $idUser = $user->getId();
 
           $unEvent = $app['dao.event']->findOne($event,$idUser);
           $trigger=$unEvent['triggersend'];
-
+        
 
              if($request->request->has('email')){
                 $email = $request->request->get('email');
@@ -62,12 +68,18 @@ class ApiController {
                       $subKey = $response->results[0]->SubscriberKey;
                 }
 
+
+
+                   
+
                 //Retrieve TriggeredSend
                 $triggeredsend = new ET_TriggeredSend();
                 $triggeredsend->authStub = $myclient;
-                $triggeredsend->props = array('TriggeredSendStatus');
+                $triggeredsend->props = array('TriggeredSendStatus','Email.ID');
                 $triggeredsend->filter = array('Property' => 'CustomerKey','SimpleOperator' => 'equals','Value' => $trigger);
                 $responseTrig = $triggeredsend->get();
+
+               // var_dump($responseTrig);exit;
 
                     if($responseTrig->results[0]->TriggeredSendStatus != 'Active'){
                         //Set triggeredSendStatus -> Active
@@ -75,7 +87,7 @@ class ApiController {
                         $triggeredsend->authStub = $myclient;
                         $triggeredsend->props = array("CustomerKey" => $trigger, "TriggeredSendStatus"=> "Active");
                         $resultsTrig = $triggeredsend->patch();
-                        var_dump($resultsTrig);
+                       
                     }
 
 
@@ -85,8 +97,6 @@ class ApiController {
                 $triggeredsend->props = array("CustomerKey" => $trigger);
                 $triggeredsend->subscribers = array(array("EmailAddress"=>$email,"SubscriberKey" => $subKey));
                 $results = $triggeredsend->send();
-
-                var_dump($results);
 
                     if($results->results[0]->StatusCode == 'OK'){
                         return $app->json('Message : SUCCESS ! ');
@@ -132,13 +142,14 @@ class ApiController {
           /* if($request->request->has('query')){
                 $data = $request->request->get('query');*/
 
-        $query = array("query"=>"q = load \"0FbB00000005D7wKAE/0FcB00000005SD3KAM\"; q = group q by 'FirstName' ; q = foreach q generate 'FirstName' as 'FirstName';");
+        $query = array("query"=>"q = load \"0FbB00000005D7wKAE/0FcB00000005SD3KAM\"; 
+          q = filter q by 'FirstName' in [\"Pierre\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';");
 
         $data = json_encode($query);
         $access_token = $app['session']->get('access_token');
         $instance_url = $app['session']->get('instance_url');       
 
-/*        $curl2 =curl_init($instance_url.'/services/data/v34.0/wave/query');  
+        $curl2 =curl_init($instance_url.'/services/data/v34.0/wave/query');  
         curl_setopt($curl2,CURLOPT_HTTPHEADER,array(
            'Content-Type: application/json',
            'Authorization: Bearer '.$access_token
@@ -149,7 +160,58 @@ class ApiController {
 
         $rep = curl_exec($curl2);
         curl_close($curl2);
-        echo $rep;*/
+      // echo $rep;
+$a = explode('records',$rep);
+//var_dump($a[1]);
+$b = explode('query',$a[1]);
+//var_dump($b[0]);
+       //parse_str($rep,$arr);
+     
+$myclient = $app['exacttarget']->login($app);
+
+                          $require = "<p>This email was sent by: %%Member_Busname%%
+                            %%Member_Addr%% %%Member_City%%, %%Member_State%%, %%Member_PostalCode%%, %%Member_Country%%</p>
+                            <a href=\"%%profile_center_url%%\" alias=\"Update Profile\">Update Profile</a>";
+                          
+                          $emailET = new ET_Email();
+                          $emailET->authStub = $myclient;
+                          $emailET->props = array("ID" => "5666", 
+                            "HTMLBody"=> '<p>'.$b[0].'</p>'.$require,
+                            "Subject" =>"Sujet"
+                            );
+                          $results = $emailET->patch();
+                          $results = $emailET->post();  
+
+                          var_dump($results);exit;
+                      
+
+
+
+
+
+       //var_dump($arr);
+
+        //echo $rep->action;
+              //echo gettype($rep);
+       /* $require = "<p>This email was sent by: %%Member_Busname%%
+          %%Member_Addr%% %%Member_City%%, %%Member_State%%, %%Member_PostalCode%%, %%Member_Country%%</p>
+          <a href=\"%%profile_center_url%%\" alias=\"Update Profile\">Update Profile</a>";
+        $myclient = $app['exacttarget']->login($app);
+        $email = new ET_Email();
+        $email->authStub = $myclient;
+        $email->props = array("ID" => "5666", 
+          "HTMLBody"=> $rep
+          );
+        $results = $email->patch();
+        $results = $email->post();  print_r($results);
+*/
+
+
+
+
+
+
+
 
  /*$client = new Client();
 
@@ -162,15 +224,17 @@ $request->setBody($data); #set body!
 $response = $request->send();
 
 return $response;*/
-$client = new Client();
+////
+
+/*$client = new Client();
  $headers = array("Content-type: application/json",
-  );
+  );*/
 
        /* $request = $client->createRequest('POST', $instance_url.'/services/data/v34.0/wave/query', [
             'headers' => $headers
         ]);*/
 
-$request = $client->post($instance_url.'/services/data/v34.0/wave/query');
+/*$request = $client->post($instance_url.'/services/data/v34.0/wave/query');
 
         // Modify the request as needed
         $request->setHeader('Authorization', 'Bearer '.$access_token);
@@ -179,7 +243,7 @@ $request = $client->post($instance_url.'/services/data/v34.0/wave/query');
 
         $response = $client->send($request);
 
-var_dump($response);
+var_dump($response);*/
 
 
 

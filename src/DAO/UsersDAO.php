@@ -72,6 +72,10 @@ class UsersDAO extends DAO implements UserProviderInterface
             'role' => $user->getRole(),
             'clientid' => $user->getClientid(),
             'clientsecret' => $user->getClientsecret(),
+            'waveid' => $user->getWaveid(),
+            'wavesecret' => $user->getWavesecret(),
+            'wavelogin' => $user->getWavelogin(),
+            'wavepassword' => $user->getWavepassword(),
             'skyflowtoken' => $user->getSkyflowtoken()
             );
 
@@ -110,6 +114,10 @@ class UsersDAO extends DAO implements UserProviderInterface
         $user->setRole($row['role']);
         $user->setClientid($row['clientid']);
         $user->setClientsecret($row['clientsecret']);
+        $user->setWaveid($row['waveid']);
+        $user->setWavesecret($row['wavesecret']);
+        $user->setWavelogin($row['wavelogin']);
+        $user->setWavepassword($row['wavepassword']);
         $user->setSkyflowtoken($row['skyflowtoken']);
         return $user;
     }

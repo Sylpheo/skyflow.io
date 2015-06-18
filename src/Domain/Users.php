@@ -66,6 +66,37 @@ class Users implements UserInterface
      */
     private $skyflowtoken;
 
+     /**
+     * 
+     * wave id
+     *
+     * @var string
+     */
+    private $waveid;
+
+     /**
+     * 
+     * wave secret
+     *
+     * @var string
+     */
+    private $wavesecret;
+
+    /**
+     * 
+     * wave login
+     *
+     * @var string
+     */
+    private $wavelogin;
+
+     /**
+     * 
+     * wave password
+     *
+     * @var string
+     */
+    private $wavepassword;
 
 
     public function getId() {
@@ -143,6 +174,38 @@ class Users implements UserInterface
 
     public function setSkyflowtoken($skyflowtoken) {
         $this->skyflowtoken = $skyflowtoken;
+    }
+
+    public function getWaveid() {
+        return $this->waveid;
+    }
+
+    public function setWaveid($waveid) {
+        $this->waveid = $waveid;
+    }
+
+    public function getWavesecret() {
+        return $this->wavesecret;
+    }
+
+    public function setWavesecret($wavesecret) {
+        $this->wavesecret = $wavesecret;
+    }
+
+    public function getWavelogin() {
+        return $this->wavelogin;
+    }
+
+    public function setWavelogin($wavelogin) {
+        $this->wavelogin = $wavelogin;
+    }
+
+       public function getWavepassword() {
+        return $this->wavepassword;
+    }
+
+    public function setWavepassword($wavepassword) {
+        $this->wavepassword = $wavepassword;
     }
 
 

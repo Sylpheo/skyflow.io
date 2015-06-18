@@ -68,9 +68,9 @@ class HomeController {
 
             if($form->isSubmitted() && $form->isValid()){
                 $data = $form->getData();
-                $user->setclientid($data['clientid']);
+                $user->setClientid($data['clientid']);
                 $user->setClientsecret($data['clientsecret']);
-                var_dump($user);
+                //var_dump($user);
                 $app['dao.user']->save($user);
                 $app['session']->getFlashBag()->add('success', 'The user was succesfully updated.');
 
@@ -80,6 +80,36 @@ class HomeController {
 
 
         }
+    }
+
+    public function setCredentialsWaveAction(Request $request,Application $app){
+        if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            
+            $user = $app['security']->getToken()->getUser();
+
+             $form = $app['form.factory']->createBuilder('form')
+                ->add('waveid','text')
+                ->add('wavesecret','text')
+                ->add('wavelogin','text')
+                ->add('wavepassword','password')
+                ->getForm();
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+                $data = $form->getData();
+                $user->setWaveid($data['waveid']);
+                $user->setWavesecret($data['wavesecret']);
+                $user->setWavelogin($data['wavelogin']);
+                $user->setWavepassword($data['wavepassword']);
+                $app['dao.user']->save($user);
+                $app['session']->getFlashBag()->add('success', 'The user was succesfully updated.');
+
+            }
+                return $app['twig']->render('wave-credentials-form.html.twig',
+                    array('waveForm' => $form->createView()));
+        }
+
     }
 
 }

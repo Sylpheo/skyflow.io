@@ -70,7 +70,7 @@ namespace exactSilex\Controller;
 							$results = $email->post();
 					
 			                	if ($results->results[0]->StatusCode == 'OK') {
-									return $app->redirect('/emails');
+									return $app->redirect('/et-helper');
 								}
 						}
 						return $app['twig']->render('email-form.html.twig',
@@ -90,7 +90,7 @@ namespace exactSilex\Controller;
 			$email->props = array("ID" => $id);
 			$results = $email->delete();
 
-	        	return $app->redirect('/emails');
+	        	return $app->redirect('/et-helper');
 	    }else{
 	    		return $app->redirect('/login');
 	    }
