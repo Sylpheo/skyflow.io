@@ -60,6 +60,7 @@ $app->get('/wave',"exactSilex\Controller\ApiController::waveAction");
 
 $app->match('/test',"exactSilex\Controller\ApiController::testAction");
 
+
 //ExactTarget API Helper
 $app->get('/et-helper',"exactSilex\Controller\ExactTargetController::exactTargetHelperAction")
 ->bind('et-helper');
