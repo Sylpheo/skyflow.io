@@ -47,41 +47,6 @@ class ApiController
             $trigger = $unEvent['triggersend'];
 
             $a = explode('_',$trigger);
-            if(isset($a[1]) && $a[1]== "wave"){
-                $client = new Client();
-                $request1 = $client->createRequest('POST', 'https://login.salesforce.com/services/oauth2/token');
-                $postBody = $request1->getBody();
-                $postBody->setField('client_id', $waveid);
-                $postBody->setField('client_secret', $wavesecret);
-                $postBody->setField('username', $wavelogin);
-                $postBody->setField('password', $wavepassword);
-                $postBody->setField('grant_type', 'password');
-                $response = $client->send($request1);
-                $responseBody = json_decode($response->getBody());
-                //$data = $response->json();
-                //var_dump($data);
-
-                $waveRequest = $client->createRequest(
-                    'POST',
-                    $responseBody->instance_url . '/services/data/v34.0/wave/query',
-                    [
-                        'json' => [
-                            'query' => "q = load \"0FbB00000005D7wKAE/0FcB00000005SD3KAM\"; q = filter q by 'FirstName' in [\"Pierre\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';"
-                        ]
-                    ]
-                );
-                $waveRequest->setHeader('Content-Type', 'application/json');
-                $waveRequest->setHeader('Authorization', 'Bearer ' . $responseBody->access_token);
-                $response = $client->send($waveRequest);
-                $responseBody = json_decode($response->getBody());
-                $data = $response->json();
-
-                $firstName = $data['results']['records'][0]['FirstName'];
-                $lastName = $data['results']['records'][0]['LastName'];
-
-            }
-
-
 
             if ($request->request->has('email')) {
                 $email = $request->request->get('email');
@@ -92,33 +57,82 @@ class ApiController
                 $subscriber->authStub = $myclient;
                 //$subscriber->props = array('EmailAddress', 'SubscriberKey');
                 $subscriber->filter = array('Property' => 'EmailAddress', 'SimpleOperator' => 'equals', 'Value' => $email);
-                $response = $subscriber->get();
+                $responseSub = $subscriber->get();
+                 //var_dump($response);exit;
 
-                //var_dump($response);exit;
+                if(isset($a[1]) && $a[1]== "wave") {
+                    $client = new Client();
+                    $request1 = $client->createRequest('POST', 'https://login.salesforce.com/services/oauth2/token');
+                    $postBody = $request1->getBody();
+                    $postBody->setField('client_id', $waveid);
+                    $postBody->setField('client_secret', $wavesecret);
+                    $postBody->setField('username', $wavelogin);
+                    $postBody->setField('password', $wavepassword);
+                    $postBody->setField('grant_type', 'password');
+                    $response = $client->send($request1);
+                    $responseBody = json_decode($response->getBody());
+                    //$data = $response->json();
+                    //var_dump($data);
 
-                if (empty($response->results)) {
+                    $waveRequest = $client->createRequest(
+                        'POST',
+                        $responseBody->instance_url . '/services/data/v34.0/wave/query',
+                        [
+                            'json' => [
+                                'query' => "q = load \"0FbB00000005D7wKAE/0FcB00000005SD3KAM\"; q = filter q by 'FirstName' in [\"Pierre\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';"
+                            ]
+                        ]
+                    );
+                    $waveRequest->setHeader('Content-Type', 'application/json');
+                    $waveRequest->setHeader('Authorization', 'Bearer ' . $responseBody->access_token);
+                    $response = $client->send($waveRequest);
+                    $responseBody = json_decode($response->getBody());
+                    $data = $response->json();
+
+                    $firstName = $data['results']['records'][0]['FirstName'];
+                    $lastName = $data['results']['records'][0]['LastName'];
+
+                    //Si il n'existe pas on le crée + infos wave
+                    if (empty($responseSub->results)) {
+                        $subscriber = new ET_Subscriber();
+                        $subscriber->authStub = $myclient;
+                        $subscriber->props = array(
+                            "EmailAddress" => $email,
+                            "SubscriberKey" => $email
+                        );
+                        $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName));
+                        $resultsSub = $subscriber->post();
+                        //var_dump($resultsSub);exit;
+
+                        $subKey = $email;
+                    } else {
+                        //On ajoute les infos wave
+                        $subKey = $responseSub->results[0]->SubscriberKey;
+                        $subscriber = new ET_Subscriber();
+                        $subscriber->authStub = $myclient;
+                        $subscriber->props = array("SubscriberKey" => $subKey);
+                        $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName));
+                        $subscriber->props['Attributes'] = array(array(
+                          'Name' => 'LastName', 'Value' => $lastName));
+                        $results = $subscriber->patch();
+                        // var_dump($results);exit;
+                    }
+                }
+
+                //Si il n'existe pas on le crée
+                if (empty($responseSub->results)) {
                     $subscriber = new ET_Subscriber();
                     $subscriber->authStub = $myclient;
                     $subscriber->props = array(
                         "EmailAddress" => $email,
                         "SubscriberKey" => $email
                     );
-                    $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName));
                     $resultsSub = $subscriber->post();
-
                     //var_dump($resultsSub);exit;
 
                     $subKey = $email;
                 } else {
-                    $subKey = $response->results[0]->SubscriberKey;
-                    $subscriber = new ET_Subscriber();
-                    $subscriber->authStub = $myclient;
-                    $subscriber->props = array("SubscriberKey" => $subKey);
-                    $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => 'Elo2'));
-                    //$subscriber->props['Attributes'] = array(array(
-                    //  'Name' => 'Address', 'Value' => $address));
-                    $results = $subscriber->patch();
-
+                    $subKey = $responseSub->results[0]->SubscriberKey;
                     // var_dump($results);exit;
 
                 }
@@ -141,29 +155,26 @@ class ApiController
 
                 }
 
-
                 //Send !
-               /* $triggeredsend = new ET_TriggeredSend();
+                $triggeredsend = new ET_TriggeredSend();
                 $triggeredsend->authStub = $myclient;
                 $triggeredsend->props = array("CustomerKey" => $trigger);
                 $triggeredsend->subscribers = array(array("EmailAddress"=>$email,"SubscriberKey" => $subKey));
-                //$triggeredsend->subscribers = array(array("Attributes" => array(array('Name' => 'FirstName', 'Value' => 'Elo2'),)));
-
                 $results = $triggeredsend->send();
-                //var_dump($results);exit;
+                var_dump($results);exit;
 
                 if($results->results[0]->StatusCode == 'OK'){
                     return $app->json('Message : SUCCESS ! ');
                 }else{
                     return $app->json('Message : '.$results->results[0]->StatusMessage);
                 }
-*/
+
 
             } else {
                 return $app->json('Missing argument ! ', 400);
             }
         } else {
-            return $app->json('Missing token ! ');
+            return $app->json('Missing Skyflow Token ! ');
         }
 
     }
