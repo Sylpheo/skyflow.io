@@ -79,7 +79,7 @@ class ApiController
                         $responseBody->instance_url . '/services/data/v34.0/wave/query',
                         [
                             'json' => [
-                                'query' => "q = load \"0FbB00000005D7wKAE/0FcB00000005SD3KAM\"; q = filter q by 'FirstName' in [\"Pierre\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';"
+                                'query' => "q = load \"0FbB00000005D7wKAE/0FcB00000005SD3KAM\"; q = filter q by 'FirstName' in [\"Pierre\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName','Username' as 'Username';"
                             ]
                         ]
                     );
@@ -91,6 +91,11 @@ class ApiController
 
                     $firstName = $data['results']['records'][0]['FirstName'];
                     $lastName = $data['results']['records'][0]['LastName'];
+                  // $fullName = $data['results']['records'][0]['FullName'];
+                    $userName = $data['results']['records'][0]['Username'];
+
+
+
 
                     //Si il n'existe pas on le crée + infos wave
                     if (empty($responseSub->results)) {
@@ -100,7 +105,10 @@ class ApiController
                             "EmailAddress" => $email,
                             "SubscriberKey" => $email
                         );
-                        $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName));
+                        $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName),
+                            array('Name' => 'LastName','Value' => $lastName),
+                            array('Name' => 'UserName', 'Value' => $userName)
+                        );
                         $resultsSub = $subscriber->post();
                         //var_dump($resultsSub);exit;
 
@@ -111,11 +119,13 @@ class ApiController
                         $subscriber = new ET_Subscriber();
                         $subscriber->authStub = $myclient;
                         $subscriber->props = array("SubscriberKey" => $subKey);
-                        $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName));
-                        $subscriber->props['Attributes'] = array(array(
-                          'Name' => 'LastName', 'Value' => $lastName));
+                        $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName),
+                            array('Name' => 'LastName','Value' => $lastName),
+                            array('Name' => 'UserName', 'Value' => $userName)
+                            );
+
                         $results = $subscriber->patch();
-                        // var_dump($results);exit;
+                        //var_dump($results);exit;
                     }
                 }
 
@@ -144,7 +154,8 @@ class ApiController
                 $triggeredsend->filter = array('Property' => 'CustomerKey','SimpleOperator' => 'equals','Value' => $trigger);
                 $responseTrig = $triggeredsend->get();
 
-                //var_dump($responseTrig);
+
+                //var_dump($responseTrig);exit;
 
                 if($responseTrig->results[0]->TriggeredSendStatus != 'Active'){
                     //Set triggeredSendStatus -> Active
@@ -161,7 +172,7 @@ class ApiController
                 $triggeredsend->props = array("CustomerKey" => $trigger);
                 $triggeredsend->subscribers = array(array("EmailAddress"=>$email,"SubscriberKey" => $subKey));
                 $results = $triggeredsend->send();
-                var_dump($results);exit;
+               // var_dump($results);exit;
 
                 if($results->results[0]->StatusCode == 'OK'){
                     return $app->json('Message : SUCCESS ! ');
