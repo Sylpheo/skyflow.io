@@ -79,7 +79,7 @@ class ApiController
                         $responseBody->instance_url . '/services/data/v34.0/wave/query',
                         [
                             'json' => [
-                                'query' => "q = load \"0FbB00000005KPEKA2/0FcB00000005W4AKAU\";q = filter q by 'Email' in [\"$email\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';"
+                                'query' => "q = load \"0FbB00000005KPEKA2/0FcB00000005W4tKAE\";q = filter q by 'Email' in [\"$email\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';"
 
                             ]
                         ]
