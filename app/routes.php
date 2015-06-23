@@ -46,6 +46,8 @@ $app->match('/send', "exactSilex\Controller\TriggerController::sendTriggeredSend
 ->bind('send');
 $app->match('/trigger/{customerKey}',"exactSilex\Controller\TriggerController::infoTriggeredSendAction");
 
+
+
 //Events
 $app->get('/events',"exactSilex\Controller\EventController::indexAction")
 ->bind('events');

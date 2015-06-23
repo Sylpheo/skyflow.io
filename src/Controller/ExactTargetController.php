@@ -21,6 +21,27 @@ class ExactTargetController {
       $subscriber->authStub = $myclient;
       $responseSub = $subscriber->get();
 
+         $subscribers =array();
+         $tout = array();
+
+foreach($responseSub->results as $r){
+        $subscribers['ID']=$r->ID;
+        $subscribers['SubscriberKey']=$r->SubscriberKey;
+        $subscribers['EmailAddress']=$r->EmailAddress;
+        foreach($r->Attributes as $a){
+            if($a->Name == 'FirstName'){
+                $subscribers['FirstName']= $a->Value;
+            }
+            if($a->Name == 'LastName'){
+                $subscribers['LastName']= $a->Value;
+            }
+        }
+    array_push($tout,$subscribers);
+         }
+         //var_dump($responseSub->results);
+        // var_dump($tout);
+
+
 
       $list = new ET_List();
       $list->authStub = $myclient;
@@ -30,6 +51,12 @@ class ExactTargetController {
       $triggeredsend->authStub = $myclient;
       $triggeredsend->props = array('Name', 'Description','CustomerKey','TriggeredSendStatus','Email.ID');
       $responseTrig = $triggeredsend->get();
+    $triggers =[];
+         foreach($responseTrig->results as $t){
+             if($t->CustomerKey == 'testinfo_wave' || $t->CustomerKey == 'show_wave' || $t->CustomerKey == '1450' || $t->CustomerKey == 'merci_wave'){
+                 array_push($triggers, $t);
+             }
+         }
 
       $email = new ET_Email();
       $email->authStub = $myclient;
@@ -37,9 +64,9 @@ class ExactTargetController {
 
           return $app['twig']->render('et-apihelper.html.twig',
                 array(
-                  'subscribers' => $responseSub->results,
+                  'subscribers' => $tout,
                   'lists'=>$responseList->results,
-                  'triggers'=> $responseTrig->results,
+                  'triggers'=> $triggers,
                   'emails' => $responseEmail->results));
       }else{
           return $app->redirect('/login');

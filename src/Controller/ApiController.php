@@ -79,22 +79,28 @@ class ApiController
                         $responseBody->instance_url . '/services/data/v34.0/wave/query',
                         [
                             'json' => [
-                                'query' => "q = load \"0FbB00000005D7wKAE/0FcB00000005SD3KAM\"; q = filter q by 'FirstName' in [\"Pierre\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName','Username' as 'Username';"
+                                'query' => "q = load \"0FbB00000005KPEKA2/0FcB00000005W4AKAU\";q = filter q by 'Email' in [\"$email\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';"
+
                             ]
                         ]
                     );
+                    //[\"logan.verecque1@laposte.net\"]
+                    //q = load \"0FbB00000005D7wKAE/0FcB00000005SD3KAM\"; q = filter q by 'FirstName' in [\"Pierre\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName','Username' as 'Username';
+
                     $waveRequest->setHeader('Content-Type', 'application/json');
                     $waveRequest->setHeader('Authorization', 'Bearer ' . $responseBody->access_token);
                     $response = $client->send($waveRequest);
                     $responseBody = json_decode($response->getBody());
                     $data = $response->json();
 
-                    $firstName = $data['results']['records'][0]['FirstName'];
-                    $lastName = $data['results']['records'][0]['LastName'];
-                  // $fullName = $data['results']['records'][0]['FullName'];
-                    $userName = $data['results']['records'][0]['Username'];
-
-
+                   //var_dump($data);
+                    if(isset($data['results']['records'][0])){
+                        $firstName = $data['results']['records'][0]['FirstName'];
+                        $lastName = $data['results']['records'][0]['LastName'];
+                    }else{
+                        $firstName ="";
+                        $lastName="";
+                    }
 
 
                     //Si il n'existe pas on le crée + infos wave
@@ -106,8 +112,7 @@ class ApiController
                             "SubscriberKey" => $email
                         );
                         $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName),
-                            array('Name' => 'LastName','Value' => $lastName),
-                            array('Name' => 'UserName', 'Value' => $userName)
+                            array('Name' => 'LastName','Value' => $lastName)
                         );
                         $resultsSub = $subscriber->post();
                         //var_dump($resultsSub);exit;
@@ -120,12 +125,11 @@ class ApiController
                         $subscriber->authStub = $myclient;
                         $subscriber->props = array("SubscriberKey" => $subKey);
                         $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName),
-                            array('Name' => 'LastName','Value' => $lastName),
-                            array('Name' => 'UserName', 'Value' => $userName)
+                            array('Name' => 'LastName','Value' => $lastName)
                             );
 
                         $results = $subscriber->patch();
-                        //var_dump($results);exit;
+                      //  var_dump($results);exit;
                     }
                 }
 

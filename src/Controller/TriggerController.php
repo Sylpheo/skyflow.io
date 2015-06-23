@@ -188,4 +188,5 @@ class TriggerController {
 				return $app->redirect('/login');
 		}
     }
+
 }
