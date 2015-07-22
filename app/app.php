@@ -134,7 +134,7 @@ $app->before(function (Request $request) {
     }
 });
 
-/*
+
 // Register error handler
 $app->error(function (\Exception $e, $code) use ($app) {
     switch ($code) {
@@ -149,5 +149,3 @@ $app->error(function (\Exception $e, $code) use ($app) {
     }
     return $app['twig']->render('error.html.twig', array('message' => $message));
 });
-
-*/
