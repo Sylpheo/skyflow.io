@@ -92,19 +92,27 @@ class WaveController
                 $data = $responseRequest->json();
                 //var_dump($data);
                 foreach($data['results']as $result) {
-                    var_dump($result);
+                   //$result =$result;
+                    foreach($result as $ligne){
+                        $ligne = $ligne;
+
+                    }
                 }
                 return $app['twig']->render('wave-apihelper.html.twig',
                     array(
-                        'results'=> $data['results'],
+                        'requestForm' => $form->createView(),
+                        'results'=> $ligne,
                         'request' => $r
                     ));
+
             }
 
            return $app['twig']->render('wave-apihelper.html.twig',
                 array(
                     'datasets' => $lesDatasets,
-                    'requestForm' => $form->createView()
+                    'requestForm' => $form->createView(),
+                    'results' => ''
+
                 ));
 
         }else{

@@ -123,6 +123,9 @@ $app['dao.association'] = $app->share(function ($app) {
     return new skyflow\DAO\AssociationDAO($app['db']);
 });
 
+$app['flow_test'] = $app->share(function ($app){
+
+});
 // Register JSON data decoder for JSON requests
 $app->before(function (Request $request) {
     if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
@@ -131,7 +134,7 @@ $app->before(function (Request $request) {
     }
 });
 
-
+/*
 // Register error handler
 $app->error(function (\Exception $e, $code) use ($app) {
     switch ($code) {
@@ -147,3 +150,4 @@ $app->error(function (\Exception $e, $code) use ($app) {
     return $app['twig']->render('error.html.twig', array('message' => $message));
 });
 
+*/

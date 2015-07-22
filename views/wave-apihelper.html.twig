@@ -5,9 +5,26 @@
 {% block content %}
                 <div class="tab-content">
                     <div class="tab-pane fade in active" >
+
+                        <form action="#" method="post">
+                            {{ form_start(requestForm) }}
+                            {{ form_row(requestForm.Request, {'label': 'Request'}) }}
+                            <input type="submit" name="submit" value="Send Request ! " />
+                            {{ form_end(requestForm) }}
+                        </form>
+
+                        {% if results %}
+                            <ul>
+                                {% for key,value in results %}
+                                    <li>{{ key }} : {{ value }}</li>
+
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+
                         {% if datasets %}
                             <div class="table-responsive">
-                                <table class="table table-hover table-condensed viewTable" id="subscribers">
+                                <table class="table table-hover table-condensed viewTable" id="datasets">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
@@ -28,12 +45,11 @@
                             <div class="alert alert-warning">No datasets found ! </div>
                         {% endif %}
 
+                        {% endif %}
+
                     </div>
                 </div>
-                    <form action="#" method="post">
-                        {{ form_start(requestForm) }}
-                        {{ form_row(requestForm.Request, {'label': 'Request'}) }}
-                        <input type="submit" name="submit" value="Send Request ! " />
-                        {{ form_end(requestForm) }}
-                    </form>
+
+
+
 {% endblock %}
