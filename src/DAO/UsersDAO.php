@@ -1,21 +1,19 @@
 <?php
 
-namespace exactSilex\DAO;
+namespace skyflow\DAO;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use exactSilex\Domain\Users;
+use skyflow\Domain\Users;
 
 class UsersDAO extends DAO implements UserProviderInterface
 {
     /**
-     * Returns a user matching the supplied id.
-     *
-     * @param integer $id The user id.
-     *
-     * @return \MicroCMS\Domain\User|throws an exception if no matching user is found
+     * @param $id
+     * @return Users
+     * @throws \Exception
      */
     public function find($id) {
         $sql = "select * from users where id=?";
@@ -27,6 +25,10 @@ class UsersDAO extends DAO implements UserProviderInterface
             throw new \Exception("No user matching id " . $id);
     }
 
+    /**
+     * @param $skyflowToken
+     * @return Users
+     */
     public function findByToken($skyflowToken) {
         $sql = "select * from users where skyflowtoken=?";
         $row = $this->getDb()->fetchAssoc($sql, array($skyflowToken));
@@ -64,6 +66,9 @@ class UsersDAO extends DAO implements UserProviderInterface
     }
 
 
+    /**
+     * @param Users $user
+     */
     public function save(Users $user) {
         $userData = array(
             'username' => $user->getUsername(),
@@ -96,14 +101,14 @@ class UsersDAO extends DAO implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return 'exactSilex\Domain\Users' === $class;
+        return 'skyflow\Domain\Users' === $class;
     }
 
     /**
      * Creates a User object based on a DB row.
      *
      * @param array $row The DB row containing User data.
-     * @return \exactSilex\Domain\Users
+     * @return \skyflow\Domain\Users
      */
     protected function buildDomainObject($row) {
         $user = new Users();

@@ -1,0 +1,17 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Add Flow{% endblock %}
+
+{% block content %}
+
+    <form action="#" method="post">
+        {{form_start(flowForm)}}
+        {{form_row(flowForm.name, {'label' : 'Name'}) }}
+        {{form_row(flowForm.class, {'label' : 'Class'}) }}
+        {{ form_row(flowForm.documentation, {'label' : 'Documentation'}) }}
+
+
+        <input type="submit" name="submit" value="Add !" />
+        {{form_end(flowForm)}}
+    </form>
+{% endblock %}

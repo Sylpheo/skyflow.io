@@ -1,5 +1,5 @@
 <?php
-namespace exactSilex\Service;
+namespace skyflow\Service;
 
 
 use Silex\Application;
@@ -8,6 +8,13 @@ use Silex\Application;
 class Wave {
 
 
+    /**
+     * @param $client_id
+     * @param $client_secret
+     * @param $username
+     * @param $password
+     * @return string
+    */
 	public static function login($client_id,$client_secret,$username,$password){
 
 		//$loginurl = "https://gs0.salesforce.com/services/oauth2/token";

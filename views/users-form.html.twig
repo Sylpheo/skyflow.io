@@ -10,6 +10,7 @@
     {{ flashMessage }}
 </div>
 {% endfor %}
+
 {% if form_errors(userForm.password.first) %}
 <div class="alert alert-danger">
     {{ form_errors(userForm.password.first) }}
@@ -30,4 +31,9 @@
             <input type="submit" class="btn btn-primary" value="Save" />
 {{ form_end(userForm) }}
 </div>
+    {% for flashMessage in app.session.flashbag.get('skyflow-token') %}
+        <div class="alert alert-info">
+            Skyflow-Token : {{ flashMessage }}
+        </div>
+    {% endfor %}
 {% endblock %}

@@ -1,6 +1,6 @@
 <?php
 
-namespace exactSilex\Form\Type;
+namespace skyflow\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

@@ -1,5 +1,5 @@
 <?php
-namespace exactSilex\Controller;
+namespace skyflow\Controller;
 
  use Silex\Application;
  use Symfony\Component\HttpFoundation\Request;
@@ -8,6 +8,11 @@ namespace exactSilex\Controller;
 
  class EmailController {
 
+	 /**
+	  * Retrieve all emails
+	  * @param Application $app
+	  * @return emails or redirect to login
+	  */
  	public function emailsAction(Application $app){
  		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
  		
@@ -15,7 +20,6 @@ namespace exactSilex\Controller;
 			$email = new ET_Email();
 			$email->authStub = $myclient;
 			$response = $email->get();
-			
 
         	return $app['twig']->render('emails.html.twig',
         		array('emails' => $response->results));
@@ -24,6 +28,12 @@ namespace exactSilex\Controller;
         }
     }
 
+	 /**
+	  * Create ExactTarget email
+	  * @param Request $request
+	  * @param Application $app
+	  * @return form or redirect
+	  */
     public function createEmailAction(Request $request, Application $app){
 
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -80,6 +90,13 @@ namespace exactSilex\Controller;
 		}
     }
 
+	 /**
+	  * Delete exactTarget email
+	  * @param $id
+	  * @param Request $request
+	  * @param Application $app
+	  * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	  */
     public function deleteEmailAction($id,Request $request,Application $app){
     	
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -96,6 +113,12 @@ namespace exactSilex\Controller;
 	    }
     }
 
+	 /**
+	  * Retrieve email's info
+	  * @param $id
+	  * @param Application $app
+	  * @return email or redirect to login
+	  */
     public function infoEmailAction($id, Application $app){
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 	 		$myclient = $app['exacttarget']->login($app);

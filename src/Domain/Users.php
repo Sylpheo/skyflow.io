@@ -1,6 +1,6 @@
 <?php
 
-namespace exactSilex\Domain;
+namespace skyflow\Domain;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -8,28 +8,24 @@ class Users implements UserInterface
 {
     /**
      * User id.
-     *
      * @var integer
      */
     private $id;
 
     /**
      * User name.
-     *
      * @var string
      */
     private $username;
 
     /**
      * User password.
-     *
      * @var string
      */
     private $password;
 
     /**
      * Salt that was originally used to encode the password.
-     *
      * @var string
      */
     private $salt;
@@ -37,63 +33,49 @@ class Users implements UserInterface
     /**
      * Role.
      * Values : ROLE_USER or ROLE_ADMIN.
-     *
      * @var string
      */
     private $role;
 
     /**
-     * 
-     * clientid
-     *
+     * ExactTarget clientid
      * @var string
      */
     private $clientid;
 
-        /**
-     * 
-     * clientsecret.
-     *
+    /**
+     * ExactTarget clientsecret
      * @var string
      */
     private $clientsecret;
 
     /**
-     * 
-     * skyflow token
-     *
+     * skyflow token (auto generate)
      * @var string
      */
     private $skyflowtoken;
 
      /**
-     * 
-     * wave id
-     *
+     * Wve client id
      * @var string
      */
     private $waveid;
 
      /**
-     * 
-     * wave secret
+     * Wave clientsecret
      *
      * @var string
      */
     private $wavesecret;
 
     /**
-     * 
-     * wave login
-     *
+     * Wave login
      * @var string
      */
     private $wavelogin;
 
      /**
-     * 
-     * wave password
-     *
+     * Wave password
      * @var string
      */
     private $wavepassword;

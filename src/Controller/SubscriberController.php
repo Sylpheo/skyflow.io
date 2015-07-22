@@ -1,5 +1,5 @@
 <?php
-namespace exactSilex\Controller;
+namespace skyflow\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -7,6 +7,11 @@ use ET_Subscriber;
 
 class SubscriberController{
 
+	/**
+	 * Retrieve all subscribers from ExactTarget
+	 * @param Application $app
+	 * @return subscribers or redirect to login
+	 */
 	public function subscribersAction(Application $app){
 		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
@@ -23,6 +28,12 @@ class SubscriberController{
     }
 
 
+	/**
+	 * Add subscriber to ExactTarget
+	 * @param Request $request
+	 * @param Application $app
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
     public function addSubscriberAction(Request $request, Application $app){
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
@@ -62,8 +73,13 @@ class SubscriberController{
     	
     }
 
+	/**
+	 * Delete subscriber from ExactTarget
+	 * @param $id
+	 * @param Application $app
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
      public function deleteSubscriberAction($id, Application $app) {
-
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 	 		$myclient = $app['exacttarget']->login($app);
 			

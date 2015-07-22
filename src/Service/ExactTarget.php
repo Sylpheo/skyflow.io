@@ -1,5 +1,5 @@
 <?php
-namespace exactSilex\Service;
+namespace skyflow\Service;
 
 use ET_Client;
 use Silex\Application;
@@ -8,6 +8,10 @@ use Silex\Application;
 class ExactTarget {
 
 
+	/**
+	 * @param Application $app
+	 * @return ET_Client
+	 */
 	public static function login(Application $app){
 
 		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -27,6 +31,11 @@ class ExactTarget {
 		}
 	}
 
+	/**
+	 * @param $clientid
+	 * @param $clientsecret
+	 * @return ET_Client
+	 */
 	public static function loginByApi($clientid,$clientsecret){
 		$params =array(
 			        'appsignature' => 'none', 

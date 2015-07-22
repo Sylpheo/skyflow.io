@@ -1,6 +1,6 @@
 <?php
 
-namespace exactSilex\DAO;
+namespace skyflow\DAO;
 
 use Doctrine\DBAL\Connection;
 

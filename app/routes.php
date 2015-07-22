@@ -1,68 +1,90 @@
 <?php
 
 // Login form
-$app->get('/login', "exactSilex\Controller\HomeController::loginAction")
+$app->get('/login', "skyflow\Controller\HomeController::loginAction")
 ->bind('login');
-$app->match('/new_account', "exactSilex\Controller\HomeController::addUserAction")
+$app->match('/new_account', "skyflow\Controller\HomeController::addUserAction")
 ->bind('account');
-$app->match('/ET_credentials', "exactSilex\Controller\HomeController::setCredentialsETAction")
+$app->match('/ET_credentials', "skyflow\Controller\HomeController::setCredentialsETAction")
 ->bind('ET_credentials');
-$app->match('/wave_credentials',"exactSilex\Controller\HomeController::setCredentialsWaveAction")
+$app->match('/wave_credentials',"skyflow\Controller\HomeController::setCredentialsWaveAction")
+
 ->bind('wave_credentials');
 // Home page
-$app->get('/', "exactSilex\Controller\HomeController::indexAction");
+$app->get('/', "skyflow\Controller\HomeController::indexAction");
+$app->get('/gestionToken',"skyflow\Controller\HomeController::gestionToken")
+    ->bind('gestionToken');
+$app->get('/regenerateToken',"skyflow\Controller\HomeController::regenerateToken")
+    ->bind('regenerateToken');
 
 // Subscribers
-$app->get('/subscribers',"exactSilex\Controller\SubscriberController::subscribersAction")
+$app->get('/subscribers',"skyflow\Controller\SubscriberController::subscribersAction")
 ->bind('subscribers');
-$app->match('/addSub',"exactSilex\Controller\SubscriberController::addSubscriberAction")
+$app->match('/addSub',"skyflow\Controller\SubscriberController::addSubscriberAction")
 ->bind('addSub');
-$app->get('/subscriber/{id}/delete', "exactSilex\Controller\SubscriberController::deleteSubscriberAction");
+$app->get('/subscriber/{id}/delete', "skyflow\Controller\SubscriberController::deleteSubscriberAction");
 
 // Emails
-$app->get('/emails', "exactSilex\Controller\EmailController::emailsAction")
+$app->get('/emails', "skyflow\Controller\EmailController::emailsAction")
 ->bind('emails');
-$app->match('/createEmail', "exactSilex\Controller\EmailController::createEmailAction")
+$app->match('/createEmail', "skyflow\Controller\EmailController::createEmailAction")
 ->bind('createEmail');
-$app->get('/email/{id}/delete',"exactSilex\Controller\EmailController::deleteEmailAction");
-$app->match('/email/{id}',"exactSilex\Controller\EmailController::infoEmailAction");
+$app->get('/email/{id}/delete',"skyflow\Controller\EmailController::deleteEmailAction");
+$app->match('/email/{id}',"skyflow\Controller\EmailController::infoEmailAction");
 // Lists
-$app->get('/lists',"exactSilex\Controller\ListController::listsAction")
+$app->get('/lists',"skyflow\Controller\ListController::listsAction")
 ->bind('lists');
-$app->get('/lists_sub',"exactSilex\Controller\ListController::listSubscriberAction")
+$app->get('/lists_sub',"skyflow\Controller\ListController::listSubscriberAction")
 ->bind('listsSub');
-$app->match('/addSubToList',"exactSilex\Controller\ListController::addSubToListAction")
+$app->match('/addSubToList',"skyflow\Controller\ListController::addSubToListAction")
 ->bind('addSubToList');
-$app->match('/addList',"exactSilex\Controller\ListController::addListAction")
+$app->match('/addList',"skyflow\Controller\ListController::addListAction")
 ->bind('addList');
-$app->get('/list/{id}/delete', "exactSilex\Controller\ListController::deleteListAction");
+$app->get('/list/{id}/delete', "skyflow\Controller\ListController::deleteListAction");
 
 // Triggers
-$app->get('/triggers',"exactSilex\Controller\TriggerController::triggersAction")
+$app->get('/triggers',"skyflow\Controller\TriggerController::triggersAction")
 ->bind('triggers');
-$app->match('/createTrigger', "exactSilex\Controller\TriggerController::createTriggerAction")
+$app->match('/createTrigger', "skyflow\Controller\TriggerController::createTriggerAction")
 ->bind('createTrigger');
-$app->match('/send', "exactSilex\Controller\TriggerController::sendTriggeredSendAction")
+$app->match('/send', "skyflow\Controller\TriggerController::sendTriggeredSendAction")
 ->bind('send');
-$app->match('/trigger/{customerKey}',"exactSilex\Controller\TriggerController::infoTriggeredSendAction");
+$app->match('/trigger/{customerKey}',"skyflow\Controller\TriggerController::infoTriggeredSendAction");
 
 
 
 //Events
-$app->get('/events',"exactSilex\Controller\EventController::indexAction")
+$app->get('/events',"skyflow\Controller\EventController::indexAction")
 ->bind('events');
-$app->match('/createEvent',"exactSilex\Controller\EventController::createEventAction")
+$app->match('/createEvent',"skyflow\Controller\EventController::createEventAction")
 ->bind('createEvent');
-$app->get('/event/{id}/delete',"exactSilex\Controller\EventController::deleteEventAction");
+$app->get('/event/{id}/delete',"skyflow\Controller\EventController::deleteEventAction");
+
+//Flows
+$app->get('/flows',"skyflow\Controller\FlowController::indexAction")
+    ->bind('flows');
+$app->match('/createFlow',"skyflow\Controller\FlowController::createFlowAction")
+    ->bind('createFlow');
+$app->get('/flow/{id}/delete',"skyflow\Controller\FlowController::deleteFlowAction");
+
+//Associations
+$app->get('/associations',"skyflow\Controller\AssociationController::indexAction")
+    ->bind('associations');
+$app->match('/createAssociation',"skyflow\Controller\AssociationController::createAssociationAction")
+    ->bind('createAssociations');
 
 //API
-$app->post('api/event/{event}',"exactSilex\Controller\ApiController::eventAction");
+$app->post('api/event/{event}',"skyflow\Controller\ApiController::eventAction");
 
-$app->get('/wave',"exactSilex\Controller\ApiController::waveAction");
+$app->get('/wave',"skyflow\Controller\ApiController::waveAction");
 
-$app->match('/test',"exactSilex\Controller\ApiController::testAction");
+$app->match('/test',"skyflow\Controller\ApiController::testAction");
 
 
 //ExactTarget API Helper
-$app->get('/et-helper',"exactSilex\Controller\ExactTargetController::exactTargetHelperAction")
+$app->get('/et-helper',"skyflow\Controller\ExactTargetController::exactTargetHelperAction")
 ->bind('et-helper');
+
+//Wave API Helper
+$app->match('/wave-helper',"skyflow\Controller\WaveController::requestWaveAction")
+    ->bind('wave-helper');

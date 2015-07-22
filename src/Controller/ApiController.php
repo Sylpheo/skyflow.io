@@ -1,6 +1,6 @@
 <?php
 
-namespace exactSilex\Controller;
+namespace skyflow\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +22,12 @@ use GuzzleHttp\Message\Response;*/
 class ApiController
 {
 
+    /**
+     * @param $event
+     * @param Request $request
+     * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function eventAction($event, Request $request, Application $app)
     {
         if ($request->headers->has('Skyflow-Token')) {
@@ -33,7 +39,7 @@ class ApiController
                 return $app->json('No user matching');
             }
 
-
+            //Retrieve credentials
             $clientid = $user->getClientid();
             $clientsecret = $user->getClientsecret();
             $waveid = $user->getWaveid();
@@ -43,6 +49,7 @@ class ApiController
 
             $idUser = $user->getId();
 
+            //Retrieve event's trigger from idUser
             $unEvent = $app['dao.event']->findOne($event, $idUser);
             $trigger = $unEvent['triggersend'];
 
@@ -51,16 +58,20 @@ class ApiController
             if ($request->request->has('email')) {
                 $email = $request->request->get('email');
 
-                //Retrieve subscriberkey
+                /**
+                 * Retrieve subscriberkey
+                 * @param  $email
+                 */
                 $myclient = $app['exacttarget']->loginByApi($clientid, $clientsecret);
                 $subscriber = new ET_Subscriber();
                 $subscriber->authStub = $myclient;
-                //$subscriber->props = array('EmailAddress', 'SubscriberKey');
                 $subscriber->filter = array('Property' => 'EmailAddress', 'SimpleOperator' => 'equals', 'Value' => $email);
                 $responseSub = $subscriber->get();
                  //var_dump($response);exit;
 
+                //If trigger using wave
                 if(isset($a[1]) && $a[1]== "wave") {
+                    //Guzzle request, get authentication
                     $client = new Client();
                     $request1 = $client->createRequest('POST', 'https://login.salesforce.com/services/oauth2/token');
                     $postBody = $request1->getBody();
@@ -74,6 +85,7 @@ class ApiController
                     //$data = $response->json();
                     //var_dump($data);
 
+                    //Define wave request
                     $waveRequest = $client->createRequest(
                         'POST',
                         $responseBody->instance_url . '/services/data/v34.0/wave/query',
@@ -103,7 +115,10 @@ class ApiController
                     }
 
 
-                    //Si il n'existe pas on le crée + infos wave
+                    /**
+                     * If subscriber does not exist
+                     * -> add
+                     */
                     if (empty($responseSub->results)) {
                         $subscriber = new ET_Subscriber();
                         $subscriber->authStub = $myclient;
@@ -119,7 +134,10 @@ class ApiController
 
                         $subKey = $email;
                     } else {
-                        //On ajoute les infos wave
+                        /**
+                         * If subscriber already exist
+                         *  -> update
+                         */
                         $subKey = $responseSub->results[0]->SubscriberKey;
                         $subscriber = new ET_Subscriber();
                         $subscriber->authStub = $myclient;
@@ -131,9 +149,12 @@ class ApiController
                         $results = $subscriber->patch();
                       //  var_dump($results);exit;
                     }
-                }
+                } //End trigger wave
 
-                //Si il n'existe pas on le crée
+                /**
+                 * If subscriber does not exist
+                 *  -> add with $email
+                 */
                 if (empty($responseSub->results)) {
                     $subscriber = new ET_Subscriber();
                     $subscriber->authStub = $myclient;
@@ -143,34 +164,44 @@ class ApiController
                     );
                     $resultsSub = $subscriber->post();
                     //var_dump($resultsSub);exit;
-
                     $subKey = $email;
                 } else {
+                    /**
+                     * Retrieve subscriberKey
+                     */
                     $subKey = $responseSub->results[0]->SubscriberKey;
                     // var_dump($results);exit;
 
                 }
 
-                //Retrieve TriggeredSend
+                /**
+                 * Retrieve TriggeredSend
+                 * @param $trigger
+                 */
                 $triggeredsend = new ET_TriggeredSend();
                 $triggeredsend->authStub = $myclient;
                 $triggeredsend->props = array('TriggeredSendStatus','Email.ID');
                 $triggeredsend->filter = array('Property' => 'CustomerKey','SimpleOperator' => 'equals','Value' => $trigger);
                 $responseTrig = $triggeredsend->get();
-
-
                 //var_dump($responseTrig);exit;
 
+                /**
+                 * Check if triggeredSendStatus is active
+                 * @param $trigger
+                 */
                 if($responseTrig->results[0]->TriggeredSendStatus != 'Active'){
                     //Set triggeredSendStatus -> Active
                     $triggeredsend = new ET_TriggeredSend();
                     $triggeredsend->authStub = $myclient;
                     $triggeredsend->props = array("CustomerKey" => $trigger, "TriggeredSendStatus"=> "Active");
                     $resultsTrig = $triggeredsend->patch();
-
                 }
 
-                //Send !
+                /**
+                 * Send triggeredSend
+                 * @param $trigger
+                 * @param $subKey
+                 */
                 $triggeredsend = new ET_TriggeredSend();
                 $triggeredsend->authStub = $myclient;
                 $triggeredsend->props = array("CustomerKey" => $trigger);
@@ -178,6 +209,9 @@ class ApiController
                 $results = $triggeredsend->send();
                // var_dump($results);exit;
 
+                /**
+                 * Check if triggerendSend status is OK
+                 */
                 if($results->results[0]->StatusCode == 'OK'){
                     return $app->json('Message : SUCCESS ! ');
                 }else{
@@ -186,7 +220,7 @@ class ApiController
 
 
             } else {
-                return $app->json('Missing argument ! ', 400);
+                return $app->json('Missing argument ! ', 400); //Missing email
             }
         } else {
             return $app->json('Missing Skyflow Token ! ');

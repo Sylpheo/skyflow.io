@@ -13,16 +13,16 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Event</th>
-                        <th>Flows</th>
+                        <th>Name</th>
+                        <th>Description</th>
                         <th></th>
                     </tr>
                 </thead>
                     {% for event in events %}
                         <tr>
                         	<td>{{ event.ID}}</td>
-                        	<td>{{event.event}}</td>
-        					<td><a href="trigger/{{event.triggersend}}">{{event.triggerSend}}</a></td>
+                        	<td>{{event.name}}</td>
+        					<td>{{event.description}}</td>
                             <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#eventDialog{{ event.ID }}"><span class="glyphicon glyphicon-trash"></span></button>
 
                                 <div class="modal fade" id="eventDialog{{ event.ID }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -1,6 +1,6 @@
 <?php
 
-namespace exactSilex\SilexOpauth; // Non psr-0 namespace usage. :(
+namespace skyflow\SilexOpauth; // Non psr-0 namespace usage. :(
 
 
 use Opauth;

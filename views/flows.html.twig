@@ -1,0 +1,59 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}All Flows{% endblock %}
+
+{% block content %}
+    <a href="createFlow"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Flow</button></a>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" >
+            {% if flows %}
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed viewTable" id="emails">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Class</th>
+                            <th>Documentation</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        {% for flow in flows %}
+                            <tr>
+                                <td>{{ flow.ID}}</td>
+                                <td>{{ flow.name}}</td>
+                                <td>{{ flow.class}}</td>
+                                <td>{{ flow.documentation }}</td>
+                                <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#flowDialog{{ flow.ID }}"><span class="glyphicon glyphicon-trash"></span></button>
+
+                                    <div class="modal fade" id="flowDialog{{ flow.ID }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Confirmation needed</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Do you really want to delete this flow ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <a href="/flow/{{flow.ID}}/delete" class="btn btn-danger">Confirm</a>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
+            {% else %}
+                <div class="alert alert-warning">No flows found ! </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,36 +1,34 @@
 <?php
 
-namespace exactSilex\Domain;
+namespace skyflow\Domain;
 
 class Event 
 {
     /**
-     * Article id.
-     *
+     * Event id
      * @var integer
      */
     private $id;
 
     /**
-     * Event event.
-     *
+     * Event name
      * @var string
      */
-    private $event;
+    private $name;
 
     /**
-     * Event triggerSend.
-     *
+     * Event flow.
      * @var string
      */
-    private $triggerSend;
+    private $description;
 
     /**
-    *
     * Event id_user
     * Users
     */
     private $idUsers;
+
+
 
     public function getId() {
         return $this->id;
@@ -40,20 +38,20 @@ class Event
         $this->id = $id;
     }
 
-    public function getEvent() {
-        return $this->event;
+    public function getName() {
+        return $this->name;
     }
 
-    public function setEvent($event) {
-        $this->event = $event;
+    public function setName($name) {
+        $this->name = $name;
     }
 
-    public function getTriggerSend() {
-        return $this->triggerSend;
+    public function getDescription() {
+        return $this->description;
     }
 
-    public function setTriggerSend($triggerSend) {
-        $this->triggerSend = $triggerSend;
+    public function setDescription($description) {
+        $this->description = $description;
     }
 
     public function getIdUsers(){

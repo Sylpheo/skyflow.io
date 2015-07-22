@@ -1,6 +1,6 @@
 <?php
 
-namespace exactSilex\Controller;
+namespace skyflow\Controller;
 
  use Silex\Application;
  use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +9,12 @@ namespace exactSilex\Controller;
  use ET_Subscriber;
 
 class TriggerController {
-	
+
+	/**
+	 * Retrieve all trigerredSend from ExactTarget
+	 * @param Application $app
+	 * @return TriggeredSend or redirect to login
+	 */
 	public function triggersAction(Application $app){
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
@@ -27,6 +32,12 @@ class TriggerController {
 		}
     }
 
+	/**
+	 * Create triggeredSend (associated with email)
+	 * @param Request $request
+	 * @param Application $app
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
     public function createTriggerAction(Request $request,Application $app){
 		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 	        $myclient = $app['exacttarget']->login($app);
@@ -85,6 +96,12 @@ class TriggerController {
     	
     }
 
+	/**
+	 * Send a triggeredSend to a subscriber
+	 * @param Request $request
+	 * @param Application $app
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
     public function sendTriggeredSendAction(Request $request, Application $app){
 		
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -100,7 +117,7 @@ class TriggerController {
 		    	$sub[$s->EmailAddress]=$s->EmailAddress;
 		    }
 
-		    //All triggeredSend != delete
+		    //All triggeredSend with status != delete
 		    $triggeredsend = new ET_TriggeredSend();
 			$triggeredsend->authStub = $myclient;
 			$responseTrig = $triggeredsend->get();
@@ -126,7 +143,6 @@ class TriggerController {
 
 				if($form->isSubmitted() && $form->isValid()){
 
-					// $myclient = $app['exacttarget']->login($app);
 					$data = $form->getData();
 
 					$triggeredsend = new ET_TriggeredSend();
@@ -173,6 +189,12 @@ class TriggerController {
 		 }
     }
 
+	/**
+	 * Retrieve triggeredsend's info
+	 * @param $customerKey
+	 * @param Application $app
+	 * @return triggeredSend or redirect to login
+	 */
     public function infoTriggeredSendAction($customerKey, Application $app){
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 			$myclient = $app['exacttarget']->login($app);

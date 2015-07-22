@@ -1,0 +1,16 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Add Association{% endblock %}
+
+{% block content %}
+
+    <form action="#" method="post">
+        {{form_start(associationForm)}}
+        {{form_row(associationForm.event, {'label' : 'Event'}) }}
+        {{form_row(associationForm.flow, {'label' : 'Flow'}) }}
+
+
+        <input type="submit" name="submit" value="Add !" />
+        {{form_end(associationForm)}}
+    </form>
+{% endblock %}

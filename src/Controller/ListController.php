@@ -1,5 +1,5 @@
 <?php
-namespace exactSilex\Controller;
+namespace skyflow\Controller;
 
  use Silex\Application;
  use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +10,11 @@ namespace exactSilex\Controller;
 
  class ListController {
 
+	 /**
+	  * Retrieve all lists from exactTarget
+	  * @param Application $app
+	  * @return lists or redirect to login
+	  */
  	public function listsAction(Application $app){
  		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
@@ -25,6 +30,11 @@ namespace exactSilex\Controller;
 		}
     }
 
+	 /**
+	  * Retrieve all susbcribers lists rom exactTarget
+	  * @param Application $app
+	  * @return Lists subscribers or redirect to login
+	  */
     public function listSubscriberAction(Application $app){
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
@@ -42,8 +52,13 @@ namespace exactSilex\Controller;
 		
     }
 
+	 /**
+	  * Add list to exactTarget
+	  * @param Request $request
+	  * @param Application $app
+	  * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	  */
      public function addListAction(Request $request, Application $app){
-
      	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
 	 		$myclient = $app['exacttarget']->login($app);
@@ -80,7 +95,6 @@ namespace exactSilex\Controller;
 				$data = $form->getData();
 				//var_dump($data);
 
-
 				$list = new ET_List();
 				$list->authStub = $myclient;
 				$list->props = array(
@@ -94,7 +108,6 @@ namespace exactSilex\Controller;
 			        if ($results->results[0]->StatusCode == 'OK') {
 						return $app->redirect('/et-helper');
 			    	}
-				
 			}
 				return $app['twig']->render('list-form.html.twig',
 					array('listForm' => $form->createView()));
@@ -103,6 +116,12 @@ namespace exactSilex\Controller;
 		}
 	}
 
+	 /**
+	  * Delete list from ExactTarget
+	  * @param $id
+	  * @param Application $app
+	  * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	  */
 	public function deleteListAction ($id, Application $app){
 		
 		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -119,41 +138,42 @@ namespace exactSilex\Controller;
 		}
 	}
 
-			public function addSubToListAction(Request $request, Application $app){
-				
-				if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-		            $myclient = $app['exacttarget']->login($app);
+	 /**
+	  * Add subscriber to list ExactTarget
+	  * @param Request $request
+	  * @param Application $app
+	  * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	  */
+	public function addSubToListAction(Request $request, Application $app){
+		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+		    $myclient = $app['exacttarget']->login($app);
 
+	    	//All Subscribers
+			$subscriber = new ET_Subscriber();
+			$subscriber->authStub = $myclient;
+			$subscriber->props = array('EmailAddress', 'SubscriberKey');
+			$responseSub = $subscriber->get();
 
-			    	//All Subscribers
-					$subscriber = new ET_Subscriber();
-					$subscriber->authStub = $myclient;
-					$subscriber->props = array('EmailAddress', 'SubscriberKey');
-					$responseSub = $subscriber->get();
-						    
-		 			//All Lists
-		 			$list = new ET_List();
-					$list->authStub = $myclient;
-					$list->props = array('ID','ListName');
-					$response = $list->get();
-				
-					$subs = [];
-					foreach ($responseSub->results as $s) {
-						$subs[$s->SubscriberKey]=$s->EmailAddress;
-					}
+			//All Lists
+			$list = new ET_List();
+			$list->authStub = $myclient;
+			$list->props = array('ID','ListName');
+			$response = $list->get();
 
-					$lists = [];
-					foreach ($response->results as $l) {
-						$lists[$l->ID]=$l->ListName;
-					}
-					
+			$subs = [];
+				foreach ($responseSub->results as $s) {
+					$subs[$s->SubscriberKey]=$s->EmailAddress;
+				}
+
+			$lists = [];
+				foreach ($response->results as $l) {
+					$lists[$l->ID]=$l->ListName;
+				}
 
 					$form = $app['form.factory']->createBuilder('form')
 						->add('Subscriber','choice',array(
 								'choices' =>$subs
 								))
-						/*->add('Lists','choice',array(
-								'choices' => $lists))*/
 						 ->add('Lists', 'choice', array(
 				            'choices' => $lists,
 				            'expanded' => true,
@@ -163,29 +183,29 @@ namespace exactSilex\Controller;
 
 						$form->handleRequest($request);
 
-					if($form->isSubmitted()){
-						$data = $form->getData();
-					
-						$subscriber = new ET_Subscriber();
-						$subscriber->authStub = $myclient;
-						$subscriber->props = array('EmailAddress', 'SubscriberKey');
-						//Filtrer les résultats
-						$subscriber->filter = array('Property' => 'SubscriberKey','SimpleOperator' => 'equals','Value' => $data['Subscriber']);
-						$response = $subscriber->get();
+							if($form->isSubmitted()){
+								$data = $form->getData();
 
-						$tab=$response->results;
-						$email = $tab[0]->EmailAddress;
+								$subscriber = new ET_Subscriber();
+								$subscriber->authStub = $myclient;
+								$subscriber->props = array('EmailAddress', 'SubscriberKey');
+								//Filtrer les résultats
+								$subscriber->filter = array('Property' => 'SubscriberKey','SimpleOperator' => 'equals','Value' => $data['Subscriber']);
+								$response = $subscriber->get();
 
-						$add = $myclient->AddSubscriberToList($email,$data['Lists'],$data['Subscriber']);
-						
-						  if ($add->results[0]->StatusCode == 'OK') {
-							return $app->redirect('/lists');
-				    	  }
-					}
+								$tab=$response->results;
+								$email = $tab[0]->EmailAddress;
+
+								$add = $myclient->AddSubscriberToList($email,$data['Lists'],$data['Subscriber']);
+
+								  if ($add->results[0]->StatusCode == 'OK') {
+									return $app->redirect('/lists');
+								  }
+							}
 						return $app['twig']->render('addSubToList.html.twig',
 							array('form' => $form->createView()));
-			}else{
-					return $app->redirect('/login');
-			}
+		}else{
+			return $app->redirect('/login');
 		}
+	}
 }

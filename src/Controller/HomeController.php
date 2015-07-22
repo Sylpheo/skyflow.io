@@ -1,19 +1,17 @@
 <?php
 
-namespace exactSilex\Controller;
+namespace skyflow\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use exactSilex\Domain\Users;
-use exactSilex\Form\Type\UsersType;
+use skyflow\Domain\Users;
+use skyflow\Form\Type\UsersType;
 
 
 class HomeController {
 
     /**
-     * Home page controller.
-     *
-     *
+     * Home page
      */
     public function indexAction(Application $app) {
        
@@ -21,6 +19,12 @@ class HomeController {
     
     }
 
+    /**
+     * Login
+     * @param Request $request
+     * @param Application $app
+     * @return mixed
+     */
     public function loginAction(Request $request, Application $app) {
         return $app['twig']->render('login.html.twig', array(
             'error'         => $app['security.last_error']($request),
@@ -28,6 +32,12 @@ class HomeController {
             ));
     }
 
+    /**
+     * Add user
+     * @param Request $request
+     * @param Application $app
+     * @return mixed
+     */
     public function addUserAction(Request $request, Application $app) {
         $user = new Users();
         $userForm = $app['form.factory']->create(new UsersType(), $user);
@@ -41,17 +51,26 @@ class HomeController {
             $encoder = $app['security.encoder.digest'];
             // compute the encoded password
             $password = $encoder->encodePassword($plainPassword, $user->getSalt());
-            $token = uniqid();
+            //$token = uniqid();
+            $token = $app['generatetoken']->generateToken();
             $user->setPassword($password); 
             $user->setSkyflowtoken($token);
             $app['dao.user']->save($user);
             $app['session']->getFlashBag()->add('success', 'The user was successfully created.');
+            $app['session']->getFlashBag()->add('skyflow-token', $token);
+
         }
         return $app['twig']->render('users-form.html.twig', array(
             'title' => 'New user',
             'userForm' => $userForm->createView()));
     }
 
+    /**
+     * Set ExactTarget credentials
+     * @param Request $request
+     * @param Application $app
+     * @return mixed
+     */
     public function setCredentialsETAction(Request $request,Application $app){
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $idUser = $app['security']->getToken()->getUser()->getId();
@@ -77,11 +96,15 @@ class HomeController {
             }
                 return $app['twig']->render('et-credentials-form.html.twig',
                     array('etForm' => $form->createView()));
-
-
         }
     }
 
+    /**
+     * Set Wave credentials
+     * @param Request $request
+     * @param Application $app
+     * @return mixed
+     */
     public function setCredentialsWaveAction(Request $request,Application $app){
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             
@@ -110,6 +133,31 @@ class HomeController {
                     array('waveForm' => $form->createView()));
         }
 
+    }
+
+    public function gestionToken(Application $app)
+    {
+        if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $app['security']->getToken()->getUser();
+
+
+        }
+
+        return $app['twig']->render('gestionToken.html.twig',array('user' => $user));
+    }
+
+    public function regenerateToken(Application $app)
+    {
+        if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $app['security']->getToken()->getUser();
+            $token = $app['generatetoken']->generateToken();
+            $user->setSkyflowToken($token);
+            $app['dao.user']->save($user);
+            $app['session']->getFlashBag()->add('success', 'The Skyflow-Token was succesfully updated.');
+
+        }
+
+        return $app['twig']->render('generateToken.html.twig',array('user' => $user));
     }
 
 }

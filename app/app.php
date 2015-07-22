@@ -1,11 +1,12 @@
 <?php
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
-use exactSilex\Service\ExactTarget;
+use skyflow\Service\ExactTarget;
+use skyflow\Service\GenerateToken;
 use Silex\Provider\FormServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 
-use exactSilex\SilexOpauth\OpauthExtension;
+use skyflow\SilexOpauth\OpauthExtension;
 
 
 
@@ -37,7 +38,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             'logout' => true,
             'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
             'users' => $app->share(function () use ($app) {
-                return new exactSilex\DAO\UsersDAO($app['db']);
+                return new skyflow\DAO\UsersDAO($app['db']);
             }),
         ),
     ),
@@ -82,30 +83,44 @@ $app->on(OpauthExtension::EVENT_SUCCESS, function($e) use ($app){
     $access_token = $response['auth']['raw']['access_token'];
     $instance_url= $response['auth']['raw']['instance_url'];
 
-//var_dump($response);
+var_dump($response);
     $app['session']->set('access_token',$access_token);
     $app['session']->set('instance_url',$instance_url);
+
 
     /*
         find/create a user, oauth response is in $response and it's already validated!
        store the user in the session
     */
-        $e->setArgument('result', $app->redirect('/wave'));
+        //$e->setArgument('result', $app->redirect('/wave'));
 });
 
 // Register services
 $app['dao.event'] = $app->share(function ($app) {
-    return new exactSilex\DAO\EventDAO($app['db']);
+    return new skyflow\DAO\EventDAO($app['db']);
 });
 
 $app['exacttarget'] = $app->share(function($app) {
-    $exact = new exactSilex\Service\ExactTarget();
+    $exact = new skyflow\Service\ExactTarget();
     return $exact;
+});
+
+$app['generatetoken'] = $app->share(function($app) {
+    $generate = new skyflow\Service\GenerateToken();
+    return $generate;
 });
 
 
 $app['dao.user'] = $app->share(function ($app) {
-    return new exactSilex\DAO\UsersDAO($app['db']);
+    return new skyflow\DAO\UsersDAO($app['db']);
+});
+
+$app['dao.flow'] = $app->share(function ($app) {
+    return new skyflow\DAO\FlowDAO($app['db']);
+});
+
+$app['dao.association'] = $app->share(function ($app) {
+    return new skyflow\DAO\AssociationDAO($app['db']);
 });
 
 // Register JSON data decoder for JSON requests
