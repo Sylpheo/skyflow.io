@@ -1,8 +1,9 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}Create Email{% endblock %}
+{% block title %}New Email{% endblock %}
 
 {% block content %}
+	<h2 class="text-center">{{ block('title') }}</h2>
 
 <form action="#" method="post">
 	{{ form_start(emailForm) }}

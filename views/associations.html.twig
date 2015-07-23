@@ -1,8 +1,9 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}All Associations{% endblock %}
+{% block title %}Mapping{% endblock %}
 
 {% block content %}
+    <h2 class="text-center">{{ block('title') }}</h2>
     <a href="createAssociation"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Association</button></a>
     <div class="tab-content">
         <div class="tab-pane fade in active" >

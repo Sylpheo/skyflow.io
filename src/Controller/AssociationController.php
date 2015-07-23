@@ -93,8 +93,9 @@ class AssociationController {
                 return $app->redirect('/associations');
             }
 
-            return $app['twig']->render('association-form.html.twig',
-                array('associationForm'=>$form->createView()));
+            return $app['twig']->render('association-form.html.twig', array(
+                'associationForm'=>$form->createView()
+            ));
         }else{
             return $app->redirect('/login');
         }

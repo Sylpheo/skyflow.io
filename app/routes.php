@@ -74,13 +74,13 @@ $app->match('/createAssociation',"skyflow\Controller\AssociationController::crea
     ->bind('createAssociations');
 
 //API
-$app->post('api/event/{event}',"skyflow\Controller\ApiController::eventAction");
+//$app->post('api/event/{event}',"skyflow\Controller\ApiController::eventAction");
 
 $app->get('/wave',"skyflow\Controller\ApiController::waveAction");
 
 $app->match('/test',"skyflow\Controller\ApiController::testAction");
 
-$app->post('/api/flowtest/{event}',"skyflow\Controller\ApiController::flowAction");
+$app->post('/api/event/{event}',"skyflow\Controller\ApiController::flowAction");
 
 
 //ExactTarget API Helper

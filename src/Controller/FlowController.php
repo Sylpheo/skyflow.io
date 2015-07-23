@@ -56,8 +56,9 @@ class FlowController {
                 return $app->redirect('/flows');
             }
 
-            return $app['twig']->render('flow-form.html.twig',
-                array('flowForm'=>$form->createView()));
+            return $app['twig']->render('flow-form.html.twig', array(
+                'flowForm'=>$form->createView()
+            ));
         }else{
             return $app->redirect('/login');
         }

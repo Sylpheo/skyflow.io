@@ -296,7 +296,7 @@ class ApiController
             $flow = $app['dao.flow']->findOneById($idFlow);
             $class = $flow['class'];
 
-            $result = $app['flow_'.$class]->event($user,$request->request);
+            $result = $app['flow_'.$class]->event($user,$request->request,$app);
             return $app->json($result);
         }
 

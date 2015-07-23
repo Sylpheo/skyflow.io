@@ -125,8 +125,8 @@ $app['dao.association'] = $app->share(function ($app) {
 });
 
 //Flows
-$app['flow_test'] = $app->share(function ($app){
-    return new skyflow\Flows\Flow_test();
+$app['flow_mail_remerciements'] = $app->share(function ($app){
+    return new skyflow\Flows\Flow_mail_remerciements();
 });
 
 $app['flow_test2'] = $app->share(function ($app){
