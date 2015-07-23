@@ -83,16 +83,14 @@ class AssociationController {
             if($form->isSubmitted() && $form->isValid()){
                 $data = $form->getData();
 
-                var_dump($data);
-               /* $flow = new Flow();
-                $flow->setName($data['name']);
-                $flow->setClass($data['class']);
-                $flow->setDocumentation($data['documentation']);
-                $flow->setIdUser($iduser);
+               // var_dump($data);exit;
+                $association = new Association();
+                $association->setIdUser($iduser);
+                $association->setIdEvent($data['event']);
+                $association->setIdFlow($data['flow']);
+                $app['dao.association']->save($association);
 
-                $app['dao.flow']->save($flow);
-
-                return $app->redirect('/flows');*/
+                return $app->redirect('/associations');
             }
 
             return $app['twig']->render('association-form.html.twig',

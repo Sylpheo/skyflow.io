@@ -86,18 +86,15 @@ class WaveController
 
                 $waveRequest->setHeader('Content-Type', 'application/json');
                 $waveRequest->setHeader('Authorization', 'Bearer ' . $responseBody->access_token);
-               // var_dump($waveRequest->getBody());exit;
                 $responseRequest = $client->send($waveRequest);
                 $responseBody = json_decode($responseRequest->getBody());
                 $data = $responseRequest->json();
-                //var_dump($data);
                 foreach($data['results']as $result) {
-                   //$result =$result;
                     foreach($result as $ligne){
                         $ligne = $ligne;
-
                     }
                 }
+
                 return $app['twig']->render('wave-apihelper.html.twig',
                     array(
                         'requestForm' => $form->createView(),

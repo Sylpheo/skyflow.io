@@ -1,11 +1,13 @@
 <?php
 
-namespace skyflow\Service;
+namespace skyflow\Flows;
+
+use skyflow\Flows\Flow;
 
 class Flow_test implements Flow{
 
     public function event($jsonData){
-        echo 'OK';
+        return $jsonData;
     }
 
 }

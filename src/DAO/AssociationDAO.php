@@ -43,8 +43,8 @@ class AssociationDAO extends DAO {
 
     public function save(Association $association){
         $associationData = array(
-            'id_event' => $association->getEvent()->getId(),
-            'id_flow' => $association->getFlow()->getId,
+            'id_event' => $association->getIdEvent(),
+            'id_flow' => $association->getIdFlow(),
             'id_user' => $association->getIdUser(),
         );
         if($association->getId()){
@@ -57,6 +57,18 @@ class AssociationDAO extends DAO {
         }
     }
 
+    public function findByEventUser($id_event,$id_user){
+        $sql = $this->getDb()->prepare("select * from association where id_event = ? and id_user = ?");
+        $sql->bindValue(1,$id_event);
+        $sql->bindValue(2,$id_user);
+        $sql->execute();
+        $association = $sql->fetch();
+
+        if($association){
+            return $association;
+        }
+
+    }
     /**
      * @param $id
      * @throws \Doctrine\DBAL\Exception\InvalidArgumentException

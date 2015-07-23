@@ -72,6 +72,7 @@ $app['opauth'] = array(
 
 $app->register(new OpauthExtension());
 
+
   // Listen for events
 $app->on(OpauthExtension::EVENT_ERROR, function($e) use ($app){
     $app->log->error('Auth error: ' . $e['message'], ['response' => $e->getSubject()]);
@@ -111,6 +112,11 @@ $app['generatetoken'] = $app->share(function($app) {
 });
 
 
+$app['flow_test'] = $app->share(function ($app){
+    return new skyflow\Flows\Flow_test();
+});
+
+
 $app['dao.user'] = $app->share(function ($app) {
     return new skyflow\DAO\UsersDAO($app['db']);
 });
@@ -123,9 +129,7 @@ $app['dao.association'] = $app->share(function ($app) {
     return new skyflow\DAO\AssociationDAO($app['db']);
 });
 
-$app['flow_test'] = $app->share(function ($app){
 
-});
 // Register JSON data decoder for JSON requests
 $app->before(function (Request $request) {
     if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {

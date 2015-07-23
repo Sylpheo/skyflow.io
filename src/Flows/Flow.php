@@ -1,11 +1,6 @@
 <?php
-namespace skyflow\Service;
+namespace skyflow\Flows;
 
 interface Flow {
-
-    /**
-     * @param $jsonData
-     * @return mixed
-     */
     public function event($jsonData);
 }

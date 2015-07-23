@@ -274,4 +274,26 @@ class ApiController
         //parse_str($rep,$arr);
 
     }
+
+    public function flowAction(Application $app){
+
+        $idUser ='1';
+        $event='test';
+        $unEvent = $app['dao.event']->findOne($event, $idUser);
+        $idEvent = $unEvent['id'];
+
+        $association = $app['dao.association']->findByEventUser($idEvent,$idUser);
+        $idFlow = $association['id_flow'];
+
+        echo $idFlow;
+
+        echo $idEvent;
+
+
+        $test = 'test';
+        echo 'ok';
+        $t = $app['flow_test']->event($test);
+        echo $t;
+
+    }
 }

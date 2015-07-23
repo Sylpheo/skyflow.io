@@ -80,6 +80,8 @@ $app->get('/wave',"skyflow\Controller\ApiController::waveAction");
 
 $app->match('/test',"skyflow\Controller\ApiController::testAction");
 
+$app->get('/flowtest',"skyflow\Controller\ApiController::flowAction");
+
 
 //ExactTarget API Helper
 $app->get('/et-helper',"skyflow\Controller\ExactTargetController::exactTargetHelperAction")

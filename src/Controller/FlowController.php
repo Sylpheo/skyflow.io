@@ -38,7 +38,7 @@ class FlowController {
             $form = $app['form.factory']->createBuilder('form')
                 ->add('name','text')
                 ->add('class','text')
-                ->add('documentation','textarea')
+                ->add('documentation','textarea',array('attr' => array('class' => 'ckeditor')))
                 ->getForm();
             $form->handleRequest($request);
 
