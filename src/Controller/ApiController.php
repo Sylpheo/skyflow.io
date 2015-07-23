@@ -275,25 +275,30 @@ class ApiController
 
     }
 
-    public function flowAction(Application $app){
+    public function flowAction($event, Request $request, Application $app){
+        if ($request->headers->has('Skyflow-Token')) {
+            $token = $request->headers->get('Skyflow-Token');
 
-        $idUser ='1';
-        $event='test';
-        $unEvent = $app['dao.event']->findOne($event, $idUser);
-        $idEvent = $unEvent['id'];
+            $user = $app['dao.user']->findByToken($token);
 
-        $association = $app['dao.association']->findByEventUser($idEvent,$idUser);
-        $idFlow = $association['id_flow'];
+            if (empty($user)) {
+                return $app->json('No user matching');
+            }
 
-        echo $idFlow;
+            $idUser = $user->getId();
 
-        echo $idEvent;
+            $unEvent = $app['dao.event']->findOne($event, $idUser);
+            $idEvent = $unEvent['id'];
 
+            $association = $app['dao.association']->findByEventUser($idEvent, $idUser);
+            $idFlow = $association['id_flow'];
 
-        $test = 'test';
-        echo 'ok';
-        $t = $app['flow_test']->event($test);
-        echo $t;
+            $flow = $app['dao.flow']->findOneById($idFlow);
+            $class = $flow['class'];
+
+            $result = $app['flow_'.$class]->event($user,$request->request);
+            return $app->json($result);
+        }
 
     }
 }

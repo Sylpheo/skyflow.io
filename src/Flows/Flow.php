@@ -2,5 +2,5 @@
 namespace skyflow\Flows;
 
 interface Flow {
-    public function event($jsonData);
+    public function event($user,$request);
 }

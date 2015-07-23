@@ -111,12 +111,7 @@ $app['generatetoken'] = $app->share(function($app) {
     return $generate;
 });
 
-
-$app['flow_test'] = $app->share(function ($app){
-    return new skyflow\Flows\Flow_test();
-});
-
-
+//DAO
 $app['dao.user'] = $app->share(function ($app) {
     return new skyflow\DAO\UsersDAO($app['db']);
 });
@@ -127,6 +122,15 @@ $app['dao.flow'] = $app->share(function ($app) {
 
 $app['dao.association'] = $app->share(function ($app) {
     return new skyflow\DAO\AssociationDAO($app['db']);
+});
+
+//Flows
+$app['flow_test'] = $app->share(function ($app){
+    return new skyflow\Flows\Flow_test();
+});
+
+$app['flow_test2'] = $app->share(function ($app){
+    return new skyflow\Flows\Flow_test2();
 });
 
 

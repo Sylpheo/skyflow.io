@@ -67,7 +67,7 @@ class AssociationController {
             }
 
             foreach($allFlows as $flow){
-                $flows[$flow->getId()]=$event->getName();
+                $flows[$flow->getId()]=$flow->getName();
             }
 
             $form = $app['form.factory']->createBuilder('form')
