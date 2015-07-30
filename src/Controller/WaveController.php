@@ -77,7 +77,12 @@ class WaveController
                 $responseBody = json_decode($responseRequest->getBody());
                 $data = $responseRequest->json();
                 $data = json_encode($data);
-                var_dump($data);exit;
+             //   var_dump($data);exit;
+
+                return $app['twig']->render('results.html.twig',
+                    array(
+                        'results'=>$data,
+                    ));
             }
 
            return $app['twig']->render('wave-apihelper.html.twig',
@@ -135,7 +140,13 @@ class WaveController
             $responseBody = json_decode($responseRequest->getBody());
             $data = $responseRequest->json();
             $data = json_encode($data);
-            var_dump($data);
+            //var_dump($data);
+
+            return $app['twig']->render('results.html.twig',
+                array(
+                    'results'=>$data,
+                ));
+
         }
     }
 }
