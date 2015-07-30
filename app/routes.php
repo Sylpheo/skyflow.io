@@ -72,11 +72,11 @@ $app->match('/flow/{id}/edit',"skyflow\Controller\FlowController::editFlowAction
     ->bind('editFlow');
 
 //Associations
-$app->get('/associations',"skyflow\Controller\AssociationController::indexAction")
-    ->bind('associations');
-$app->match('/createAssociation',"skyflow\Controller\AssociationController::createAssociationAction")
-    ->bind('createAssociations');
-$app->get('/association/{id}/delete',"skyflow\Controller\AssociationController::deleteAssociationAction");
+$app->get('/mapping',"skyflow\Controller\AssociationController::indexAction")
+    ->bind('mapping');
+$app->match('/createMapping',"skyflow\Controller\AssociationController::createAssociationAction")
+    ->bind('createMapping');
+$app->get('/mapping/{id}/delete',"skyflow\Controller\AssociationController::deleteAssociationAction");
 
 //API
 //$app->post('api/event/{event}',"skyflow\Controller\ApiController::eventAction");

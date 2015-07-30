@@ -3,8 +3,20 @@
 {% block title %}All Flows{% endblock %}
 
 {% block content %}
-    <h2 class="text-center">{{ block('title') }}</h2>
-    <a href="createFlow"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Flow</button></a>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">All Flows
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">Flows</li>
+                <li><a href="createFlow">Create</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <!--<a href="createFlow"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Flow</button></a>-->
     <div class="tab-content">
         <div class="tab-pane fade in active" >
             {% if flows %}
@@ -56,5 +68,5 @@
             {% endif %}
         </div>
     </div>
-
+</div>
 {% endblock %}

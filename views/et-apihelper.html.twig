@@ -3,7 +3,13 @@
 {% block title %}ExactTarget API Helper{% endblock %}
 
 {% block content %}
-    <h2 class="text-center">{{ block('title') }}</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">ExactTarget API Helper
+            </h1>
+        </div>
+    </div>
       <a href="addSub"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add subscriber</button></a>
     <div class="tab-content">
         <div class="tab-pane fade in active" >
@@ -27,7 +33,7 @@
                                         <td>{{  subscriber.LastName }}</td>
 
                                         <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#subDialog{{ subscriber.ID }}"><span class="glyphicon glyphicon-trash"></span></button>
- <div class="modal fade" id="subDialog{{ subscriber.ID }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="subDialog{{ subscriber.ID }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -199,6 +205,7 @@
             {% else %}
             <div class="alert alert-warning">No emails found ! </div>
     {% endif %}
+</div>
 </div>
 </div>
 {% endblock %}

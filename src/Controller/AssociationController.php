@@ -72,7 +72,7 @@ class AssociationController {
                 $association->setFlow($flow);
                 $app['dao.association']->save($association);
 
-                return $app->redirect('/associations');
+                return $app->redirect('/mapping');
             }
 
             return $app['twig']->render('association-form.html.twig', array(
@@ -93,7 +93,7 @@ class AssociationController {
 
         $app['dao.association']->delete($id);
 
-        return $app->redirect('/associations');
+        return $app->redirect('/mapping');
 
     }
 

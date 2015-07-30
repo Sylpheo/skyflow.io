@@ -3,15 +3,27 @@
 {% block title %}New Event{% endblock %}
 
 {% block content %}
-	<h2 class="text-center">{{ block('title') }}</h2>
+<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Create Event
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="/">Home</a></li>
+					<li><a href="events">Events</a></li>
+					<li class="active">Create</li>
+				</ol>
+			</div>
+		</div>
 
-<form action="#" method="post">
-	{{form_start(eventForm)}}
-		{{form_row(eventForm.name, {'label' : 'Name'}) }}
-		{{form_row(eventForm.description, {'label' : 'Description'}) }}
+			<form action="#" method="post">
+				{{form_start(eventForm)}}
+					{{form_row(eventForm.name, {'label' : 'Name'}) }}
+					{{form_row(eventForm.description, {'label' : 'Description'}) }}
 
-	
-	 <input type="submit" name="submit" value="Add !" />
-   {{form_end(eventForm)}}
-</form>
+
+				 <input type="submit" name="submit" value="Add !" />
+			   {{form_end(eventForm)}}
+			</form>
+</div>
 {% endblock %}

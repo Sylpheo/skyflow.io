@@ -75,7 +75,7 @@ class EventController {
 
 			if($form->isSubmitted() && $form->isValid()){
 				$app['dao.event']->save($event);
-				return $app->redirect('/associations');
+				return $app->redirect('/mapping');
 			}
 
 			return $app['twig']->render('event-edit.html.twig',

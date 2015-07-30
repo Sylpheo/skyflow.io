@@ -79,7 +79,7 @@ class FlowController {
             if($form->isSubmitted() && $form->isValid()){
                 $app['dao.flow']->save($flow);
 
-                return $app->redirect('/associations');
+                return $app->redirect('/mapping');
             }
 
             return $app['twig']->render('flow-edit.html.twig', array(
