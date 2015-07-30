@@ -14,8 +14,12 @@ class HomeController {
      * Home page
      */
     public function indexAction(Application $app) {
-       
-     return $app['twig']->render('index.html.twig');
+        if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $app['twig']->render('index.html.twig');
+        }else{
+            return $app->redirect('/login');
+        }
+
     
     }
 
@@ -96,6 +100,8 @@ class HomeController {
             }
                 return $app['twig']->render('et-credentials-form.html.twig',
                     array('etForm' => $form->createView()));
+        }else{
+            return $app->redirect('/login');
         }
     }
 
@@ -131,6 +137,8 @@ class HomeController {
             }
                 return $app['twig']->render('wave-credentials-form.html.twig',
                     array('waveForm' => $form->createView()));
+        }else{
+            return $app->redirect('/login');
         }
 
     }
