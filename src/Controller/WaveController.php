@@ -77,7 +77,7 @@ class WaveController
                 $responseBody = json_decode($responseRequest->getBody());
                 $data = $responseRequest->json();
                 $data = json_encode($data);
-               // var_dump($data);exit;
+                var_dump($data);exit;
             }
 
            return $app['twig']->render('wave-apihelper.html.twig',
