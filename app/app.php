@@ -121,7 +121,14 @@ $app['dao.flow'] = $app->share(function ($app) {
 });
 
 $app['dao.association'] = $app->share(function ($app) {
-    return new skyflow\DAO\AssociationDAO($app['db']);
+    $associationDAO = new skyflow\DAO\AssociationDAO($app['db']);
+    $associationDAO->setEventDAO($app['dao.event']);
+    $associationDAO->setFlowDAO($app['dao.flow']);
+    return $associationDAO;
+});
+
+$app['dao.wave_request'] = $app->share(function ($app){
+    return new skyflow\DAO\Wave_requestDAO($app['db']);
 });
 
 //Flows

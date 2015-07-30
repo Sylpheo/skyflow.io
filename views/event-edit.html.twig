@@ -1,0 +1,17 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Update Event{% endblock %}
+
+{% block content %}
+    <h2 class="text-center">Update Event</h2>
+
+    <form action="#" method="post">
+        {{form_start(eventForm)}}
+        {{form_row(eventForm.name, {'label' : 'Name'}) }}
+        {{form_row(eventForm.description, {'label' : 'Description'}) }}
+
+
+        <input type="submit" name="submit" value="Update !" />
+        {{form_end(eventForm)}}
+    </form>
+{% endblock %}

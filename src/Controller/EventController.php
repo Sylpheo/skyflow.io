@@ -5,7 +5,6 @@ namespace skyflow\Controller;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use skyflow\Domain\Event;
-use ET_TriggeredSend;
 
 
 
@@ -36,27 +35,6 @@ class EventController {
     public function createEventAction(Request $request,Application $app){
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
     		$iduser = $app['security']->getToken()->getUser()->getId();
-	       /*	$myclient = $app['exacttarget']->login($app);
-
-	    	$triggeredsend = new ET_TriggeredSend();
-			$triggeredsend->authStub = $myclient;
-			$responseTrig = $triggeredsend->get();
-		  
-		  	$trig =[];
-		  	foreach($responseTrig->results as $t){
-		  		if($t->TriggeredSendStatus != 'Deleted'){
-		  			$trig[$t->CustomerKey]=$t->Name;
-		  		}		
-		  	}
-
-	    	$form = $app['form.factory']->createBuilder('form')
-			    		->add('event','text')
-			    		->add('trigger','choice',array(
-							'choices' => $trig
-							))
-						->getForm();
-
-						$form->handleRequest($request);*/
 
 			$form = $app['form.factory']->createBuilder('form')
 				->add('name','text')
@@ -69,7 +47,7 @@ class EventController {
 
 				$event = new Event();
 				$event->setName($data['name']);
-				$event->setDescription($data['name']);
+				$event->setDescription($data['description']);
 				$event->setIdUsers($iduser);
 
 				$app['dao.event']->save($event);
@@ -83,6 +61,31 @@ class EventController {
 				return $app->redirect('/login');
 		}
     }
+
+	public function editEventAction($id,Request $request,Application $app){
+		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+			$event = $app['dao.event']->findOneById($id);
+
+
+			$form = $app['form.factory']->createBuilder('form',$event)
+				->add('name','text')
+				->add('description','textarea')
+				->getForm();
+			$form->handleRequest($request);
+
+			if($form->isSubmitted() && $form->isValid()){
+				$app['dao.event']->save($event);
+				return $app->redirect('/associations');
+			}
+
+			return $app['twig']->render('event-edit.html.twig',
+				array('eventForm'=>$form->createView(),
+					)
+		 		);
+		}else{
+			return $app->redirect('/login');
+		}
+	}
 
 	/**
 	 * Delete event

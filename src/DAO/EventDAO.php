@@ -41,7 +41,7 @@ class EventDAO extends DAO {
 		$event = $sql->fetch();
 
 		if($event){
-			return $event;
+			return $this->buildDomainObject($event);
 		}
 	}
 

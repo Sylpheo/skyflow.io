@@ -6,6 +6,16 @@ use skyflow\Domain\Association;
 
 class AssociationDAO extends DAO {
 
+    private $eventDAO;
+    private $flowDAO;
+
+    public function setEventDAO(EventDAO $eventDAO){
+        $this->eventDAO = $eventDAO;
+    }
+
+    public function setFlowDAO(FlowDAO $flowDAO){
+        $this->flowDAO = $flowDAO;
+    }
 
     /**
      * @param $id
@@ -43,8 +53,8 @@ class AssociationDAO extends DAO {
 
     public function save(Association $association){
         $associationData = array(
-            'id_event' => $association->getIdEvent(),
-            'id_flow' => $association->getIdFlow(),
+            'id_event' => $association->getEvent()->getId(),
+            'id_flow' => $association->getFlow()->getId(),
             'id_user' => $association->getIdUser(),
         );
         if($association->getId()){
@@ -86,8 +96,19 @@ class AssociationDAO extends DAO {
         $association = new Association();
         $association->setId($row['id']);
         $association->setIdUser($row['id_user']);
-        $association->setIdEvent($row['id_event']);
-        $association->setIdFlow($row['id_flow']);
+       /* $association->setIdEvent($row['id_event']);
+        $association->setIdFlow($row['id_flow']);*/
+        if (array_key_exists('id_event', $row)) {
+            // Find and set the associated article
+            $eventId = $row['id_event'];
+            $event = $this->eventDAO->findOneById($eventId);
+            $association->setEvent($event);
+        }
+        if(array_key_exists('id_flow',$row)){
+            $flowId = $row['id_flow'];
+            $flow = $this->flowDAO->findOneById($flowId);
+            $association->setFlow($flow);
+        }
         return $association;
     }
 }

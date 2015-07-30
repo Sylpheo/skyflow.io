@@ -31,16 +31,13 @@ class FlowDAO extends DAO {
 
 
     public function findOneById($id){
-        /*		$sql = "select * from event where event =? and id_user=?";
-                $row = $this->getDb()->fetchAssoc($sql,array($event,$idUser));*/
-
         $sql = $this->getDb()->prepare("select * from flow where id = ?");
         $sql->bindValue(1,$id);
         $sql->execute();
         $flow = $sql->fetch();
 
         if($flow){
-            return $flow;
+            return $this->buildDomainObject($flow);
         }
     }
 

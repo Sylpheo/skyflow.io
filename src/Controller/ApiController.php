@@ -246,36 +246,9 @@ class ApiController
         return $body;
     }
 
-    public function testAction(Application $app)
+
+    public function flowAction($event, Request $request, Application $app)
     {
-        $query = array("query" => "q = load \"0FbB00000005D7wKAE/0FcB00000005SD3KAM\";
-          q = filter q by 'FirstName' in [\"Pierre\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';");
-
-        $data = json_encode($query);
-        $access_token = $app['session']->get('access_token');
-        $instance_url = $app['session']->get('instance_url');
-
-        $curl2 = curl_init($instance_url . '/services/data/v34.0/wave/query');
-        curl_setopt($curl2, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $access_token
-        ));
-        curl_setopt($curl2, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl2, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($curl2, CURLOPT_RETURNTRANSFER, 1);
-
-        $rep = curl_exec($curl2);
-        curl_close($curl2);
-        // echo $rep;
-        $a = explode('records', $rep);
-//var_dump($a[1]);
-        $b = explode('query', $a[1]);
-//var_dump($b[0]);
-        //parse_str($rep,$arr);
-
-    }
-
-    public function flowAction($event, Request $request, Application $app){
         if ($request->headers->has('Skyflow-Token')) {
             $token = $request->headers->get('Skyflow-Token');
 
@@ -294,11 +267,11 @@ class ApiController
             $idFlow = $association['id_flow'];
 
             $flow = $app['dao.flow']->findOneById($idFlow);
-            $class = $flow['class'];
+            $class = $flow->getClass();
 
-            $result = $app['flow_'.$class]->event($user,$request->request,$app);
+            $result = $app['flow_' . $class]->event($user, $request->request, $app);
             return $app->json($result);
         }
-
     }
+
 }

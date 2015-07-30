@@ -21,12 +21,12 @@
                         </thead>
                         {% for association in associations %}
                             <tr>
-                                <td>{{ association.association}}</td>
-                                <td>{{association.event}}</td>
-                                <td>{{association.flow}}</td>
-                                <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#associationDialog{{ association.association }}"><span class="glyphicon glyphicon-trash"></span></button>
+                                <td>{{ association.id}}</td>
+                                <td><a href="/event/{{ association.event.id }}/edit">{{association.event.name}}</a></td>
+                                <td><a href="flow/{{ association.flow.id }}/edit">{{association.flow.name}}</a></td>
+                                <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#associationDialog{{ association.id }}"><span class="glyphicon glyphicon-trash"></span></button>
 
-                                    <div class="modal fade" id="associationDialog{{ association.association }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="associationDialog{{ association.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -38,7 +38,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                    <a href="/association/{{association.association}}/delete" class="btn btn-danger">Confirm</a>
+                                                    <a href="/association/{{association.id}}/delete" class="btn btn-danger">Confirm</a>
                                                 </div>
                                             </div><!-- /.modal-content -->
                                         </div><!-- /.modal-dialog -->

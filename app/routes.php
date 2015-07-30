@@ -59,6 +59,8 @@ $app->get('/events',"skyflow\Controller\EventController::indexAction")
 $app->match('/createEvent',"skyflow\Controller\EventController::createEventAction")
 ->bind('createEvent');
 $app->get('/event/{id}/delete',"skyflow\Controller\EventController::deleteEventAction");
+$app->match('/event/{id}/edit',"skyflow\Controller\EventController::editEventAction")
+    ->bind('editEvent');
 
 //Flows
 $app->get('/flows',"skyflow\Controller\FlowController::indexAction")
@@ -66,20 +68,21 @@ $app->get('/flows',"skyflow\Controller\FlowController::indexAction")
 $app->match('/createFlow',"skyflow\Controller\FlowController::createFlowAction")
     ->bind('createFlow');
 $app->get('/flow/{id}/delete',"skyflow\Controller\FlowController::deleteFlowAction");
+$app->match('/flow/{id}/edit',"skyflow\Controller\FlowController::editFlowAction")
+    ->bind('editFlow');
 
 //Associations
 $app->get('/associations',"skyflow\Controller\AssociationController::indexAction")
     ->bind('associations');
 $app->match('/createAssociation',"skyflow\Controller\AssociationController::createAssociationAction")
     ->bind('createAssociations');
+$app->get('/association/{id}/delete',"skyflow\Controller\AssociationController::deleteAssociationAction");
 
 //API
 //$app->post('api/event/{event}',"skyflow\Controller\ApiController::eventAction");
 
 $app->get('/wave',"skyflow\Controller\ApiController::waveAction");
-
-$app->match('/test',"skyflow\Controller\ApiController::testAction");
-
+$app->match('/test',"skyflow\Controller\ApiController::test2Action");
 $app->post('/api/event/{event}',"skyflow\Controller\ApiController::flowAction");
 
 
@@ -90,3 +93,5 @@ $app->get('/et-helper',"skyflow\Controller\ExactTargetController::exactTargetHel
 //Wave API Helper
 $app->match('/wave-helper',"skyflow\Controller\WaveController::requestWaveAction")
     ->bind('wave-helper');
+$app->get('/resend/{id}',"skyflow\Controller\WaveController::resendAction")
+    ->bind('/resend/{id}');

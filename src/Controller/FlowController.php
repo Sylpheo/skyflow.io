@@ -64,6 +64,32 @@ class FlowController {
         }
     }
 
+    public function editFlowAction($id,Request $request,Application $app){
+        if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $iduser = $app['security']->getToken()->getUser()->getId();
+
+            $flow = $app['dao.flow']->findOneById($id);
+            $form = $app['form.factory']->createBuilder('form',$flow)
+                ->add('name','text')
+                ->add('class','text')
+                ->add('documentation','textarea',array('attr' => array('class' => 'ckeditor')))
+                ->getForm();
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+                $app['dao.flow']->save($flow);
+
+                return $app->redirect('/associations');
+            }
+
+            return $app['twig']->render('flow-edit.html.twig', array(
+                'flowForm'=>$form->createView()
+            ));
+        }else{
+            return $app->redirect('/login');
+        }
+    }
+
     /**
      * Delete flow
      * @param $id

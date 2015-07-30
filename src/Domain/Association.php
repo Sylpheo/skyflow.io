@@ -11,16 +11,15 @@ class Association
     private $id;
 
     /**
-     * Association idEvent
-     * @var
+     * @var Event event
      */
-    private $idEvent;
+    private $event;
 
     /**
-     * Association idFlow
-     * @var
+     *
+     * @var Flow flow
      */
-    private $idFlow;
+    private $flow;
 
     /**
      * Association idUser
@@ -38,20 +37,20 @@ class Association
         $this->id = $id;
     }
 
-   public function getIdEvent(){
-       return $this->idEvent;
-   }
-
-    public function setIdEvent($idEvent){
-        $this->idEvent = $idEvent;
+    public function getEvent(){
+        return $this->event;
     }
 
-    public function getIdFlow(){
-        return $this->idFlow;
+    public function setEvent(Event $event){
+        $this->event =$event;
     }
 
-    public function setIdFlow($idFlow){
-        $this->idFlow = $idFlow;
+    public function getFlow(){
+        return $this->flow;
+    }
+
+    public function setFlow(Flow $flow){
+        $this->flow = $flow;
     }
     public function getIdUser(){
         return $this->idUser;
