@@ -1,16 +1,22 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}Update Flow{% endblock %}
+{% block title %}Flow{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Update Flow
+            <h1 class="page-header">Flow
             </h1>
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li><a href="/flows">View all flows</a></li>
+                <li><a href="/createFlow">Create</a></li>
+                <li class="active">Flow</li>
+            </ol>
+
         </div>
     </div>
-
     <form action="#" method="post">
         {{form_start(flowForm)}}
         {{form_row(flowForm.name, {'label' : 'Name'}) }}

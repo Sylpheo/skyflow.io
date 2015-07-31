@@ -147,8 +147,6 @@ class HomeController {
     {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $app['security']->getToken()->getUser();
-
-
         }
 
         return $app['twig']->render('gestionToken.html.twig',array('user' => $user));

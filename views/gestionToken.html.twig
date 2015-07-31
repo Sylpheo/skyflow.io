@@ -3,7 +3,24 @@
 {% block title %}Skyflow-Token Gestion{% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Manage Token
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">Manage Token</li>
+            </ol>
 
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Your Skyflow-Token</div>
+        <div class="panel-body">
+            {{ user.skyflowtoken }}
+        </div>
+    </div>
    <center><button type="button" class="btn btn-primary" title="Regenerate Token" data-toggle="modal" data-target="#regenerate"><span class="glyphicon glyphicon-refresh"></span> Regenerate Token</button></center>
 
     <div class="modal fade" id="regenerate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -23,5 +40,5 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
+</div>
 {% endblock %}

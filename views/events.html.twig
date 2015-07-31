@@ -11,8 +11,8 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="/">Home</a></li>
-                    <li class="active">Events</li>
                     <li><a href="createEvent">Create</a></li>
+                    <li class="active">Events</li>
                 </ol>
             </div>
         </div>
@@ -34,7 +34,7 @@
                             </thead>
                                 {% for event in events %}
                                     <tr>
-                                        <td>{{ event.ID}}</td>
+                                        <td><a href="/event/{{ event.id }}/edit">{{ event.ID}}</a></td>
                                         <td>{{event.name}}</td>
                                         <td>{{event.description}}</td>
                                         <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#eventDialog{{ event.ID }}"><span class="glyphicon glyphicon-trash"></span></button>

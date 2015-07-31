@@ -10,8 +10,8 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/">Home</a></li>
-                <li class="active">Flows</li>
                 <li><a href="createFlow">Create</a></li>
+                <li class="active">Flows</li>
             </ol>
         </div>
     </div>
@@ -34,7 +34,7 @@
                         </thead>
                         {% for flow in flows %}
                             <tr>
-                                <td>{{ flow.ID}}</td>
+                                <td><a href="flow/{{ flow.id }}/edit">{{  flow.id }}</a></td>
                                 <td>{{ flow.name}}</td>
                                 <td>{{ flow.class}}</td>
                                 <td>{{ flow.documentation }}</td>
