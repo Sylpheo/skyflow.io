@@ -3,7 +3,19 @@
 {% block title %}New Subscriber{% endblock %}
 
 {% block content %}
-	<h2 class="text-center">{{ block('title') }}</h2>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">New Subscriber
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="/">Home</a></li>
+					<li><a href="et-helper">ExactTarget API Helper</a></li>
+					<li class="active">New Subscriber</li>
+				</ol>
+			</div>
+		</div>
+
 <form action="#" method="post">
 	{{ form_start(subForm) }}
 		{{ form_row(subForm.EmailAddress, {'label':'Email Address'}) }}
@@ -14,4 +26,5 @@
 	{{ form_end(subForm) }}
         
 </form>
+	</div>
 {% endblock %}

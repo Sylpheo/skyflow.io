@@ -3,7 +3,19 @@
 {% block title %}New Email{% endblock %}
 
 {% block content %}
-	<h2 class="text-center">{{ block('title') }}</h2>
+	<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">New Email
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="/">Home</a></li>
+				<li><a href="et-helper">ExactTarget API Helper</a></li>
+				<li class="active">New Email</li>
+			</ol>
+		</div>
+	</div>
+
 
 <form action="#" method="post">
 	{{ form_start(emailForm) }}
@@ -18,4 +30,5 @@
 	{{ form_end(emailForm) }}
    
 </form>
+	</div>
 {% endblock %}
