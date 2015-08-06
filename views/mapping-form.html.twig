@@ -16,14 +16,12 @@
         </div>
     </div>
 
-    <form action="#" method="post">
-        {{form_start(associationForm)}}
-        {{form_row(associationForm.event, {'label' : 'Event'}) }}
-        {{form_row(associationForm.flow, {'label' : 'Flow'}) }}
 
-
+        {{form_start(mappingForm,  { 'attr': {'class': 'form-horizontal'} })}}
+        {{form_row(mappingForm.event, {'label' : 'Event'}) }}
+        {{form_row(mappingForm.flow, {'label' : 'Flow'}) }}
         <input type="submit" name="submit" value="Add !" />
-        {{form_end(associationForm)}}
-    </form>
+        {{form_end(mappingForm)}}
+
 </div>
 {% endblock %}

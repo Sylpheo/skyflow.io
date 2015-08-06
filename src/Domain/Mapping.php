@@ -2,7 +2,7 @@
 
 namespace skyflow\Domain;
 
-class Association
+class Mapping
 {
     /**
      * Flow id
@@ -22,7 +22,7 @@ class Association
     private $flow;
 
     /**
-     * Association idUser
+     * Mapping idUser
      * @var
      */
     private $idUser;

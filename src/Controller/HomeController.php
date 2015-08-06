@@ -19,8 +19,6 @@ class HomeController {
         }else{
             return $app->redirect('/login');
         }
-
-    
     }
 
     /**
@@ -69,79 +67,8 @@ class HomeController {
             'userForm' => $userForm->createView()));
     }
 
-    /**
-     * Set ExactTarget credentials
-     * @param Request $request
-     * @param Application $app
-     * @return mixed
-     */
-    public function setCredentialsETAction(Request $request,Application $app){
-        if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $idUser = $app['security']->getToken()->getUser()->getId();
 
-            $user = $app['security']->getToken()->getUser();
-           // var_dump($user);
 
-            $form = $app['form.factory']->createBuilder('form')
-                ->add('clientid','text')
-                ->add('clientsecret','text')
-                ->getForm();
-
-            $form->handleRequest($request);
-
-            if($form->isSubmitted() && $form->isValid()){
-                $data = $form->getData();
-                $user->setClientid($data['clientid']);
-                $user->setClientsecret($data['clientsecret']);
-                //var_dump($user);
-                $app['dao.user']->save($user);
-                $app['session']->getFlashBag()->add('success', 'The user was succesfully updated.');
-
-            }
-                return $app['twig']->render('et-credentials-form.html.twig',
-                    array('etForm' => $form->createView()));
-        }else{
-            return $app->redirect('/login');
-        }
-    }
-
-    /**
-     * Set Wave credentials
-     * @param Request $request
-     * @param Application $app
-     * @return mixed
-     */
-    public function setCredentialsWaveAction(Request $request,Application $app){
-        if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-            
-            $user = $app['security']->getToken()->getUser();
-
-             $form = $app['form.factory']->createBuilder('form')
-                ->add('waveid','text')
-                ->add('wavesecret','text')
-                ->add('wavelogin','text')
-                ->add('wavepassword','password')
-                ->getForm();
-
-            $form->handleRequest($request);
-
-            if($form->isSubmitted() && $form->isValid()){
-                $data = $form->getData();
-                $user->setWaveid($data['waveid']);
-                $user->setWavesecret($data['wavesecret']);
-                $user->setWavelogin($data['wavelogin']);
-                $user->setWavepassword($data['wavepassword']);
-                $app['dao.user']->save($user);
-                $app['session']->getFlashBag()->add('success', 'The user was succesfully updated.');
-
-            }
-                return $app['twig']->render('wave-credentials-form.html.twig',
-                    array('waveForm' => $form->createView()));
-        }else{
-            return $app->redirect('/login');
-        }
-
-    }
 
     public function gestionToken(Application $app)
     {

@@ -21,7 +21,7 @@
    <!-- <a href="createMapping"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Mapping</button></a>-->
     <div class="tab-content">
         <div class="tab-pane fade in active" >
-            {% if associations %}
+            {% if mappings %}
 
                 <div class="table-responsive">
                     <table class="table table-hover table-condensed viewTable" id="associations">
@@ -33,14 +33,14 @@
                             <th></th>
                         </tr>
                         </thead>
-                        {% for association in associations %}
+                        {% for mapping in mappings %}
                             <tr>
-                                <td>{{ association.id}}</td>
-                                <td><a href="/event/{{ association.event.id }}/edit">{{association.event.name}}</a></td>
-                                <td><a href="flow/{{ association.flow.id }}/edit">{{association.flow.name}}</a></td>
-                                <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#associationDialog{{ association.id }}"><span class="glyphicon glyphicon-trash"></span></button>
+                                <td>{{ mapping.id}}</td>
+                                <td><a href="/event/{{ mapping.event.id }}/edit">{{mapping.event.name}}</a></td>
+                                <td><a href="flow/{{ mapping.flow.id }}/edit">{{mapping.flow.name}}</a></td>
+                                <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#associationDialog{{ mapping.id }}"><span class="glyphicon glyphicon-trash"></span></button>
 
-                                    <div class="modal fade" id="associationDialog{{ association.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="associationDialog{{ mapping.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -48,11 +48,11 @@
                                                     <h4 class="modal-title" id="myModalLabel">Confirmation needed</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Do you really want to delete this association ?
+                                                    Do you really want to delete this mapping ?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                    <a href="/mapping/{{association.id}}/delete" class="btn btn-danger">Confirm</a>
+                                                    <a href="/mapping/{{mapping.id}}/delete" class="btn btn-danger">Confirm</a>
                                                 </div>
                                             </div><!-- /.modal-content -->
                                         </div><!-- /.modal-dialog -->

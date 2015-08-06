@@ -2,9 +2,9 @@
 
 namespace skyflow\DAO;
 
-use skyflow\Domain\Association;
+use skyflow\Domain\Mapping;
 
-class AssociationDAO extends DAO {
+class MappingDAO extends DAO {
 
     private $eventDAO;
     private $flowDAO;
@@ -23,12 +23,12 @@ class AssociationDAO extends DAO {
      * @throws \Doctrine\DBAL\DBALException
      */
     public function findOne($id){
-        $sql = $this->getDb()->prepare("select * from association where id = ?");
+        $sql = $this->getDb()->prepare("select * from mapping where id = ?");
         $sql->bindValue(1,$id);
         $sql->execute();
-        $association = $sql->fetch();
+        $mapping = $sql->fetch();
 
-        if($association){
+        if($mapping){
                 return $association;
         }
     }
@@ -39,43 +39,43 @@ class AssociationDAO extends DAO {
      */
     public function findAllByUser($id_user){
 
-        $sql = "select * from association where id_user =?";
+        $sql = "select * from mapping where id_user =?";
         $result = $this->getDb()->fetchAll($sql,array($id_user));
 
-        $associations = array();
+        $mappings = array();
         foreach ($result as $row) {
-            $associationId = $row['id'];
-            $associations[$associationId] = $this->buildDomainObject($row);
+            $mappingId = $row['id'];
+            $mappings[$mappingId] = $this->buildDomainObject($row);
         }
-        return $associations;
+        return $mappings;
     }
 
 
-    public function save(Association $association){
-        $associationData = array(
-            'id_event' => $association->getEvent()->getId(),
-            'id_flow' => $association->getFlow()->getId(),
-            'id_user' => $association->getIdUser(),
+    public function save(Mapping $mapping){
+        $mappingData = array(
+            'id_event' => $mapping->getEvent()->getId(),
+            'id_flow' => $mapping->getFlow()->getId(),
+            'id_user' => $mapping->getIdUser(),
         );
-        if($association->getId()){
-            $this->getDb()->update('flow',$associationData, array('id' => $association->getId()));
+        if($mapping->getId()){
+            $this->getDb()->update('mapping',$mappingData, array('id' => $mapping->getId()));
 
         }else{
-            $this->getDb()->insert('association',$associationData);
+            $this->getDb()->insert('mapping',$mappingData);
             $id = $this->getDb()->lastInsertId();
-            $association->setId($id);
+            $mapping->setId($id);
         }
     }
 
     public function findByEventUser($id_event,$id_user){
-        $sql = $this->getDb()->prepare("select * from association where id_event = ? and id_user = ?");
+        $sql = $this->getDb()->prepare("select * from mapping where id_event = ? and id_user = ?");
         $sql->bindValue(1,$id_event);
         $sql->bindValue(2,$id_user);
         $sql->execute();
-        $association = $sql->fetch();
+        $mapping = $sql->fetch();
 
-        if($association){
-            return $association;
+        if($mapping){
+            return $mapping;
         }
 
     }
@@ -84,31 +84,30 @@ class AssociationDAO extends DAO {
      * @throws \Doctrine\DBAL\Exception\InvalidArgumentException
      */
     public function delete($id){
-        $this->getDb()->delete('association',array('id' => $id));
+        $this->getDb()->delete('mapping',array('id' => $id));
     }
 
 
     /**
      * @param $row containing the event data
-     * @return Event
+     * @return Mapping
      */
     protected function buildDomainObject($row) {
-        $association = new Association();
-        $association->setId($row['id']);
-        $association->setIdUser($row['id_user']);
-       /* $association->setIdEvent($row['id_event']);
-        $association->setIdFlow($row['id_flow']);*/
+        $mapping = new Mapping();
+        $mapping->setId($row['id']);
+        $mapping->setIdUser($row['id_user']);
+
         if (array_key_exists('id_event', $row)) {
             // Find and set the associated article
             $eventId = $row['id_event'];
             $event = $this->eventDAO->findOneById($eventId);
-            $association->setEvent($event);
+            $mapping->setEvent($event);
         }
         if(array_key_exists('id_flow',$row)){
             $flowId = $row['id_flow'];
             $flow = $this->flowDAO->findOneById($flowId);
-            $association->setFlow($flow);
+            $mapping->setFlow($flow);
         }
-        return $association;
+        return $mapping;
     }
 }

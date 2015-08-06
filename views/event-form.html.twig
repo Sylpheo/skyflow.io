@@ -16,14 +16,14 @@
 			</div>
 		</div>
 
-			<form action="#" method="post">
-				{{form_start(eventForm)}}
+
+				{{form_start(eventForm,  { 'attr': {'class': 'form-horizontal'} })}}
 					{{form_row(eventForm.name, {'label' : 'Name'}) }}
 					{{form_row(eventForm.description, {'label' : 'Description'}) }}
 
 
-				 <input type="submit" name="submit" value="Add !" />
+				 <input type="submit" name="submit" value="Save" />
 			   {{form_end(eventForm)}}
-			</form>
+
 </div>
 {% endblock %}

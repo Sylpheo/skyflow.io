@@ -53,49 +53,6 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 ));
 
 
-$app['opauth'] = array(
-      'login' => '/auth',
-      'callback' => '/auth/callback',
-      'config' => array(
-        'security_salt' => '_SECURE_RANDOM_SALT_',
-        'strategy_dir' => '../strategy/',
-        'Strategy' => array(
-            'salesforce' => array( 
-           'client_id' => '3MVG9SemV5D80oBcbOkdI2WCxIIA5fZMPI3ZDTZBBU_6E6zc8Z5wKZ4DCh.bPDxBEV4PocUnC3ELl70tjOSof',
-           'client_secret' => '8180025755972035170'
-         ),
-        )
-        
-      )
-    );
-
-
-$app->register(new OpauthExtension());
-
-
-  // Listen for events
-$app->on(OpauthExtension::EVENT_ERROR, function($e) use ($app){
-    $app->log->error('Auth error: ' . $e['message'], ['response' => $e->getSubject()]);
-    $e->setArgument('result', $app->redirect('/'));
-});
-$app->on(OpauthExtension::EVENT_SUCCESS, function($e) use ($app){
-    $response = $e->getSubject();
-
-    $access_token = $response['auth']['raw']['access_token'];
-    $instance_url= $response['auth']['raw']['instance_url'];
-
-var_dump($response);
-    $app['session']->set('access_token',$access_token);
-    $app['session']->set('instance_url',$instance_url);
-
-
-    /*
-        find/create a user, oauth response is in $response and it's already validated!
-       store the user in the session
-    */
-        //$e->setArgument('result', $app->redirect('/wave'));
-});
-
 // Register services
 $app['dao.event'] = $app->share(function ($app) {
     return new skyflow\DAO\EventDAO($app['db']);
@@ -120,34 +77,23 @@ $app['dao.flow'] = $app->share(function ($app) {
     return new skyflow\DAO\FlowDAO($app['db']);
 });
 
-$app['dao.association'] = $app->share(function ($app) {
-    $associationDAO = new skyflow\DAO\AssociationDAO($app['db']);
-    $associationDAO->setEventDAO($app['dao.event']);
-    $associationDAO->setFlowDAO($app['dao.flow']);
-    return $associationDAO;
+$app['dao.mapping'] = $app->share(function ($app) {
+    $mappingDAO = new skyflow\DAO\MappingDAO($app['db']);
+    $mappingDAO->setEventDAO($app['dao.event']);
+    $mappingDAO->setFlowDAO($app['dao.flow']);
+    return $mappingDAO;
 });
 
 $app['dao.wave_request'] = $app->share(function ($app){
     return new skyflow\DAO\Wave_requestDAO($app['db']);
 });
 
-//Flows
+//Register Flows
 $app['flow_mail_remerciements'] = $app->share(function ($app){
     return new skyflow\Flows\Flow_mail_remerciements();
 });
 
-$app['flow_test2'] = $app->share(function ($app){
-    return new skyflow\Flows\Flow_test2();
-});
 
-
-// Register JSON data decoder for JSON requests
-$app->before(function (Request $request) {
-    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
-        $data = json_decode($request->getContent(), true);
-        $request->request->replace(is_array($data) ? $data : array());
-    }
-});
 
 
 // Register error handler
@@ -164,3 +110,44 @@ $app->error(function (\Exception $e, $code) use ($app) {
     }
     return $app['twig']->render('error.html.twig', array('message' => $message));
 });
+
+
+/*
+$app['opauth'] = array(
+    'login' => '/auth',
+    'callback' => '/auth/callback',
+    'config' => array(
+        'security_salt' => '_SECURE_RANDOM_SALT_',
+        'strategy_dir' => '../strategy/',
+        'Strategy' => array(
+            'salesforce' => array(
+                'client_id' => '3MVG9SemV5D80oBcbOkdI2WCxIIA5fZMPI3ZDTZBBU_6E6zc8Z5wKZ4DCh.bPDxBEV4PocUnC3ELl70tjOSof',
+                'client_secret' => '8180025755972035170'
+            ),
+        )
+
+    )
+);
+
+
+$app->register(new OpauthExtension());
+// Listen for events
+$app->on(OpauthExtension::EVENT_ERROR, function($e) use ($app){
+    $app->log->error('Auth error: ' . $e['message'], ['response' => $e->getSubject()]);
+    $e->setArgument('result', $app->redirect('/'));
+});
+$app->on(OpauthExtension::EVENT_SUCCESS, function($e) use ($app){
+    $response = $e->getSubject();
+
+    $access_token = $response['auth']['raw']['access_token'];
+    $instance_url= $response['auth']['raw']['instance_url'];
+
+    var_dump($response);
+    $app['session']->set('access_token',$access_token);
+    $app['session']->set('instance_url',$instance_url);
+
+
+
+    //$e->setArgument('result', $app->redirect('/wave'));
+});
+*/

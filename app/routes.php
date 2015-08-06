@@ -5,11 +5,7 @@ $app->get('/login', "skyflow\Controller\HomeController::loginAction")
 ->bind('login');
 $app->match('/new_account', "skyflow\Controller\HomeController::addUserAction")
 ->bind('account');
-$app->match('/ET_credentials', "skyflow\Controller\HomeController::setCredentialsETAction")
-->bind('ET_credentials');
-$app->match('/wave_credentials',"skyflow\Controller\HomeController::setCredentialsWaveAction")
 
-->bind('wave_credentials');
 // Home page
 $app->get('/', "skyflow\Controller\HomeController::indexAction");
 $app->get('/gestionToken',"skyflow\Controller\HomeController::gestionToken")
@@ -71,27 +67,28 @@ $app->get('/flow/{id}/delete',"skyflow\Controller\FlowController::deleteFlowActi
 $app->match('/flow/{id}/edit',"skyflow\Controller\FlowController::editFlowAction")
     ->bind('editFlow');
 
-//Associations
-$app->get('/mapping',"skyflow\Controller\AssociationController::indexAction")
+//Mapping
+$app->get('/mapping',"skyflow\Controller\MappingController::indexAction")
     ->bind('mapping');
-$app->match('/createMapping',"skyflow\Controller\AssociationController::createAssociationAction")
+$app->match('/createMapping',"skyflow\Controller\MappingController::createMappingAction")
     ->bind('createMapping');
-$app->get('/mapping/{id}/delete',"skyflow\Controller\AssociationController::deleteAssociationAction");
+$app->get('/mapping/{id}/delete',"skyflow\Controller\MappingController::deleteMappingAction");
 
 //API
 //$app->post('api/event/{event}',"skyflow\Controller\ApiController::eventAction");
-
-$app->get('/wave',"skyflow\Controller\ApiController::waveAction");
-$app->match('/test',"skyflow\Controller\ApiController::test2Action");
 $app->post('/api/event/{event}',"skyflow\Controller\ApiController::flowAction");
 
 
-//ExactTarget API Helper
+//ExactTarget
 $app->get('/et-helper',"skyflow\Controller\ExactTargetController::exactTargetHelperAction")
 ->bind('et-helper');
+$app->match('/ET_credentials', "skyflow\Controller\ExactTargetController::setCredentialsETAction")
+    ->bind('ET_credentials');
 
-//Wave API Helper
+//Wave
 $app->match('/wave-helper',"skyflow\Controller\WaveController::requestWaveAction")
     ->bind('wave-helper');
 $app->get('/resend/{id}',"skyflow\Controller\WaveController::resendAction")
     ->bind('/resend/{id}');
+$app->match('/wave_credentials',"skyflow\Controller\WaveController::setCredentialsWaveAction")
+    ->bind('wave_credentials');

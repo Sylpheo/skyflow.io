@@ -7,6 +7,7 @@ namespace skyflow\Controller;
  use ET_List;
  use ET_Subscriber;
  use ET_TriggeredSend;
+ use Symfony\Component\HttpFoundation\Request;
 
 
 
@@ -32,7 +33,6 @@ class ExactTargetController {
          $subscribers = array();
          $tout = array();
 
-
         foreach($responseSub->results as $r){
                 $subscribers['ID'] = $r->ID;
                 $subscribers['SubscriberKey'] = $r->SubscriberKey;
@@ -47,8 +47,6 @@ class ExactTargetController {
                 }
                 array_push($tout,$subscribers);
         }
-         //var_dump($responseSub->results);
-         //var_dump($tout);exit;
 
       /**
        * Retrieve all lists from exactTarget
@@ -88,5 +86,36 @@ class ExactTargetController {
           return $app->redirect('/login');
       }
   }
+    /**
+     * Set ExactTarget credentials
+     * @param Request $request
+     * @param Application $app
+     * @return mixed
+     */
+    public function setCredentialsETAction(Request $request,Application $app){
+        if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $idUser = $app['security']->getToken()->getUser()->getId();
 
+            $user = $app['security']->getToken()->getUser();
+            $form = $app['form.factory']->createBuilder('form')
+                ->add('clientid','text')
+                ->add('clientsecret','text')
+                ->getForm();
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+                $data = $form->getData();
+                $user->setClientid($data['clientid']);
+                $user->setClientsecret($data['clientsecret']);
+                $app['dao.user']->save($user);
+                $app['session']->getFlashBag()->add('success', 'The user was succesfully updated.');
+
+            }
+            return $app['twig']->render('et-credentials-form.html.twig',
+                array('etForm' => $form->createView()));
+        }else{
+            return $app->redirect('/login');
+        }
+    }
 }

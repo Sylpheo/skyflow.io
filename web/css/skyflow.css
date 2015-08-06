@@ -1,7 +1,19 @@
 body { 
     padding-top: 60px;
+    /*background-color :#E5E5E5;*/
 }
-
+/*.navbar {
+    background-color: #21368B;
+    vertical-align: middle;
+}
+.navbar-default .navbar-nav > li > a .navbar-default
+.navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a:hover {
+    color : white;
+}
+.row{
+    color:#B51A8A;
+}*/
 .footer {
     border-top: 1px solid #ccc;
     padding-top: 10px;
@@ -23,7 +35,9 @@ body {
 label
 {
 	width: 150px;
-
+}
+textarea{
+    vertical-align: middle;
 }
  input,select,textarea {
 	padding: 5px 10px;
@@ -31,9 +45,8 @@ label
 	min-width : 160px;
 }
 
-input[type=submit], input[type=reset] {
+input[type=submit]{
 	min-width : 100px;
-	margin-left : 250px;
 	margin-top : 30px;
 }
 

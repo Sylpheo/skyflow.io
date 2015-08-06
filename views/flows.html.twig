@@ -28,7 +28,6 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Class</th>
-                            <th>Documentation</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -37,7 +36,6 @@
                                 <td><a href="flow/{{ flow.id }}/edit">{{  flow.id }}</a></td>
                                 <td>{{ flow.name}}</td>
                                 <td>{{ flow.class}}</td>
-                                <td>{{ flow.documentation }}</td>
                                 <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#flowDialog{{ flow.ID }}"><span class="glyphicon glyphicon-trash"></span></button>
 
                                     <div class="modal fade" id="flowDialog{{ flow.ID }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

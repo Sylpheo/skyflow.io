@@ -128,8 +128,6 @@ namespace skyflow\Controller;
 			$email->filter = array('Property' => 'ID','SimpleOperator' => 'equals','Value' => $id);
 			$response = $email->get();
 
-			//var_dump($response->results);
-
 				return $app['twig']->render('email.html.twig',
 					array('email'=> $response->results[0]));
 		}else{

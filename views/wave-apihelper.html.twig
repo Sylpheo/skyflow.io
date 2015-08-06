@@ -14,13 +14,10 @@
             </ol>
         </div>
     </div>
-
-            <form action="#" method="post">
-                {{ form_start(requestForm) }}
-                {{ form_row(requestForm.Request, {'label': 'Request'}) }}
-                <input type="submit" name="submit" id="submit" value="Send Request ! "/>
+                {{ form_start(requestForm,  { 'attr': {'class': 'form-horizontal'} })}}
+                        {{ form_row(requestForm.Request, {'label': 'Request'}) }}
+                        <input type="submit" name="submit" id="submit" value="Send Request ! "/>
                 {{ form_end(requestForm) }}
-            </form>
 
             {% if history %}
                 <div class="table-responsive">

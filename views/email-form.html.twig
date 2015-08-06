@@ -17,10 +17,9 @@
 	</div>
 
 
-<form action="#" method="post">
-	{{ form_start(emailForm) }}
-		{{ form_row(emailForm.Name, {'label': 'Name'}) }}
-		{{ form_row(emailForm.CustomerKey, {'label' : 'Customer Key'}) }}
+	{{ form_start(emailForm,  { 'attr': {'class': 'form-horizontal'} })}}
+		{{form_row(emailForm.Name, {'label': 'Name'}) }}
+		{{form_row(emailForm.Subject, {'label': 'Subject'}) }}
 		{{form_row(emailForm.Description, {'label': 'Description'}) }}
 		{{form_row(emailForm.CustomerKey, {'label' : 'Customer Key'}) }}
 		{{ form_row(emailForm.Subject, {'label' : 'Subject'}) }}

@@ -15,15 +15,12 @@ class Flow_mail_remerciements implements Flow{
         if ($request->has('email')) {
             $email = $request->get('email');
 
-
-            //ET & Wave credentials
             $clientid = $user->getClientid();
             $clientsecret = $user->getClientsecret();
             $waveid = $user->getWaveid();
             $wavesecret = $user->getWavesecret();
             $wavelogin = $user->getWavelogin();
             $wavepassword = $user->getWavepassword();
-
 
             $myclient = $app['exacttarget']->loginByApi($clientid, $clientsecret);
             $subscriber = new ET_Subscriber();
@@ -42,7 +39,6 @@ class Flow_mail_remerciements implements Flow{
             $response = $client->send($request1);
             $responseBody = json_decode($response->getBody());
 
-            //Define wave request
             $waveRequest = $client->createRequest(
                 'POST',
                 $responseBody->instance_url . '/services/data/v34.0/wave/query',
@@ -83,7 +79,6 @@ class Flow_mail_remerciements implements Flow{
                     array('Name' => 'LastName','Value' => $lastName)
                 );
                 $resultsSub = $subscriber->post();
-                //var_dump($resultsSub);exit;
 
                 $subKey = $email;
             } else {
@@ -104,21 +99,19 @@ class Flow_mail_remerciements implements Flow{
 
             /**
              * Retrieve TriggeredSend
-             * @param $trigger
+             *
              */
             $triggeredsend = new ET_TriggeredSend();
             $triggeredsend->authStub = $myclient;
             $triggeredsend->props = array('TriggeredSendStatus','Email.ID');
             $triggeredsend->filter = array('Property' => 'CustomerKey','SimpleOperator' => 'equals','Value' => 'merci_wave');
             $responseTrig = $triggeredsend->get();
-            //var_dump($responseTrig);exit;
 
             /**
              * Check if triggeredSendStatus is active
-             * @param $trigger
+             *
              */
             if($responseTrig->results[0]->TriggeredSendStatus != 'Active'){
-                //Set triggeredSendStatus -> Active
                 $triggeredsend = new ET_TriggeredSend();
                 $triggeredsend->authStub = $myclient;
                 $triggeredsend->props = array("CustomerKey" => 'merci_wave', "TriggeredSendStatus"=> "Active");
@@ -127,15 +120,13 @@ class Flow_mail_remerciements implements Flow{
 
             /**
              * Send triggeredSend
-             * @param $trigger
-             * @param $subKey
+             *
              */
             $triggeredsend = new ET_TriggeredSend();
             $triggeredsend->authStub = $myclient;
             $triggeredsend->props = array("CustomerKey" => 'merci_wave');
             $triggeredsend->subscribers = array(array("EmailAddress"=>$email,"SubscriberKey" => $subKey));
             $results = $triggeredsend->send();
-            // var_dump($results);exit;
 
             /**
              * Check if triggerendSend status is OK
