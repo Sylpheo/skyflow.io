@@ -6,19 +6,7 @@
       <change type="DELETED" beforePath="C:\xampp\htdocs\apiexact\web\images\01.png" afterPath="" />
       <change type="DELETED" beforePath="C:\xampp\htdocs\apiexact\web\images\02.png" afterPath="" />
       <change type="DELETED" beforePath="C:\xampp\htdocs\apiexact\web\images\03.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/images/documentation.png" afterPath="$PROJECT_DIR$/web/images/documentation.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/images/flows.png" afterPath="$PROJECT_DIR$/web/images/flows.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/images/manage.png" afterPath="$PROJECT_DIR$/web/images/manage.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/images/metrics.png" afterPath="$PROJECT_DIR$/web/images/metrics.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Controller/ApiController.php" afterPath="$PROJECT_DIR$/src/Controller/ApiController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Service/ExactTarget.php" afterPath="$PROJECT_DIR$/src/Service/ExactTarget.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Flows/Flow_mail_remerciements.php" afterPath="$PROJECT_DIR$/src/Flows/Flow_mail_remerciements.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Service/Wave.php" afterPath="$PROJECT_DIR$/src/Service/Wave.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.php" afterPath="$PROJECT_DIR$/app/app.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/flows.html.twig" afterPath="$PROJECT_DIR$/views/flows.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/var/logs/silex.log" afterPath="$PROJECT_DIR$/var/logs/silex.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/css/skyflow.css" afterPath="$PROJECT_DIR$/web/css/skyflow.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/events.html.twig" afterPath="$PROJECT_DIR$/views/events.html.twig" />
     </list>
     <ignored path="apiexact.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -133,21 +121,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/index.html.twig">
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1474" max-vertical-offset="3434">
-              <caret line="95" column="72" selection-start-line="95" selection-start-column="72" selection-end-line="95" selection-end-column="72" />
+            <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="272">
+              <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/index.php">
+      <file leaf-file-name="events.html.twig" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/events.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.14225942" vertical-offset="0" max-vertical-offset="717">
-              <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.89204544" vertical-offset="1" max-vertical-offset="1343">
+              <caret line="37" column="99" selection-start-line="37" selection-start-column="99" selection-end-line="37" selection-end-column="99" />
               <folding />
             </state>
           </provider>
@@ -176,7 +164,6 @@
         <option value="$PROJECT_DIR$/views/wave-credentials-form.html.twig" />
         <option value="$PROJECT_DIR$/views/et-credentials-form.html.twig" />
         <option value="$PROJECT_DIR$/views/et-apihelper.html.twig" />
-        <option value="$PROJECT_DIR$/views/events.html.twig" />
         <option value="$PROJECT_DIR$/views/gestionToken.html.twig" />
         <option value="$PROJECT_DIR$/views/generateToken.html.twig" />
         <option value="$PROJECT_DIR$/views/results.html.twig" />
@@ -212,6 +199,7 @@
         <option value="$PROJECT_DIR$/views/flows.html.twig" />
         <option value="$PROJECT_DIR$/web/css/skyflow.css" />
         <option value="$PROJECT_DIR$/web/index.php" />
+        <option value="$PROJECT_DIR$/views/events.html.twig" />
       </list>
     </option>
   </component>
@@ -296,6 +284,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apiexact" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="apiexact" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -461,13 +463,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="5.046875" vertical-offset="0" max-vertical-offset="3689">
           <caret line="209" column="0" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/events.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.115385" vertical-offset="1" max-vertical-offset="1343">
-          <caret line="14" column="50" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
         </state>
       </provider>
     </entry>
@@ -786,8 +781,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14225942" vertical-offset="0" max-vertical-offset="717">
+        <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="272">
           <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/events.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.89204544" vertical-offset="1" max-vertical-offset="1343">
+          <caret line="37" column="99" selection-start-line="37" selection-start-column="99" selection-end-line="37" selection-end-column="99" />
           <folding />
         </state>
       </provider>
