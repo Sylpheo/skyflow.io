@@ -34,7 +34,7 @@
                         {% for flow in flows %}
                             <tr>
                                 <td><a href="flow/{{ flow.id }}/edit">{{  flow.id }}</a></td>
-                                <td>{{ flow.name}}</td>
+                                <td><a href="flow/{{ flow.id }}/edit">{{ flow.name}}</a></td>
                                 <td>{{ flow.class}}</td>
                                 <td><button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#flowDialog{{ flow.ID }}"><span class="glyphicon glyphicon-trash"></span></button>
 

@@ -53,3 +53,12 @@ input[type=submit]{
 a.navbar-brand {
     padding: 5px 15px!important;
 }
+
+a {
+    color :#21368B;
+}
+a:hover{
+    text-decoration: none;
+
+}
+/* color:#B51A8A;*/

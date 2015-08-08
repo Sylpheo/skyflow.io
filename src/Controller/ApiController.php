@@ -6,17 +6,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use ET_Subscriber;
-use ET_TriggeredSend;
-use ET_Email;
-
 use GuzzleHttp\Client;
-use CommerceGuys\Guzzle\Oauth2\GrantType\RefreshToken;
-use CommerceGuys\Guzzle\Oauth2\GrantType\PasswordCredentials;
-use CommerceGuys\Guzzle\Oauth2\Oauth2Subscriber;
-use CommerceGuys\Guzzle\Oauth2\GrantType\ClientCredentials;
-/*use GuzzleHttp\Message\Request;
-use GuzzleHttp\Message\Response;*/
 
 
 class ApiController

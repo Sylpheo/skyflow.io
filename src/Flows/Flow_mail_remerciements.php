@@ -12,8 +12,9 @@ use GuzzleHttp\Client;
 class Flow_mail_remerciements implements Flow{
 
     public function event($user,$request,Application $app){
-        if ($request->has('email')) {
+       if ($request->has('email')) {
             $email = $request->get('email');
+            //$email="e.lodie62@hotmail.fr";
 
             $clientid = $user->getClientid();
             $clientsecret = $user->getClientsecret();
@@ -28,33 +29,9 @@ class Flow_mail_remerciements implements Flow{
             $subscriber->filter = array('Property' => 'EmailAddress', 'SimpleOperator' => 'equals', 'Value' => $email);
             $responseSub = $subscriber->get();
 
-            $client = new Client();
-            $request1 = $client->createRequest('POST', 'https://login.salesforce.com/services/oauth2/token');
-            $postBody = $request1->getBody();
-            $postBody->setField('client_id', $waveid);
-            $postBody->setField('client_secret', $wavesecret);
-            $postBody->setField('username', $wavelogin);
-            $postBody->setField('password', $wavepassword);
-            $postBody->setField('grant_type', 'password');
-            $response = $client->send($request1);
-            $responseBody = json_decode($response->getBody());
+            $r = "q = load \"0FbB00000005KPEKA2/0FcB00000005W4tKAE\";q = filter q by 'Email' in [\"$email\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';";
+            $data = $app['wave']->request($r,$waveid,$wavesecret,$wavelogin,$wavepassword);
 
-            $waveRequest = $client->createRequest(
-                'POST',
-                $responseBody->instance_url . '/services/data/v34.0/wave/query',
-                [
-                    'json' => [
-                        'query' => "q = load \"0FbB00000005KPEKA2/0FcB00000005W4tKAE\";q = filter q by 'Email' in [\"$email\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';"
-
-                    ]
-                ]
-            );
-
-            $waveRequest->setHeader('Content-Type', 'application/json');
-            $waveRequest->setHeader('Authorization', 'Bearer ' . $responseBody->access_token);
-            $response = $client->send($waveRequest);
-            $responseBody = json_decode($response->getBody());
-            $data = $response->json();
 
             if(isset($data['results']['records'][0])){
                 $firstName = $data['results']['records'][0]['FirstName'];
@@ -97,37 +74,8 @@ class Flow_mail_remerciements implements Flow{
                 $results = $subscriber->patch();
             }
 
-            /**
-             * Retrieve TriggeredSend
-             *
-             */
-            $triggeredsend = new ET_TriggeredSend();
-            $triggeredsend->authStub = $myclient;
-            $triggeredsend->props = array('TriggeredSendStatus','Email.ID');
-            $triggeredsend->filter = array('Property' => 'CustomerKey','SimpleOperator' => 'equals','Value' => 'merci_wave');
-            $responseTrig = $triggeredsend->get();
-
-            /**
-             * Check if triggeredSendStatus is active
-             *
-             */
-            if($responseTrig->results[0]->TriggeredSendStatus != 'Active'){
-                $triggeredsend = new ET_TriggeredSend();
-                $triggeredsend->authStub = $myclient;
-                $triggeredsend->props = array("CustomerKey" => 'merci_wave', "TriggeredSendStatus"=> "Active");
-                $resultsTrig = $triggeredsend->patch();
-            }
-
-            /**
-             * Send triggeredSend
-             *
-             */
-            $triggeredsend = new ET_TriggeredSend();
-            $triggeredsend->authStub = $myclient;
-            $triggeredsend->props = array("CustomerKey" => 'merci_wave');
-            $triggeredsend->subscribers = array(array("EmailAddress"=>$email,"SubscriberKey" => $subKey));
-            $results = $triggeredsend->send();
-
+         $triggered ='merci_wave';
+           $results = $app['exacttarget']->sendTriggeredSend($clientid, $clientsecret,$triggered,$email);
             /**
              * Check if triggerendSend status is OK
              */

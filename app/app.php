@@ -68,6 +68,10 @@ $app['generatetoken'] = $app->share(function($app) {
     return $generate;
 });
 
+$app['wave'] = $app->share(function($app) {
+    $wave = new skyflow\Service\Wave();
+    return $wave;
+});
 //DAO
 $app['dao.user'] = $app->share(function ($app) {
     return new skyflow\DAO\UsersDAO($app['db']);
