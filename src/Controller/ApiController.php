@@ -33,7 +33,7 @@ class ApiController
             $flow = $app['dao.flow']->findOneById($idFlow);
             $class = $flow->getClass();
 
-            $result = $app['flow_' . $class]->event($user, $request->request, $app);
+            $result = $app['flow_' . $class]->event($request);
             return $app->json($result);
         }
     }

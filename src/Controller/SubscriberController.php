@@ -15,7 +15,9 @@ class SubscriberController{
 	public function subscribersAction(Application $app){
 		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
-	 		$myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
+
 	 		$subscriber = new ET_Subscriber();
 			$subscriber->authStub = $myclient;
 			$response = $subscriber->get();
@@ -37,7 +39,8 @@ class SubscriberController{
     public function addSubscriberAction(Request $request, Application $app){
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
-	 		$myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
 
 	    	$form = $app['form.factory']->createBuilder('form')
 				->add('EmailAddress','email')
@@ -81,7 +84,8 @@ class SubscriberController{
 	 */
      public function deleteSubscriberAction($id, Application $app) {
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-	 		$myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
 			
 			$subscriber1 = new ET_Subscriber();
 			$subscriber1->authStub = $myclient;

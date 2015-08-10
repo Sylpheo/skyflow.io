@@ -59,8 +59,11 @@ $app['dao.event'] = $app->share(function ($app) {
 });
 
 $app['exacttarget'] = $app->share(function($app) {
-    $exact = new skyflow\Service\ExactTarget();
-    return $exact;
+    if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+        return skyflow\Service\ExactTarget::login($app);
+    }else{
+        return skyflow\Service\ExactTarget::loginByApi($app);
+    }
 });
 
 $app['generatetoken'] = $app->share(function($app) {
@@ -69,9 +72,13 @@ $app['generatetoken'] = $app->share(function($app) {
 });
 
 $app['wave'] = $app->share(function($app) {
-    $wave = new skyflow\Service\Wave();
-    return $wave;
+    if($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+        return skyflow\Service\Wave::login($app);
+    }else{
+        return skyflow\Service\Wave::loginByApi($app);
+    }
 });
+
 //DAO
 $app['dao.user'] = $app->share(function ($app) {
     return new skyflow\DAO\UsersDAO($app['db']);
@@ -94,7 +101,7 @@ $app['dao.wave_request'] = $app->share(function ($app){
 
 //Register Flows
 $app['flow_mail_remerciements'] = $app->share(function ($app){
-    return new skyflow\Flows\Flow_mail_remerciements();
+    return new skyflow\Flows\Flow_mail_remerciements($app);
 });
 
 

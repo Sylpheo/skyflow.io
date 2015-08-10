@@ -18,7 +18,9 @@ namespace skyflow\Controller;
  	public function listsAction(Application $app){
  		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
-	 		$myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
+
 			$list = new ET_List();
 			$list->authStub = $myclient;
 			$response = $list->get();
@@ -38,7 +40,8 @@ namespace skyflow\Controller;
     public function listSubscriberAction(Application $app){
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
-			$myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
 	    	
 			$listsubscriber = new ET_List_Subscriber();
 			$listsubscriber->authStub = $myclient;
@@ -61,7 +64,8 @@ namespace skyflow\Controller;
      public function addListAction(Request $request, Application $app){
      	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
-	 		$myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
 
 	    	// Get folder lists
 	    	$folder = new ET_Folder();
@@ -126,7 +130,9 @@ namespace skyflow\Controller;
 		
 		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
-	 		$myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
+
 	 		$list = new ET_List();
 			$list->authStub = $myclient;
 			$list->props = array("ID" => $id);
@@ -146,7 +152,8 @@ namespace skyflow\Controller;
 	  */
 	public function addSubToListAction(Request $request, Application $app){
 		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-		    $myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
 
 	    	//All Subscribers
 			$subscriber = new ET_Subscriber();

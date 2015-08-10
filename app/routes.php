@@ -75,7 +75,6 @@ $app->match('/createMapping',"skyflow\Controller\MappingController::createMappin
 $app->get('/mapping/{id}/delete',"skyflow\Controller\MappingController::deleteMappingAction");
 
 //API
-//$app->post('api/event/{event}',"skyflow\Controller\ApiController::eventAction");
 $app->post('/api/event/{event}',"skyflow\Controller\ApiController::flowAction");
 
 

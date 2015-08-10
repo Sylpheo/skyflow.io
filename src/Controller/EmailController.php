@@ -15,8 +15,10 @@ namespace skyflow\Controller;
 	  */
  	public function emailsAction(Application $app){
  		if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
- 		
-	 		$myclient = $app['exacttarget']->login($app);
+
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
+
 			$email = new ET_Email();
 			$email->authStub = $myclient;
 			$response = $email->get();
@@ -38,7 +40,8 @@ namespace skyflow\Controller;
 
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
 
-	 		$myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
 	    	// Get folder lists
 	    	$folder = new ET_Folder();
 			$folder->authStub = $myclient;
@@ -100,8 +103,9 @@ namespace skyflow\Controller;
     public function deleteEmailAction($id,Request $request,Application $app){
     	
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-	 		$myclient = $app['exacttarget']->login($app);
-			
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
+
 			$email = new ET_Email();
 			$email->authStub = $myclient;
 			$email->props = array("ID" => $id);
@@ -121,7 +125,8 @@ namespace skyflow\Controller;
 	  */
     public function infoEmailAction($id, Application $app){
     	if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-	 		$myclient = $app['exacttarget']->login($app);
+			$exacttarget = $app['exacttarget'];
+			$myclient = $exacttarget->client;
 
 			$email = new ET_Email();
 			$email->authStub = $myclient;

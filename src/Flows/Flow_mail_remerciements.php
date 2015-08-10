@@ -11,84 +11,54 @@ use GuzzleHttp\Client;
 
 class Flow_mail_remerciements implements Flow{
 
-    public function event($user,$request,Application $app){
-       if ($request->has('email')) {
-            $email = $request->get('email');
-            //$email="e.lodie62@hotmail.fr";
+    public $app;
+    public function __construct($app){
+        $this->app = $app;
+    }
 
-            $clientid = $user->getClientid();
-            $clientsecret = $user->getClientsecret();
-            $waveid = $user->getWaveid();
-            $wavesecret = $user->getWavesecret();
-            $wavelogin = $user->getWavelogin();
-            $wavepassword = $user->getWavepassword();
+    public function event($requestJson)
+    {
 
-            $myclient = $app['exacttarget']->loginByApi($clientid, $clientsecret);
-            $subscriber = new ET_Subscriber();
-            $subscriber->authStub = $myclient;
-            $subscriber->filter = array('Property' => 'EmailAddress', 'SimpleOperator' => 'equals', 'Value' => $email);
-            $responseSub = $subscriber->get();
+        if ($requestJson->request->has('email')) {
+            $app = $this->app;
+            $email = $requestJson->request->get('email');
 
-            $r = "q = load \"0FbB00000005KPEKA2/0FcB00000005W4tKAE\";q = filter q by 'Email' in [\"$email\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';";
-            $data = $app['wave']->request($r,$waveid,$wavesecret,$wavelogin,$wavepassword);
+            $waverequest = "q = load \"0FbB00000005KPEKA2/0FcB00000005W4tKAE\";q = filter q by 'Email' in [\"$email\"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';";
+            $data = $app['wave']->request($waverequest);
 
-
-            if(isset($data['results']['records'][0])){
+            if (isset($data['results']['records'][0])) {
                 $firstName = $data['results']['records'][0]['FirstName'];
                 $lastName = $data['results']['records'][0]['LastName'];
-            }else{
-                $firstName ="";
-                $lastName="";
-            }
-
-            /**
-             * If subscriber does not exist
-             * -> add
-             */
-            if (empty($responseSub->results)) {
-                $subscriber = new ET_Subscriber();
-                $subscriber->authStub = $myclient;
-                $subscriber->props = array(
-                    "EmailAddress" => $email,
-                    "SubscriberKey" => $email
-                );
-                $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName),
-                    array('Name' => 'LastName','Value' => $lastName)
-                );
-                $resultsSub = $subscriber->post();
-
-                $subKey = $email;
             } else {
-                /**
-                 * If subscriber already exist
-                 *  -> update
-                 */
-                $subKey = $responseSub->results[0]->SubscriberKey;
-                $subscriber = new ET_Subscriber();
-                $subscriber->authStub = $myclient;
-                $subscriber->props = array("SubscriberKey" => $subKey);
-                $subscriber->props['Attributes'] = array(array('Name' => 'FirstName', 'Value' => $firstName),
-                    array('Name' => 'LastName','Value' => $lastName)
-                );
-
-                $results = $subscriber->patch();
+                $firstName = "";
+                $lastName = "";
             }
 
-         $triggered ='merci_wave';
-           $results = $app['exacttarget']->sendTriggeredSend($clientid, $clientsecret,$triggered,$email);
+            $exacttarget = $this->app['exacttarget'];
+            $myclient = $exacttarget->client;
+
+            $responseSub = $exacttarget->retrieveSubscriber();
+
+            $props = array('EmailAddress' => $email, 'SubscriberKey' => $email);
+            $attributes = array('LastName' => $lastName, 'FirstName' => $firstName);
+            $upsert = $exacttarget->upsertSubscriber($props, $attributes);
+
+
+            $trigger = 'merci_wave';
+            $results = $exacttarget->sendTriggeredSend($trigger);
             /**
              * Check if triggerendSend status is OK
              */
-            if($results->results[0]->StatusCode == 'OK'){
+            if ($results->results[0]->StatusCode == 'OK') {
                 return 'Message : SUCCESS ! ';
-            }else{
-                return 'Message : '.$results->results[0]->StatusMessage;
+            } else {
+                return 'Message : ' . $results->results[0]->StatusMessage;
             }
+        } else {
+            return "Missing argument !";
         }
-       else{
-           return "Missing argument !";
-       }
     }
+
 
 }
 
