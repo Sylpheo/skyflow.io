@@ -15,6 +15,6 @@ $app['monolog.level'] = 'WARNING';
 
 //A ENLEVER 
 // enable the debug mode
-/*$app['debug'] = true;
+//$app['debug'] = true;
 // define log level
-$app['monolog.level'] = 'INFO';
+//$app['monolog.level'] = 'INFO';
