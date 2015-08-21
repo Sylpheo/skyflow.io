@@ -1,18 +1,25 @@
 <?php
+
+/**
+ * Application configuration.
+ */
+
+use Silex\Provider\FormServiceProvider;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
-use skyflow\Service\ExactTarget;
-use skyflow\Service\GenerateToken;
-use Silex\Provider\FormServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 
+use skyflow\Service\ExactTarget;
+use skyflow\Service\GenerateToken;
 use skyflow\SilexOpauth\OpauthExtension;
 
+require_once __DIR__ . '/config/dev.php';
+//require_once __DIR__ . '/config.prod.php';
+require_once __DIR__ . '/../app/routes.php';
 
-
-// Register global error and exception handlers
 ErrorHandler::register();
 ExceptionHandler::register();
+
 // Register service providers
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
