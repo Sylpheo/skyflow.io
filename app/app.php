@@ -39,15 +39,15 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     'security.firewalls' => array(
-        'secured' => array(
-            'pattern' => '^/',
-            'anonymous' => true,
-            'logout' => true,
-            'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
-            'users' => $app->share(function () use ($app) {
-                return new skyflow\DAO\UsersDAO($app['db']);
-            }),
-        ),
+	'secured' => array(
+	    'pattern' => '^/',
+	    'anonymous' => true,
+	    'logout' => true,
+	    'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
+	    'users' => $app->share(function () use ($app) {
+		return new skyflow\DAO\UsersDAO($app['db']);
+	    }),
+	),
     ),
 ));
 
@@ -67,9 +67,9 @@ $app['dao.event'] = $app->share(function ($app) {
 
 $app['exacttarget'] = $app->share(function($app) {
     if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-        return skyflow\Service\ExactTarget::login($app);
+	return skyflow\Service\ExactTarget::login($app);
     }else{
-        return skyflow\Service\ExactTarget::loginByApi($app);
+	return skyflow\Service\ExactTarget::loginByApi($app);
     }
 });
 
@@ -80,9 +80,9 @@ $app['generatetoken'] = $app->share(function($app) {
 
 $app['wave'] = $app->share(function($app) {
     if($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-        return skyflow\Service\Wave::login($app);
+	return skyflow\Service\Wave::login($app);
     }else{
-        return skyflow\Service\Wave::loginByApi($app);
+	return skyflow\Service\Wave::loginByApi($app);
     }
 });
 
@@ -117,14 +117,14 @@ $app['flow_mail_remerciements'] = $app->share(function ($app){
 // Register error handler
 $app->error(function (\Exception $e, $code) use ($app) {
     switch ($code) {
-        case 403:
-            $message = 'Access denied.';
-            break;
-        case 404:
-            $message = 'The requested resource could not be found.';
-            break;
-        default:
-            $message = "Something went wrong.";
+	case 403:
+	    $message = 'Access denied.';
+	    break;
+	case 404:
+	    $message = 'The requested resource could not be found.';
+	    break;
+	default:
+	    $message = "Something went wrong.";
     }
     return $app['twig']->render('error.html.twig', array('message' => $message));
 });
@@ -135,14 +135,14 @@ $app['opauth'] = array(
     'login' => '/auth',
     'callback' => '/auth/callback',
     'config' => array(
-        'security_salt' => '_SECURE_RANDOM_SALT_',
-        'strategy_dir' => '../strategy/',
-        'Strategy' => array(
-            'salesforce' => array(
-                'client_id' => '3MVG9SemV5D80oBcbOkdI2WCxIIA5fZMPI3ZDTZBBU_6E6zc8Z5wKZ4DCh.bPDxBEV4PocUnC3ELl70tjOSof',
-                'client_secret' => '8180025755972035170'
-            ),
-        )
+	'security_salt' => '_SECURE_RANDOM_SALT_',
+	'strategy_dir' => '../strategy/',
+	'Strategy' => array(
+	    'salesforce' => array(
+		'client_id' => '3MVG9SemV5D80oBcbOkdI2WCxIIA5fZMPI3ZDTZBBU_6E6zc8Z5wKZ4DCh.bPDxBEV4PocUnC3ELl70tjOSof',
+		'client_secret' => '8180025755972035170'
+	    ),
+	)
 
     )
 );
