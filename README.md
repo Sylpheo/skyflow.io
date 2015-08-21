@@ -60,13 +60,9 @@ Se rendre à l'adresse [http://skyflow.io/](http://skyflow.io/), la page "User a
 
 [Télécharger et installer MySql](https://dev.mysql.com/downloads/mysql/) puis [sécuriser les comptes root](https://dev.mysql.com/doc/refman/5.1/en/default-privileges.html).
 
-Le fichier `create.sql` cré la base de données `exacttarget` et l'utilisateur `skyflow` (mot de passe `skyflow`). Le fichier doit être exécuté en tant qu'utilisateur `root` :
+Le fichier `install.sql` cré la base de données `skyflow`, l'utilisateur `skyflow` (mot de passe `skyflow`), les tables nécéssaires au fonctionnement de l'application et quelques enregistrements de test. Le fichier doit être exécuté en tant qu'utilisateur `root` :
 
-	mysql -h 'localhost' -u root -p < create.sql
-
-Le fichier `install.sql` cré les tables et quelques enregistrements de test. Le fichier doit être exécuté en tant qu'utilisateur `skyflow` :
-
-	mysql -h 'localhost' -u skyflow -pskyflow < install.sql
+	mysql -h 'localhost' -u root -p < install.sql
 
 #### Activation du module pdo_mysql pour PHP
 
