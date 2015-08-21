@@ -23,6 +23,7 @@ class ExactTargetController {
 
          $exacttarget = $app['exacttarget'];
          $myclient = $exacttarget->client;
+
              /**
               * Retrieve all subscribers from ExactTarget
               */

@@ -80,6 +80,25 @@ class Users implements UserInterface
      */
     private $wavepassword;
 
+    /**
+     * @var access_token
+     */
+    private $access_token_salesforce;
+
+    /**
+     * @var refresh_token
+     */
+    private $refresh_token_salesforce;
+
+    /**
+     * @var instance_url
+     */
+    private $instance_url_salesforce;
+
+    private $salesforce_id;
+
+    private $salesforce_secret;
+
 
     public function getId() {
         return $this->id;
@@ -188,6 +207,46 @@ class Users implements UserInterface
 
     public function setWavepassword($wavepassword) {
         $this->wavepassword = $wavepassword;
+    }
+
+    public function getAccessTokenSalesforce(){
+        return $this->access_token_salesforce;
+    }
+
+    public function setAccessTokenSalesforce($access_token_salesforce){
+        $this->access_token_salesforce = $access_token_salesforce;
+    }
+
+    public function getRefreshTokenSalesforce(){
+        return $this->refresh_token_salesforce;
+    }
+
+    public function setRefreshTokenSalesforce($refresh_token_salesforce){
+        $this->refresh_token_salesforce = $refresh_token_salesforce;
+    }
+
+    public function getInstanceUrlSalesforce(){
+        return $this->instance_url_salesforce;
+    }
+
+    public function setInstanceUrlSalesforce($instance_url_salesforce){
+        $this->instance_url_salesforce = $instance_url_salesforce;
+    }
+
+    public function setSalesforceId($salesforce_id){
+        $this->salesforce_id = $salesforce_id;
+    }
+
+    public function getSalesforceId(){
+        return $this->salesforce_id;
+    }
+
+    public function getSalesforceSecret(){
+        return $this->salesforce_secret;
+    }
+
+    public function setSalesforceSecret($salesforce_secret){
+        $this->salesforce_secret = $salesforce_secret;
     }
 
 

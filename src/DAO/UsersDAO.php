@@ -81,7 +81,12 @@ class UsersDAO extends DAO implements UserProviderInterface
             'wavesecret' => $user->getWavesecret(),
             'wavelogin' => $user->getWavelogin(),
             'wavepassword' => $user->getWavepassword(),
-            'skyflowtoken' => $user->getSkyflowtoken()
+            'skyflowtoken' => $user->getSkyflowtoken(),
+            'access_token_salesforce' => $user->getAccessTokenSalesforce(),
+            'refresh_token_salesforce' => $user->getRefreshTokenSalesforce(),
+            'instance_url_salesforce' => $user->getInstanceUrlSalesforce(),
+            'salesforce_id' => $user->getSalesforceId(),
+            'salesforce_secret' => $user->getSalesforceSecret()
             );
 
         if ($user->getId()) {
@@ -124,6 +129,11 @@ class UsersDAO extends DAO implements UserProviderInterface
         $user->setWavelogin($row['wavelogin']);
         $user->setWavepassword($row['wavepassword']);
         $user->setSkyflowtoken($row['skyflowtoken']);
+        $user->setAccessTokenSalesforce($row['access_token_salesforce']);
+        $user->setRefreshTokenSalesforce($row['refresh_token_salesforce']);
+        $user->setInstanceUrlSalesforce($row['instance_url_salesforce']);
+        $user->setSalesforceId(($row['salesforce_id']));
+        $user->setSalesforceSecret($row['salesforce_secret']);
         return $user;
     }
 }

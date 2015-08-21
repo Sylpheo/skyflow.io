@@ -125,7 +125,7 @@ $app->match(
 $app->get(
     '/subscribers',
     'skyflow\Controller\SubscriberController::subscribersAction'
-)->bind('subscribers'),
+)->bind('subscribers');
 
 $app->match(
     '/addSub',
@@ -228,3 +228,27 @@ $app->match(
     '/wave_credentials',
     'skyflow\Controller\WaveController::setCredentialsWaveAction'
 )->bind('wave_credentials');
+
+// ========== Salesforce ==========
+
+$app->get(
+    '/salesforce',
+    'skyflow\Controller\SalesforceController::salesforceAction'
+)->bind("/salesforce");
+
+$app->get(
+    '/auth/salesforce/oauth2callback',
+    'skyflow\Controller\SalesforceController::callbackAction'
+);
+
+$app->match(
+    '/query',
+    'skyflow\Controller\SalesforceController::queryAction'
+);
+
+// ----- Credentials -----
+
+$app->match(
+    '/salesforce-credentials',
+    'skyflow\Controller\SalesforceController::setCredentialsSalesforceAction'
+);
