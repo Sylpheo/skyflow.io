@@ -5,6 +5,7 @@ namespace skyflow\Service;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\Client;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 
 class Wave {
@@ -40,7 +41,7 @@ class Wave {
             $wavelogin = $app['security']->getToken()->getUser()->getWavelogin();
             $wavepassword = $app['security']->getToken()->getUser()->getWavepassword();
 
-            if($waveid === null || $wavesecret === null || $wavelogin === null || $wavepassword === null){
+            if($waveid == null || $wavesecret == null || $wavelogin == null || $wavepassword == null){
                 throw new Exception('waveid, wavesecret, wavepassword or wavelogin is null : must be provided in database before using application');
             }
 
@@ -82,7 +83,7 @@ class Wave {
             $wavelogin = $user->getWavelogin();
             $wavepassword = $user->getWavepassword();
 
-            if($waveid === null || $wavesecret === null || $wavelogin === null || $wavepassword === null){
+            if($waveid == null || $wavesecret == null || $wavelogin == null || $wavepassword == null){
                 throw new Exception('waveid, wavesecret, wavepassword or wavelogin is null : must be provided in database before using application');
             }
 
@@ -126,6 +127,8 @@ class Wave {
         $response = $this->client->send($waveRequest);
         $responseBody = json_decode($response->getBody());
         $data = $response->json();
+        $data = json_encode($data);
+
 
         return $data;
     }

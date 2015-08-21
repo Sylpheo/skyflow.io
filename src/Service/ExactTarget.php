@@ -60,7 +60,7 @@ class ExactTarget  {
 			$clientid = $app['security']->getToken()->getUser()->getClientid();
 			$clientsecret = $app['security']->getToken()->getUser()->getClientsecret();
 
-			if($clientid === null || $clientsecret === null){
+			if($clientid == null || $clientsecret == null){
 				throw new Exception('clientid or clientsecret is null: must be provided in database before using application');
 			}
 			$params =array(
@@ -96,7 +96,7 @@ class ExactTarget  {
 			$clientid = $user->getClientid();
 			$clientsecret = $user->getClientsecret();
 
-			if($clientid === null || $clientsecret === null){
+			if($clientid == null || $clientsecret == null){
 				throw new Exception('clientid or clientsecret is null: must be provided in database before using application');
 			}
 

@@ -18,7 +18,6 @@ class Flow_mail_remerciements implements Flow{
 
     public function event($requestJson)
     {
-
         if ($requestJson->request->has('email')) {
             $app = $this->app;
             $email = $requestJson->request->get('email');

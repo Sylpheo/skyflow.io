@@ -79,6 +79,9 @@ $app['wave'] = $app->share(function($app) {
     }
 });
 
+$app['salesforce'] = $app->share(function(){
+    return new skyflow\Service\Salesforce();
+});
 //DAO
 $app['dao.user'] = $app->share(function ($app) {
     return new skyflow\DAO\UsersDAO($app['db']);
@@ -106,7 +109,6 @@ $app['flow_mail_remerciements'] = $app->share(function ($app){
 
 
 
-
 // Register error handler
 $app->error(function (\Exception $e, $code) use ($app) {
     switch ($code) {
@@ -121,44 +123,3 @@ $app->error(function (\Exception $e, $code) use ($app) {
     }
     return $app['twig']->render('error.html.twig', array('message' => $message));
 });
-
-
-/*
-$app['opauth'] = array(
-    'login' => '/auth',
-    'callback' => '/auth/callback',
-    'config' => array(
-        'security_salt' => '_SECURE_RANDOM_SALT_',
-        'strategy_dir' => '../strategy/',
-        'Strategy' => array(
-            'salesforce' => array(
-                'client_id' => '3MVG9SemV5D80oBcbOkdI2WCxIIA5fZMPI3ZDTZBBU_6E6zc8Z5wKZ4DCh.bPDxBEV4PocUnC3ELl70tjOSof',
-                'client_secret' => '8180025755972035170'
-            ),
-        )
-
-    )
-);
-
-
-$app->register(new OpauthExtension());
-// Listen for events
-$app->on(OpauthExtension::EVENT_ERROR, function($e) use ($app){
-    $app->log->error('Auth error: ' . $e['message'], ['response' => $e->getSubject()]);
-    $e->setArgument('result', $app->redirect('/'));
-});
-$app->on(OpauthExtension::EVENT_SUCCESS, function($e) use ($app){
-    $response = $e->getSubject();
-
-    $access_token = $response['auth']['raw']['access_token'];
-    $instance_url= $response['auth']['raw']['instance_url'];
-
-    var_dump($response);
-    $app['session']->set('access_token',$access_token);
-    $app['session']->set('instance_url',$instance_url);
-
-
-
-    //$e->setArgument('result', $app->redirect('/wave'));
-});
-*/

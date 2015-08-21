@@ -18,11 +18,6 @@ class WaveController
             $user=$app['security']->getToken()->getUser();
 
             $id_user = $user->getId();
-            $waveid = $user->getWaveid();
-            $wavesecret = $user->getWavesecret();
-            $wavelogin = $user->getWavelogin();
-            $wavepassword = $user->getWavepassword();
-
             $history = $app['dao.wave_request']->findAllByUser($id_user);
 
             $form = $app['form.factory']->createBuilder('form')
@@ -48,37 +43,9 @@ class WaveController
                 /**
                  * Guzzle client for wave
                  */
-                $client = new Client();
-                $request1 = $client->createRequest('POST', 'https://login.salesforce.com/services/oauth2/token');
-                $postBody = $request1->getBody();
-                $postBody->setField('client_id', $waveid);
-                $postBody->setField('client_secret', $wavesecret);
-                $postBody->setField('username', $wavelogin);
-                $postBody->setField('password', $wavepassword);
-                $postBody->setField('grant_type', 'password');
-                $response = $client->send($request1);
-                $responseBody = json_decode($response->getBody());
+                $wave = $app['wave'];
                 //Define wave request
-                $waveRequest = $client->createRequest(
-                    'POST',
-                    $responseBody->instance_url . '/services/data/v34.0/wave/query',
-                    [
-                        'json' => [
-                            'query' => $r
-                            //q = load "0FbB00000005KPEKA2/0FcB00000005W4tKAE";q = filter q by 'Email' in ["e.lodie62@hotmail.fr"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';
-
-                        ]
-                    ]
-                );
-
-
-                $waveRequest->setHeader('Content-Type', 'application/json');
-                $waveRequest->setHeader('Authorization', 'Bearer ' . $responseBody->access_token);
-                $responseRequest = $client->send($waveRequest);
-                $responseBody = json_decode($responseRequest->getBody());
-                $data = $responseRequest->json();
-                $data = json_encode($data);
-             //   var_dump($data);exit;
+                $data = $wave->request($r);
 
                 return $app['twig']->render('results.html.twig',
                     array(
@@ -101,47 +68,12 @@ class WaveController
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $wave_request = $app['dao.wave_request']->findById($id);
 
-            $user = $app['security']->getToken()->getUser();
-
-            $id_user = $user->getId();
-            $waveid = $user->getWaveid();
-            $wavesecret = $user->getWavesecret();
-            $wavelogin = $user->getWavelogin();
-            $wavepassword = $user->getWavepassword();
-
             /**
              * Guzzle client for wave
              */
-            $client = new Client();
-            $request1 = $client->createRequest('POST', 'https://login.salesforce.com/services/oauth2/token');
-            $postBody = $request1->getBody();
-            $postBody->setField('client_id', $waveid);
-            $postBody->setField('client_secret', $wavesecret);
-            $postBody->setField('username', $wavelogin);
-            $postBody->setField('password', $wavepassword);
-            $postBody->setField('grant_type', 'password');
-            $response = $client->send($request1);
-            $responseBody = json_decode($response->getBody());
+            $wave = $app['wave'];
             //Define wave request
-            $waveRequest = $client->createRequest(
-                'POST',
-                $responseBody->instance_url . '/services/data/v34.0/wave/query',
-                [
-                    'json' => [
-                        'query' => $wave_request->getRequest()
-                        //q = load "0FbB00000005KPEKA2/0FcB00000005W4tKAE";q = filter q by 'Email' in ["e.lodie62@hotmail.fr"];q = foreach q generate 'FirstName' as 'FirstName','LastName' as 'LastName';
-
-                    ]
-                ]
-            );
-
-            $waveRequest->setHeader('Content-Type', 'application/json');
-            $waveRequest->setHeader('Authorization', 'Bearer ' . $responseBody->access_token);
-            $responseRequest = $client->send($waveRequest);
-            $responseBody = json_decode($responseRequest->getBody());
-            $data = $responseRequest->json();
-            $data = json_encode($data);
-            //var_dump($data);
+            $data = $wave->request($wave_request->getRequest());
 
             return $app['twig']->render('results.html.twig',
                 array(

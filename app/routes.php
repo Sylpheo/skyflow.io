@@ -91,3 +91,10 @@ $app->get('/resend/{id}',"skyflow\Controller\WaveController::resendAction")
     ->bind('/resend/{id}');
 $app->match('/wave_credentials',"skyflow\Controller\WaveController::setCredentialsWaveAction")
     ->bind('wave_credentials');
+
+//Salesforce
+$app->get('/salesforce',"skyflow\Controller\SalesforceController::salesforceAction")
+->bind("/salesforce");
+$app->get('/auth/salesforce/oauth2callback',"skyflow\Controller\SalesforceController::callbackAction");
+$app->match('/query',"skyflow\Controller\SalesforceController::queryAction");
+$app->match('/salesforce-credentials',"skyflow\Controller\SalesforceController::setCredentialsSalesforceAction");
