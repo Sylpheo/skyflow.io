@@ -19,21 +19,21 @@
 
 <div class="well">
 {{ form_start(userForm)}}
-   
-        {{ form_row(userForm.username) }}
-        
-        {{ form_row(userForm.password.first) }}
-        
-        {{ form_row(userForm.password.second) }}
-       
-        {{ form_row(userForm.role) }}
-      
-            <input type="submit" class="btn btn-primary" value="Save" />
+
+	{{ form_row(userForm.username) }}
+
+	{{ form_row(userForm.password.first) }}
+
+	{{ form_row(userForm.password.second) }}
+
+	{{ form_row(userForm.role) }}
+
+	    <input type="submit" class="btn btn-primary" value="Save" />
 {{ form_end(userForm) }}
 </div>
     {% for flashMessage in app.session.flashbag.get('skyflow-token') %}
-        <div class="alert alert-info">
-            Skyflow-Token : {{ flashMessage }}
-        </div>
+	<div class="alert alert-info">
+	    Skyflow-Token : {{ flashMessage }}
+	</div>
     {% endfor %}
 {% endblock %}
