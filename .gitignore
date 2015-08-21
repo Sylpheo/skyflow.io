@@ -1,1 +1,4 @@
 /vendor/
+*.log
+.DS_Store
+composer.phar
