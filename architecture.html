@@ -6,7 +6,7 @@
     <meta name="description" content="Skyflow.io opensource ETL framework for Heroku">
     <meta name="author" content="Skyflow.io">
 
-    <title>Skyflow.io</title>
+    <title>Skyflow.io architecture</title>
 
     <!-- Bootstrap core CSS - copied from Heroku Nibs project-->
     <link href="http://heroku.github.io/nibs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -66,20 +66,23 @@
     <div class="row">
         <div class="col-lg-12">
                         <p>
-                <h1>Skyflow.io is the maestro for all your clouds</h1>
+                <h1>Architecture</h1>
             </p>
 
-            <p>Skyflow.io is an ETL framework that runs on top of Heroku. It seamlessly connects enterprise data and external events to business clouds from multiple providers (Salesforce, Wave, ExactTarget and more APIs). It features an interface to manage flows, a complete PHP library to script them, and a simple API for IoT.</p>
-            <p>You can deploy your own version of Skyflow on Heroku in seconds using the Heroku button below:<br><a href="https://heroku.com/deploy?template=https://github.com/sylpheo/skyflow.io"><img src="./files/button.png" alt="Deploy"></a></p>
-            <p>
-                <h1>Built for both developers & business users</h1>
-            </p>
         <p>
-            <b>Developers:</b> get the flexibility that enterprise clouds integration needs. Focus on the links, Skyflow provides the framework for authentications, security, a simple API (external events) and a large library of enterprise clouds methods.
-</p>
-<p>
-   <B>Business Users:</B> get a global vision of data flows with a user-friendly web interface where you’ll find events to flows mapping, documentation, rules, and provisioned add-ons..</p>
-        </div>
+        <h2>Web helper & db</h2>
+        Authentication & token management, query helper, documentation... Skyflow provides a webapp to manage all your flows. A postgresql db stores the corresponding data.     
+        </p>
+        <p>
+        <h2>Flow scripts</h2>
+        Flows are implemented with a php class that contains all the specific logic and Skyflow library calls. 
+        </p>
+        <p>
+        <h2>Skyflow API</h2>
+        The Skyflow API let's send events with a unique method, secured with the provided token manager.        
+        </p>
+        
+    </div>
     </div>
 </div>
 
