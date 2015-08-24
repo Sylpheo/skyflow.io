@@ -3,18 +3,13 @@
 namespace Skyflow\Flows;
 
 use Silex\Application;
-use Skyflow\Flows\Flow;
+use Skyflow\Flows\AbstractFlow;
 use Symfony\Component\HttpFoundation\Request;
 use ET_Subscriber;
 use ET_TriggeredSend;
 use GuzzleHttp\Client;
 
-class Flow_mail_remerciements implements Flow{
-
-    public $app;
-    public function __construct($app){
-        $this->app = $app;
-    }
+class Flow_mail_remerciements extends AbstractFlow{
 
     public function event($requestJson)
     {
