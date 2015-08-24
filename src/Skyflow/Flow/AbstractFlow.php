@@ -1,12 +1,12 @@
 <?php
 
-namespace Skyflow\Flows;
+namespace Skyflow\Flow;
 
 /**
  * Flow abstract class.
  *
  * Extend this class to create custom flow.
- * Put your custom flow in directory "skyflow.io/src/Skyflow/Flows".
+ * Put your custom flow in directory "skyflow.io/src/Skyflow/Flow".
  *
  * This class cannot be instanciated.
  */
