@@ -80,6 +80,24 @@ en :
 
 	extension=php_pdo_mysql.so
 
+#### Installation du module mcrypt pour PHP via Homebrew
+
+Installer homebrew. Voir la version de php utilisée `php -v` et prendre la version de mcrypt correspondante trouvée via `brew search php | grep mcrypt`. Par exemple pour installer mcrypt pour PHP 5.5 :
+
+	brew install homebrew/php/php55-mcrypt
+
+Trouver le répertoire où a été installé le module mcrypt.so dans /usr/local :
+
+	find /usr/local -name "mcrypt.so"
+
+Puis éditer le fichier `/etc/php.ini` et activer l'extension mcrypt en ajoutant le chemin vers l'extension mcrypt.so :
+
+	# Adapter selon votre cas
+	extension=/usr/local/Cellar/php55-mcrypt/5.5.28/mcrypt.so
+
+Redémarrer Apache :
+
+	sudo apachectl restart
 
 ## Utilisation
 
