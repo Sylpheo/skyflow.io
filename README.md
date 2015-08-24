@@ -10,6 +10,7 @@
 	sudo git clone https://github.com/Sylpheo/skyflow.io
 	sudo chown -R `whoami` skyflow.io
 	sudo chgrp -R _www skyflow.io
+	mkdir -p skyflow.io/var
 	sudo chmod -R g+w skyflow.io/var
 	cd skyflow.io
 	php -r "readfile('https://getcomposer.org/installer');" | php
