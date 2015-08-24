@@ -68,7 +68,7 @@ class ExactTarget  {
 				'clientid' => $clientid,
 				'clientsecret' => $clientsecret,
 				'defaultwsdl' => 'https://webservice.exacttarget.com/etframework.wsdl',
-				'xmlloc' => '../exacttarget/exact.xml',
+				'xmlloc' => __DIR__ . '/../../app/wsdl/ExactTargetWSDL.xml',
 				//'xmlloc' => 'https://skyflow.herokuapp.com/exacttarget/exact.xml',
 			);
 
@@ -105,7 +105,7 @@ class ExactTarget  {
 				'clientid' => $clientid,
 				'clientsecret' => $clientsecret,
 				'defaultwsdl' => 'https://webservice.exacttarget.com/etframework.wsdl',
-				'xmlloc' => '../exacttarget/exact.xml',
+				'xmlloc' => __DIR__ . '/../../app/wsdl/ExactTargetWSDL.xml',
 				//'xmlloc' => 'https://skyflow.herokuapp.com/exacttarget/exact.xml',
 			);
 
