@@ -1,3 +1,0 @@
-[submodule "vendor/opauth/opauth/lib/Opauth/Strategy/salesforce"]
-	path = vendor/opauth/opauth/lib/Opauth/Strategy/salesforce
-	url = https://github.com/BetterBrief/opauth-salesforce.git
