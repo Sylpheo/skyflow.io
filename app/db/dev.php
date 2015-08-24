@@ -2,6 +2,8 @@
 
 /**
  * Development database configuration.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 return array(

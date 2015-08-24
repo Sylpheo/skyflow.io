@@ -2,6 +2,8 @@
 
 /**
  * Application configuration.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 use Silex\Provider\FormServiceProvider;

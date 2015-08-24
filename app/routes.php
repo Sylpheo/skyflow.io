@@ -2,6 +2,8 @@
 
 /**
  * Application routes.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
 // ========== Skyflow ==========
