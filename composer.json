@@ -14,14 +14,12 @@
         "opauth/opauth": ">=0.4.0",
         "ext-soap": "*",
         "betterbrief/opauth-salesforce": "dev-master",
-        "guzzlehttp/guzzle": "~5.3"
+        "guzzlehttp/guzzle": "~5.3",
+        "exacttarget/fuel-sdk-php": "^0.9.0"
     },
     "autoload": {
         "psr-4": {
             "skyflow\\": "src"
-        },
-        "classmap": [
-            "exacttarget/"
-        ]
+        }
     }
 }
