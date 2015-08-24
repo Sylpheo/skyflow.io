@@ -67,13 +67,19 @@ Le fichier `install.sql` cré la base de données `skyflow`, l'utilisateur `skyf
 
 #### Activation du module pdo_mysql pour PHP
 
-Editer le fichier `/etc/php.ini.default` et modifier la ligne :
+S'il n'existe pas de fichier `/etc/php.ini`, en créer un à partir de `/etc/php.ini.default` :
+
+	sudo cp /etc/php.ini.default /etc/php.ini
+	sudo chmod u+w  /etc/php.ini
+
+Editer le fichier `/etc/php.ini` et modifier la ligne :
 
 	;extension=php_pdo_mysql.dll
 
 en :
 
 	extension=php_pdo_mysql.so
+
 
 ## Utilisation
 
