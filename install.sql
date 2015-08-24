@@ -121,6 +121,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `wavelogin` varchar(255) DEFAULT NULL,
   `wavepassword` varchar(255) DEFAULT NULL,
   `skyflowtoken` varchar(255) NOT NULL,
+  `access_token_salesforce` varchar(255) DEFAULT NULL,
+  `refresh_token_salesforce` varchar(255) DEFAULT NULL,
+  `instance_url_salesforce` varchar(255) DEFAULT NULL,
+  `salesforce_id` varchar(255) DEFAULT NULL,
+  `salesforce_secret` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
