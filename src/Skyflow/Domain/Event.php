@@ -1,9 +1,17 @@
 <?php
 
+/**
+ * Event Domain Object class.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\Domain;
 
-class Event 
-{
+/**
+ * Event Domain Object class.
+ */
+class Event  {
     /**
      * Event id
      * @var integer

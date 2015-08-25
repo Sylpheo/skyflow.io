@@ -1,11 +1,19 @@
 <?php
 
+/**
+ * Users Domain Object class.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\Domain;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Users implements UserInterface
-{
+/**
+ * Users Domain Object class.
+ */
+class Users implements UserInterface {
     /**
      * User id.
      * @var integer

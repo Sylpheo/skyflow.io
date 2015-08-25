@@ -1,9 +1,17 @@
 <?php
 
+/**
+ * Mapping Domain Object class.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\Domain;
 
-class Mapping
-{
+/**
+ * Mapping Domain Object class.
+ */
+class Mapping {
     /**
      * Flow id
      * @var integer

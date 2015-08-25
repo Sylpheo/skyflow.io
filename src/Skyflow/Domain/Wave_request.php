@@ -1,8 +1,17 @@
 <?php
 
+/**
+ * Wave_request Domain Object class.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\Domain;
 
-class Wave_request{
+/**
+ * Wave_request Domain Object class.
+ */
+class Wave_request {
 
     /**
      * @var id
