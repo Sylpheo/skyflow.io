@@ -1,18 +1,49 @@
 <?php
 
+/**
+ * Flow "mail remerciements".
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\Flow;
 
 use Silex\Application;
-use Skyflow\Flow\AbstractFlow;
 use Symfony\Component\HttpFoundation\Request;
-use ET_Subscriber;
-use ET_TriggeredSend;
-use GuzzleHttp\Client;
 
+use Skyflow\Flow\AbstractFlow;
+
+/**
+ * Flow "mail remerciements".
+ */
 class Flow_mail_remerciements extends AbstractFlow {
 
-    public function event($requestJson)
-    {
+    /**
+     * This example flow event method accepts a HTTP POST request.
+     *
+     * The POST request must have headers :
+     * Skyflow-Token: 123456789
+     * Content-Type: application/json
+     *
+     * The Skyflow-Token is the token associated with your user. You can
+     * find it from the skyflow web interface if you forgot it.
+     *
+     * The POST request must have JSON body :
+     * {
+     *     "email": "youremail@emailprovider.com"
+     * }
+     *
+     * "emailprovider" may be yahoo, gmail, etc... The flow
+     * returns an error if the email parameter is missing.
+     *
+     * This event method searches Wave for the FirstName and LastName associated with the email.
+     * Then it searches ExactTarget for the Subscriber associated with the email.
+     * It updates the ExactTarget Subscriber with FirstName and LastName found from Wave.
+     * Finally it executes the TrigerredSend named "merci_wave".
+     *
+     * @param Request The HTTP request.
+     */
+    public function event($requestJson) {
         if ($requestJson->request->has('email')) {
             $app = $this->app;
             $email = $requestJson->request->get('email');
@@ -52,7 +83,4 @@ class Flow_mail_remerciements extends AbstractFlow {
             return "Missing argument !";
         }
     }
-
-
 }
-

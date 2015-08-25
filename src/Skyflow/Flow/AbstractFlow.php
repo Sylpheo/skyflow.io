@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Flow abstract class.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\Flow;
 
 /**
