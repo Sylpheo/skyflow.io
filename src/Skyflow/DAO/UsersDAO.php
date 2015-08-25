@@ -1,19 +1,31 @@
 <?php
 
+/**
+ * DAO class for the Users domain object.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\DAO;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+
 use Skyflow\Domain\Users;
 
-class UsersDAO extends DAO implements UserProviderInterface
-{
+/**
+ * DAO class for the Users domain object.
+ */
+class UsersDAO extends DAO implements UserProviderInterface {
+
     /**
-     * @param $id
-     * @return Users
-     * @throws \Exception
+     * Find a User from its id.
+     *
+     * @param string $id The User's id.
+     * @return Users The found User.
+     * @throws \Exception if no user found.
      */
     public function find($id) {
         $sql = "select * from users where id=?";
@@ -26,17 +38,18 @@ class UsersDAO extends DAO implements UserProviderInterface
     }
 
     /**
-     * @param $skyflowToken
-     * @return Users
+     * Find a User from its skyflow-token.
+     *
+     * @param $skyflowToken The User's skyflow-token.
+     * @return Users The found User.
      */
     public function findByToken($skyflowToken) {
         $sql = "select * from users where skyflowtoken=?";
         $row = $this->getDb()->fetchAssoc($sql, array($skyflowToken));
 
-        if ($row)
+        if ($row) {
             return $this->buildDomainObject($row);
-       /* else
-            throw new \Exception("No user matching token " . $skyflowToken);*/
+        }
     }
 
     /**
@@ -65,9 +78,10 @@ class UsersDAO extends DAO implements UserProviderInterface
         return $this->loadUserByUsername($user->getUsername());
     }
 
-
     /**
-     * @param Users $user
+     * Save a User.
+     *
+     * @param Users $user The User to save.
      */
     public function save(Users $user) {
         $userData = array(
@@ -87,7 +101,7 @@ class UsersDAO extends DAO implements UserProviderInterface
             'instance_url_salesforce' => $user->getInstanceUrlSalesforce(),
             'salesforce_id' => $user->getSalesforceId(),
             'salesforce_secret' => $user->getSalesforceSecret()
-            );
+        );
 
         if ($user->getId()) {
             // The user has already been saved : update it
@@ -113,7 +127,7 @@ class UsersDAO extends DAO implements UserProviderInterface
      * Creates a User object based on a DB row.
      *
      * @param array $row The DB row containing User data.
-     * @return \Skyflow\Domain\Users
+     * @return Users
      */
     protected function buildDomainObject($row) {
         $user = new Users();

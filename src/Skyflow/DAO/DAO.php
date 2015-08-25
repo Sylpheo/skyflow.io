@@ -1,11 +1,19 @@
 <?php
 
+/**
+ * Abstract Data Access Object class.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\DAO;
 
 use Doctrine\DBAL\Connection;
 
-abstract class DAO 
-{
+/**
+ * Abstract Data Access Object class.
+ */
+abstract class DAO  {
     /**
      * Database connection
      *
@@ -16,14 +24,14 @@ abstract class DAO
     /**
      * Constructor
      *
-     * @param \Doctrine\DBAL\Connection The database connection object
+     * @param \Doctrine\DBAL\Connection The database connection object.
      */
     public function __construct(Connection $db) {
         $this->db = $db;
     }
 
     /**
-     * Grants access to the database connection object
+     * Grants access to the database connection object.
      *
      * @return \Doctrine\DBAL\Connection The database connection object
      */
@@ -33,7 +41,10 @@ abstract class DAO
 
     /**
      * Builds a domain object from a DB row.
+     *
      * Must be overridden by child classes.
+     *
+     * @param $row The DB row ro build a Domain object from.
      */
     protected abstract function buildDomainObject($row);
 }

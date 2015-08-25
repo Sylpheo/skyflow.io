@@ -1,23 +1,29 @@
 <?php
 
-namespace Skyflow\DAO;
+/**
+ * DAO class for the Flow Domain Object.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
 
+namespace Skyflow\DAO;
 
 use Skyflow\Domain\Flow;
 
+/**
+ * DAO class for the Flow Domain Object.
+ */
 class FlowDAO extends DAO {
 
-
     /**
-     * @param $name
-     * @param $idUser
-     * @return mixed
+     * Find a User's Flow by name.
+     *
+     * @param string $name   The Flow name.
+     * @param string $idUser The id of the User who owns the Flow.
+     * @return Flow|null The found Flow or null if none found.
      * @throws \Doctrine\DBAL\DBALException
      */
     public function findOne($name,$idUser){
-        /*		$sql = "select * from event where event =? and id_user=?";
-                $row = $this->getDb()->fetchAssoc($sql,array($event,$idUser));*/
-
         $sql = $this->getDb()->prepare("select * from flow where name = ? and id_user = ?");
         $sql->bindValue(1,$name);
         $sql->bindValue(2,$idUser);
@@ -29,7 +35,12 @@ class FlowDAO extends DAO {
         }
     }
 
-
+    /**
+     * Find a Flow by its id.
+     *
+     * @param string $id The Flow id.
+     * @return Flow|null The found Flow or null if none found.
+     */
     public function findOneById($id){
         $sql = $this->getDb()->prepare("select * from flow where id = ?");
         $sql->bindValue(1,$id);
@@ -42,11 +53,12 @@ class FlowDAO extends DAO {
     }
 
     /**
-     * @param $id_user
-     * @return array
+     * Find all Flows owned by a User using the user's id.
+     *
+     * @param string $id_user The id of the User who owns the Flows to find.
+     * @return Flow[] An array of found Flows. Empty array if none found.
      */
     public function findAllByUser($id_user){
-
         $sql = "select * from flow where id_user =?";
         $result = $this->getDb()->fetchAll($sql,array($id_user));
 
@@ -59,7 +71,9 @@ class FlowDAO extends DAO {
     }
 
     /**
-     * @param Flow $flow
+     * Save a Flow.
+     *
+     * @param Flow $flow The Flow to save.
      */
     public function save(Flow $flow){
         $flowData = array(
@@ -68,10 +82,10 @@ class FlowDAO extends DAO {
             'documentation' => $flow->getDocumentation(),
             'id_user' => $flow->getIdUser(),
         );
-        if($flow->getId()){
-            $this->getDb()->update('flow',$flowData, array('id' => $flow->getId()));
 
-        }else{
+        if($flow->getId()) {
+            $this->getDb()->update('flow',$flowData, array('id' => $flow->getId()));
+        } else {
             $this->getDb()->insert('flow',$flowData);
             $id = $this->getDb()->lastInsertId();
             $flow->setId($id);
@@ -79,17 +93,20 @@ class FlowDAO extends DAO {
     }
 
     /**
-     * @param $id
+     * Delete a Flow.
+     *
+     * @param string $id The id of the Flow to delete.
      * @throws \Doctrine\DBAL\Exception\InvalidArgumentException
      */
     public function delete($id){
         $this->getDb()->delete('flow',array('id' => $id));
     }
 
-
     /**
-     * @param $row containing the event data
-     * @return Event
+     * Creates a Flow object based on a DB row.
+     *
+     * @param array $row The DB row containing Flow data.
+     * @return Flow
      */
     protected function buildDomainObject($row) {
         $flow = new Flow();
