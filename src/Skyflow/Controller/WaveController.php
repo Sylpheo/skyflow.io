@@ -6,14 +6,14 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Skyflow\Controller;
+namespace skyflow\Controller;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\EntityBody;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use Skyflow\Domain\Wave_request;
+use skyflow\Domain\Wave_request;
 
 /**
  * Controller for Wave actions.

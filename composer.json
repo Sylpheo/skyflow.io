@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Skyflow\\": "src\\Skyflow"
+            "skyflow\\": "src\\Skyflow"
         }
     }
 }

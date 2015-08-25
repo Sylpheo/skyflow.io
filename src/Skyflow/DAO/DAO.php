@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Skyflow\DAO;
+namespace skyflow\DAO;
 
 use Doctrine\DBAL\Connection;
 

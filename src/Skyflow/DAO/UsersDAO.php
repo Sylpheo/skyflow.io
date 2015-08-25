@@ -6,14 +6,14 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Skyflow\DAO;
+namespace skyflow\DAO;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
-use Skyflow\Domain\Users;
+use skyflow\Domain\Users;
 
 /**
  * DAO class for the Users domain object.
@@ -120,7 +120,7 @@ class UsersDAO extends DAO implements UserProviderInterface {
      */
     public function supportsClass($class)
     {
-        return 'Skyflow\Domain\Users' === $class;
+        return 'skyflow\Domain\Users' === $class;
     }
 
     /**

@@ -1,5 +1,5 @@
 <?php
-namespace Skyflow\Service;
+namespace skyflow\Service;
 /**
  * Created by PhpStorm.
  * User: Elodie

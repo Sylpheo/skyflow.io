@@ -6,9 +6,9 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Skyflow\DAO;
+namespace skyflow\DAO;
 
-use Skyflow\Domain\Mapping;
+use skyflow\Domain\Mapping;
 
 /**
  * DAO class for the Mapping domain object.
@@ -16,12 +16,12 @@ use Skyflow\Domain\Mapping;
 class MappingDAO extends DAO {
 
     /**
-     * @var \Skyflow\DAO\EventDAO The related Event DAO object.
+     * @var \skyflow\DAO\EventDAO The related Event DAO object.
      */
     private $eventDAO;
 
     /**
-     * @var \Skyflow\DAO\FlowDAO The related Flow DAO object.
+     * @var \skyflow\DAO\FlowDAO The related Flow DAO object.
      */
     private $flowDAO;
 

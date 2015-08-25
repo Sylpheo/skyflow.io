@@ -6,12 +6,12 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Skyflow\Flow;
+namespace skyflow\Flow;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-use Skyflow\Flow\AbstractFlow;
+use skyflow\Flow\AbstractFlow;
 
 /**
  * Flow "mail remerciements".

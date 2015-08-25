@@ -6,9 +6,9 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Skyflow\DAO;
+namespace skyflow\DAO;
 
-use Skyflow\Domain\Flow;
+use skyflow\Domain\Flow;
 
 /**
  * DAO class for the Flow Domain Object.

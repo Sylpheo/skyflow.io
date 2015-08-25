@@ -1,5 +1,5 @@
 <?php
-namespace Skyflow\Service;
+namespace skyflow\Service;
 
 
 use Silex\Application;

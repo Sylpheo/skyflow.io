@@ -6,9 +6,9 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Skyflow\DAO;
+namespace skyflow\DAO;
 
-use Skyflow\Domain\Wave_request;
+use skyflow\Domain\Wave_request;
 
 /**
  * DAO class for the Users domain object.

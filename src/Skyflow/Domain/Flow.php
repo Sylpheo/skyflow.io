@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Skyflow\Domain;
+namespace skyflow\Domain;
 
 /**
  * Flow Domain Object class.

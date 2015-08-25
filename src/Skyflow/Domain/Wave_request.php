@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Skyflow\Domain;
+namespace skyflow\Domain;
 
 /**
  * Wave_request Domain Object class.
