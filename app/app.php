@@ -16,7 +16,7 @@ use skyflow\Service\GenerateToken;
 use skyflow\SilexOpauth\OpauthExtension;
 
 require_once __DIR__ . '/config/dev.php';
-//require_once __DIR__ . '/config.prod.php';
+//require_once __DIR__ . '/config/prod.php';
 require_once __DIR__ . '/../app/routes.php';
 
 // ========== Error Handlers ==========
