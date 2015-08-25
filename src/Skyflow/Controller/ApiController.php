@@ -1,21 +1,36 @@
 <?php
 
+/**
+ * Controller for the Skyflow API.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\Controller;
 
 use Silex\Application;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use GuzzleHttp\Client;
 
+/**
+ * Controller for the Skyflow API.
+ */
+class ApiController {
 
-class ApiController
-{
-    public function flowAction($event, Request $request, Application $app)
-    {
+    /**
+     * Handle execution of a flow from a provided event name.
+     *
+     * The event name is provided as a URL parameter. The request
+     * must be a HTTP POST request that may contain parameters provided
+     * in JSON format in the HTTP request content.
+     *
+     * @param string      $event   The Event name.
+     * @param Request     $request The JSON request.
+     * @param Application $app     The Silex application.
+     * @return mixed
+     */
+    public function flowAction($event, Request $request, Application $app) {
         if ($request->headers->has('Skyflow-Token')) {
             $token = $request->headers->get('Skyflow-Token');
-
             $user = $app['dao.user']->findByToken($token);
 
             if (empty($user)) {
@@ -34,8 +49,8 @@ class ApiController
             $class = $flow->getClass();
 
             $result = $app['flow_' . $class]->event($request);
+
             return $app->json($result);
         }
     }
-
 }

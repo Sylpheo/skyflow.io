@@ -1,21 +1,35 @@
 <?php
+
+/**
+ * Controller for Salesforce actions.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\Controller;
 
-use Silex\Application;
 use GuzzleHttp\Client;
-use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\EntityBody;
+use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+
 use Skyflow\Domain\Wave_request;
 
+/**
+ * Controller for Salesforce actions.
+ */
+class SalesforceController {
 
-
-class SalesforceController
-{
-    public function salesforceAction(Application $app){
-        /***
-         * Si l'utilisateur s'est déjà authentifié sur salesforce -> redirigé vers la page de helper
-         * sinon login() et redirection sur callback
-         */
+    /**
+     * Salesforce user auto-login redirection.
+     *
+     * Redirect to Salesforce helper page if user is already authenticated.
+     * Else, force user to login to Salesforce.
+     *
+     * @param Application $app The Silex Application.
+     * @return mixed
+     */
+    public function salesforceAction(Application $app) {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $app['security']->getToken()->getUser();
             $user_access_token = $user->getAccessTokenSalesforce();
@@ -23,39 +37,40 @@ class SalesforceController
             $user_instance_url = $user->getInstanceUrlSalesforce();
 
             if ($user_access_token == null || $user_refresh_token == null || $user_instance_url == null) {
-               $login = $app['salesforce']->login($app);
-                return $login;
-            }else{
+                return $app['salesforce']->login($app);
+            } else {
                 return $app->redirect("/query");
             }
-        }else{
+        } else {
             return $app->redirect('/login');
         }
     }
 
-    public function callbackAction(Request $request,Application $app){
+    /**
+     * Salesforce OAuth2 authentication callback.
+     *
+     * @param Request     $request The HTTP Request.
+     * @param Application $app     The Silex Application.
+     * @return mixed
+     */
+    public function callbackAction(Request $request, Application $app) {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $app['security']->getToken()->getUser();
             $code = $_GET['code'];
-            /**
-             * Get access_token, refresh_token & instance_url from code
-             */
+
+            // Get access_token, refresh_token & instance_url from code
             $response = $app['salesforce']->callback($app,$code);
             $refresh_token = $response->refresh_token;
             $access_token = $response->access_token;
             $instance_url = $response->instance_url;
 
-            /**
-             * Update user
-             */
+            // Update user
             $user->setAccessTokenSalesforce($access_token);
             $user->setRefreshTokenSalesforce($refresh_token);
             $user->setInstanceUrlSalesforce($instance_url);
             $app['dao.user']->save($user);
 
-            /**
-             * Form to send request
-             */
+            // Form to send request
             $form = $app['form.factory']->createBuilder('form')
                 ->add('Request','textarea',array(
                     'attr' => array('cols' => '100', 'rows' => '3'),
@@ -68,28 +83,36 @@ class SalesforceController
                 $array = $form->getData();
                 $query = $array['Request'];
 
-                /**
-                 * Send request
-                 */
+                // Send request
                 $data = $app['salesforce']->request($app,$query);
 
-                return $app['twig']->render('results.html.twig',
-                    array(
-                        'results' => $data,
-                    ));
+                return $app['twig']->render(
+                    'results.html.twig',
+                    array('results' => $data)
+                );
             }
-            return $app['twig']->render('salesforce-apihelper.html.twig',
-                array(
-                    'requestForm' => $form->createView(),
-                ));
-        }else{
+
+            return $app['twig']->render(
+                'salesforce-apihelper.html.twig',
+                array('requestForm' => $form->createView())
+            );
+        } else {
             return $app->redirect('/login');
         }
     }
 
-    public function queryAction(Request $request,Application $app){
+    /**
+     * Send a Query to Salesforce.
+     *
+     * Automatically ask Salesforce for a new access_token using the
+     * stored refresh_token if the old access_token has expired.
+     *
+     * @param Request     $request The HTTP Request.
+     * @param Application $app     The Silex Application.
+     * @return mixed
+     */
+    public function queryAction(Request $request, Application $app) {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-
             $form = $app['form.factory']->createBuilder('form')
                 ->add('Request','textarea',array(
                     'attr' => array('cols' => '100', 'rows' => '3'),
@@ -107,6 +130,7 @@ class SalesforceController
                 $instance_url = $user->getInstanceUrlSalesforce();
 
                 $client = new Client();
+
                 try {
                     $salesforceRequest = $client->createRequest(
                         'GET',
@@ -121,18 +145,14 @@ class SalesforceController
                 }
 
                 if($statuscode == '401') {
-                    /**
-                     * Get new access_token
-                     */
+                    // Get new access_token
                     $respRefresh = $app['salesforce']->refreshToken($app);
                     $access_token = $respRefresh->access_token;
                     $user->setAccessTokenSalesforce($access_token);
                     $app['dao.user']->save($user);
                 }
 
-                /**
-                 * Resend request
-                 */
+                // Resend request
                 $salesforceRequest->setHeader('Authorization', 'OAuth ' . $access_token);
                 $response = $client->send($salesforceRequest);
                 $data = $response->json();
@@ -144,19 +164,25 @@ class SalesforceController
                         'results' => $data,
                     ));
             }
+
             return $app['twig']->render('salesforce-apihelper.html.twig',
                 array(
                     'requestForm' => $form->createView(),
                 ));
-
-       }else{
+        } else {
             return $app->redirect('/login');
         }
     }
 
-    public function setCredentialsSalesforceAction(Request $request,Application $app){
+    /**
+     * Set Salesforce credentials action.
+     *
+     * @param Request     $request The HTTP Request.
+     * @param Application $app     The Silex Application.
+     * @return mixed
+     */
+    public function setCredentialsSalesforceAction(Request $request, Application $app) {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-
             $user = $app['security']->getToken()->getUser();
 
             $form = $app['form.factory']->createBuilder('form')
@@ -174,14 +200,14 @@ class SalesforceController
                 $app['session']->getFlashBag()->add('success', 'The user was succesfully updated.');
 
                 return $app->redirect('/salesforce');
-
             }
-            return $app['twig']->render('salesforce-credentials.html.twig',
-                array('salesforceForm' => $form->createView()));
-        }else{
+
+            return $app['twig']->render(
+                'salesforce-credentials.html.twig',
+                array('salesforceForm' => $form->createView())
+            );
+        } else {
             return $app->redirect('/login');
         }
-
     }
-
 }

@@ -1,37 +1,48 @@
 <?php
 
+/**
+ * Controller for Flow actions.
+ *
+ * @license http://opensource.org/licenses/MIT The MIT License (MIT)
+ */
+
 namespace Skyflow\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Skyflow\Domain\Flow;
 
-
-
-
+/**
+ * Controller for Flow actions.
+ */
 class FlowController {
 
     /**
-     * Retrieve all flows
-     * @param Application $app
+     * Retrieve all flows.
+     *
+     * @param Application $app The Silex Application.
      * @return mixed
      */
-    public function indexAction(Application $app){
+    public function indexAction(Application $app) {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $id= $app['security']->getToken()->getUser()->getId();
             $flows = $app['dao.flow']->findAllByUser($id);
-            return $app['twig']->render("flows.html.twig",
-                array('flows'=> $flows));
+
+            return $app['twig']->render(
+                "flows.html.twig",
+                array('flows'=> $flows)
+            );
         }
     }
 
     /**
-     * Create a flow
-     * @param Request $request
-     * @param Application $app
-     * @return form or redirect to login
+     * Create a flow.
+     *
+     * @param Request     $request The HTTP Request.
+     * @param Application $app     The Silex Application.
+     * @return mixed
      */
-    public function createFlowAction(Request $request,Application $app){
+    public function createFlowAction(Request $request, Application $app) {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $iduser = $app['security']->getToken()->getUser()->getId();
 
@@ -56,15 +67,24 @@ class FlowController {
                 return $app->redirect('/flows');
             }
 
-            return $app['twig']->render('flow-form.html.twig', array(
-                'flowForm'=>$form->createView()
-            ));
-        }else{
+            return $app['twig']->render(
+                'flow-form.html.twig',
+                array('flowForm'=>$form->createView())
+            );
+        } else {
             return $app->redirect('/login');
         }
     }
 
-    public function editFlowAction($id,Request $request,Application $app){
+    /**
+     * Edit a flow.
+     *
+     * @param string      $id      The Flow id.
+     * @param Request     $request The HTTP Request.
+     * @param Application $app The Silex Application.
+     * @return mixed
+     */
+    public function editFlowAction($id,Request $request, Application $app) {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $iduser = $app['security']->getToken()->getUser()->getId();
 
@@ -82,26 +102,25 @@ class FlowController {
                 return $app->redirect('/mapping');
             }
 
-            return $app['twig']->render('flow-edit.html.twig', array(
-                'flowForm'=>$form->createView()
-            ));
-        }else{
+            return $app['twig']->render(
+                'flow-edit.html.twig',
+                array('flowForm'=>$form->createView())
+            );
+        } else {
             return $app->redirect('/login');
         }
     }
 
     /**
-     * Delete flow
-     * @param $id
-     * @param Application $app
+     * Delete a flow.
+     *
+     * @param string      $id  The Flow id.
+     * @param Application $app The Silex Application.
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteFlowAction($id, Application $app){
-
+    public function deleteFlowAction($id, Application $app) {
         $app['dao.flow']->delete($id);
 
         return $app->redirect('/flows');
-
     }
-
 }
