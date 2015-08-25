@@ -133,14 +133,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `salt`, `role`, `clientid`, `clientsecret`, `waveid`, `wavesecret`, `wavelogin`, `wavepassword`, `skyflowtoken`) VALUES
-(1, 'elodie', 'OCAbgggk0Kz6NAM5jYkDfr9G2V0QqSBomOcudQGFkOlEU05PFnVL6jxtANk8k8wGc22UrTbkzqGXUasnpxRCQA==', '271220c3ca55281bd4e5a0c', 'ROLE_ADMIN', 'e4sz5qpc7tzzmdg7xbaezjwy', 'aYnxNchsNBjjYAPu78KW22Xr', '3MVG9SemV5D80oBcbOkdI2WCxIIA5fZMPI3ZDTZBBU_6E6zc8Z5wKZ4DCh.bPDxBEV4PocUnC3ELl70tjOSof', '8180025755972035170', 'pierre.lecointre@sylpheo.dev', 'easy1234NWu2pdAhMFXl6KyyHPu5YDhy', '1e6238c22e407d1dc0f4238917bb74be'),
-(2, 'test', 'nsdQPFZZNORrj+kAVAeRfWLCo0x26FtcO6nFUkwO/Kc75XS8ze0WsqmP2rrQJipn4WJhB6xhQYoMhot0RYOeGg==', '8a3325f01227842b5a2901f', 'ROLE_ADMIN', '', '', '', '', '', '', ''),
-(3, 'test2', '4xIw9h2SytzuJaC4xf3fMSQGNabe9Tsy3CjS199tN4WLfJbHjuTVi0mb0glhSXteovVT+xTqa3dsomQdhuZ3CA==', '7ebdae62c8832b771a0c8ea', 'ROLE_ADMIN', '', '', '', '', '', '', ''),
-(4, 'a', '/UWth6eJo7Jq+98NivAUUviWSxv+t53AUcfbHfhvudmSSqfFPtJ4MC0aqhKvuMK1nga1s3jVHzsB+GSvdGnD+w==', '074f8e76b1a26a54ffe46ea', 'ROLE_ADMIN', 'gyihœv', 'hvkb7', '', '', '', '', '5581488c46115'),
-(5, 'swiffer', '2bMEtdEwg9yQRicz6XO3tjiCAMKhDKZRj0Tlgg0MYzbwxk1Zmxl/ppMu6t3GIx9wj9xBHfE3aBaL/hlasXVqAQ==', '7930c71afc2298731bfbb3f', 'ROLE_ADMIN', NULL, NULL, NULL, NULL, NULL, NULL, ''),
-(6, 'b', 'mfm6GOzEkSy8ZYihRbQZGO0tgKsUpfjYCizUcUKFMWAoO/46otiRXVVw6RhR162t8QI48deZsN9Pvi2rVKy3mw==', '630337d005271c07b91c554', 'ROLE_ADMIN', NULL, NULL, NULL, NULL, NULL, NULL, '8565087516cf00b4ca59098431c53987'),
-(7, 'b', 'r85YNm6TGH1sSNSvy8a9/lHzh9HDUT1gQQZASRjQE6crYGLe0FSaVVIp2WiuBjv2vNQkrm8HZi83R7y2zpAUmA==', '649aa4fd2ee2078b35a95b0', 'ROLE_ADMIN', NULL, NULL, NULL, NULL, NULL, NULL, '811e1999ddf84db1a76b641e5fb71c3d');
+INSERT INTO `users` (`id`, `username`, `password`, `salt`, `role`, `clientid`, `clientsecret`, `waveid`, `wavesecret`, `wavelogin`, `wavepassword`, `skyflowtoken`, `access_token_salesforce`, `refresh_token_salesforce`, `instance_url_salesforce`, `salesforce_id`, `salesforce_secret`) VALUES
+(1, 'skyflow', 'a1mvTX1PGa/tPegPfCiRHdc3PFLTb3GpTQi3QqBHVp3rBjt/rYQXuJCvU6K96WfPY9OGN+ClmveryL19r5Xg7Q==', '1c75f1db82ca11cff02043b', 'ROLE_ADMIN', NULL, NULL, NULL, NULL, NULL, NULL, '75118235125828845286db3fb91bc1a9', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
