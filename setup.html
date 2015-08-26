@@ -18,91 +18,104 @@
 
 <body>
 
-<div class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="./index.html">Skyflow.io</a>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="./index.html">Skyflow.io</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="./features.html">Features</a></li>
+                    <li><a href="./architecture.html">Architecture</a></li>
+                    <li><a href="./setup.html">Setup</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://github.com/sylpheo/skyflow.io"><img src="./files/icon-github.png" style="border: none;margin: -4px 0;height: 28px;width: 28px;">GitHub Project</a>
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="./features.html">Features</a></li>
-                <li><a href="./architecture.html">Architecture</a></li>
-                <li><a href="./setup.html">Setup</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://github.com/sylpheo/skyflow.io"><img src="./files/icon-github.png" style="border: none;margin: -4px 0;height: 28px;width: 28px;">
-                    GitHub
-                    Project</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</div>
-
-<div class="container">
-
-<div class="row">
-
-    <div class="col-xs-12">
-        <h1>Setup</h1>
-        <!--<hr/>-->
-        <h2>Deploying to Heroku using the Heroku Button</h2>
-
-<p>You can deploy your own version of Skyflow in seconds using the Heroku button below:</p>
-
-<p><a href="https://heroku.com/deploy"><img src="./files/button.png" alt="Deploy"></a></p>
-
-<h2>Deploying to Heroku using the Command Line</h2>
-
-<p>You can also deploy Skyflow to Heroku using the command line:</p>
-
-<ol>
-<li><p>Clone the repository</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone https://github.com/sylpheo/skyflow.io
-</code></pre></div></li>
-<li><p>Create a Heroku application</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cd skyflow
-heroku create
-</code></pre></div></li>
-<li><p>Install the Postgres plugin    </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">heroku addons:add heroku-postgresql:dev
-</code></pre></div></li>
-<li><p>Deploy to Heroku</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git push heroku master
-</code></pre></div></li>
-<li><p>Run the the application:</p>
-
-<ul>
-<li><p>Open the application in a browser:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">heroku open
-</code></pre></div></li>
-<li><p>Click the Signup button to create an account</p></li>
-</ul>
-</li>
-</ol>
-
-
-
-
     </div>
 
-</div>
+    <div class="container">
 
-</div>
+        <div class="row">
 
-<div class="container">
-    <div id="footer">
-        <p class="text-muted">Skyflow.io, 2015.</p>
-    </div>    <!-- Site footer -->
-</div>
+            <div class="col-xs-12">
+                <h1>Setup</h1>
+
+                <h2>Deploying to Heroku using the Heroku Button</h2>
+
+                <p>You can deploy your own version of Skyflow in seconds using the Heroku button below:</p>
+                <p><a href="https://heroku.com/deploy"><img src="./files/button.png" alt="Deploy"></a></p>
+
+                <h2>Deploying to Heroku using the Command Line</h2>
+
+                <p>You can also deploy Skyflow to Heroku using the command line:</p>
+
+                <ol>
+                    <li>
+                        <p>Clone the repository</p>
+                        <div class="highlight">
+                            <pre><code class="language-text" data-lang="text">git clone https://github.com/sylpheo/skyflow.io</code></pre>
+                        </div>
+                    </li>
+                    <li>
+                        <p>Create a Heroku application</p>
+                        <div class="highlight">
+                            <pre><code class="language-text" data-lang="text">cd skyflow
+heroku create</code></pre>
+                        </div>
+                    </li>
+                    <li>
+                        <p>Install the Postgres plugin</p>
+                        <div class="highlight">
+                            <pre><code class="language-text" data-lang="text">heroku addons:add heroku-postgresql:dev</code></pre>
+                        </div>
+                    </li>
+                    <li>
+                        <p>Deploy to Heroku</p>
+                        <div class="highlight">
+                            <pre><code class="language-text" data-lang="text">git push heroku master</code></pre>
+                        </div>
+                    </li>
+                    <li>
+                        <p>Run the the application:</p>
+                        <ul>
+                            <li>
+                                <p>Open the application in a browser:</p>
+                                <div class="highlight">
+                                    <pre><code class="language-text" data-lang="text">heroku open</code></pre>
+                                </div>
+                            </li>
+                            <li>
+                                <p>Click the Signup button to create an account</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div id="footer">
+            <p class="text-muted">Skyflow.io, 2015.</p>
+        </div>    <!-- Site footer -->
+    </div>
 
 
-<script src="./files/jquery.js"></script>
-<script src="./files/bootstrap.min.js"></script>
+    <script src="./files/jquery.js"></script>
+    <script src="./files/bootstrap.min.js"></script>
 
-</body></html>
+    </body>
+</html>
