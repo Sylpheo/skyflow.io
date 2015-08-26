@@ -6,18 +6,14 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-$database_url = $_ENV['DATABASE_URL'];
+$db = parse_url($_ENV['DATABASE_URL']);
 
-return function() use ($database_url) {
-    extract(parse_url($database_url));
-
-    return array(
-        'driver'   => 'pdo_pgsql',
-        'charset'  => 'utf8',
-        'host'     => $host,
-        'port'     => $port,
-        'user'     => $user,
-        'password' => $pass,
-        'dbname'   => substr($path, 1)
-    );
-};
+return array(
+    'driver'   => 'pdo_pgsql',
+    'charset'  => 'utf8',
+    'host'     => $db['host'],
+    'port'     => $db['port'],
+    'user'     => $db['user'],
+    'password' => $db['pass'],
+    'dbname'   => substr($db['path'], 1)
+);
