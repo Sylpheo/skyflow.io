@@ -15,6 +15,8 @@ use skyflow\Service\ExactTarget;
 use skyflow\Service\GenerateToken;
 use skyflow\SilexOpauth\OpauthExtension;
 
+require_once __DIR__ . '/routes.php';
+
 $app['db.options'] = include __DIR__ . '/db.php';
 
 $app['debug'] = true;
