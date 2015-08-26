@@ -8,7 +8,9 @@
 
 $db = parse_url(getenv('DATABASE_URL'));
 
-return array(
+var_dump($db);
+
+$db_config = array(
     'driver'   => 'pdo_pgsql',
     'charset'  => 'utf8',
     'host'     => $db['host'],
@@ -17,3 +19,7 @@ return array(
     'password' => $db['pass'],
     'dbname'   => substr($db['path'], 1)
 );
+
+var_dump($db_config);
+
+return $db_config;
