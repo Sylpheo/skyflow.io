@@ -15,9 +15,10 @@ use skyflow\Service\ExactTarget;
 use skyflow\Service\GenerateToken;
 use skyflow\SilexOpauth\OpauthExtension;
 
-require_once __DIR__ . '/config/dev.php';
-//require_once __DIR__ . '/config/prod.php';
-require_once __DIR__ . '/../app/routes.php';
+$app['db.options'] = include __DIR__ . '/db.php';
+
+$app['debug'] = true;
+$app['monolog.level'] = 'INFO';
 
 // ========== Error Handlers ==========
 
