@@ -81,6 +81,12 @@ heroku create</code></pre>
                         </div>
                     </li>
                     <li>
+                        <p>Provision the Postgres database</p>
+                        <div class="highlight">
+                            <pre><code class="language-text" data-lang="text">heroku pg:psql < install.sql</code></pre>
+                        </div>
+                    </li>
+                    <li>
                         <p>Deploy to Heroku</p>
                         <div class="highlight">
                             <pre><code class="language-text" data-lang="text">git push heroku master</code></pre>
@@ -90,13 +96,17 @@ heroku create</code></pre>
                         <p>Run the the application:</p>
                         <ul>
                             <li>
-                                <p>Open the application in a browser:</p>
+                                <p>Open the application in a browser</p>
                                 <div class="highlight">
                                     <pre><code class="language-text" data-lang="text">heroku open</code></pre>
                                 </div>
                             </li>
                             <li>
-                                <p>Click the Signup button to create an account</p>
+                                <p>Login using the default skyflow admin user</p>
+                                <div class="highlight">
+                                    <pre><code class="language-text" data-lang="text">username: skyflow
+password: skyflow</code></pre>
+                                </div>
                             </li>
                         </ul>
                     </li>
