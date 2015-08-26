@@ -26,7 +26,7 @@ $app['debug'] = true;
 ErrorHandler::register();
 ExceptionHandler::register();
 
-/*$app->error(function (\Exception $e, $code) use ($app) {
+$app->error(function (\Exception $e, $code) use ($app) {
     switch ($code) {
         case 403:
             $message = 'Access denied.';
@@ -39,7 +39,7 @@ ExceptionHandler::register();
     }
 
     return $app['twig']->render('error.html.twig', array('message' => $message));
-});*/
+});
 
 // ========== Silex Service Providers ==========
 
