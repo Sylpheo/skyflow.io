@@ -18,7 +18,6 @@ use skyflow\SilexOpauth\OpauthExtension;
 $app['db.options'] = include __DIR__ . '/db.php';
 
 $app['debug'] = true;
-$app['monolog.level'] = 'INFO';
 
 // ========== Error Handlers ==========
 
@@ -45,9 +44,9 @@ $app->error(function (\Exception $e, $code) use ($app) {
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__.'/../var/logs/silex.log',
+    'monolog.logfile' => 'php://stderr',
     'monolog.name' => 'silex',
-    'monolog.level' => $app['monolog.level']
+    'monolog.level' => \Monolog\Logger::WARNING
 ));
 
 $app->register(new Silex\Provider\SessionServiceProvider());
