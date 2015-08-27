@@ -38,7 +38,7 @@ $app->error(function (\Exception $e, $code) use ($app) {
             $message = "Something went wrong.";
     }
 
-    return $app['twig']->render('error.html.twig', array('message' => $message));
+    return $app['twig']->render('error.html.twig', array('exception' => $e));
 });
 
 // ========== Silex Service Providers ==========
