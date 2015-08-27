@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS users (
   refresh_token_salesforce text DEFAULT NULL,
   instance_url_salesforce text DEFAULT NULL,
   salesforce_id text DEFAULT NULL,
-  salesforce_secret text DEFAULT NULL
+  salesforce_secret text DEFAULT NULL,
+  salesforce_sandbox boolean DEFAULT NULL
 );
 
 INSERT INTO users (
@@ -35,7 +36,8 @@ INSERT INTO users (
   refresh_token_salesforce,
   instance_url_salesforce,
   salesforce_id,
-  salesforce_secret
+  salesforce_secret,
+  salesforce_sandbox
 ) VALUES (
   1,
   'skyflow',
@@ -49,6 +51,7 @@ INSERT INTO users (
   NULL,
   NULL,
   '75118235125828845286db3fb91bc1a9',
+  NULL,
   NULL,
   NULL,
   NULL,

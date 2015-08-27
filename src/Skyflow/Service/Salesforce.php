@@ -38,8 +38,13 @@ class Salesforce {
             $user = $app['security']->getToken()->getUser();
             $client_id = $user->getWaveId();
 
-            $login_URI = "https://login.salesforce.com";
-            $redirect_URI = "http://localhost/auth/salesforce/oauth2callback";
+            if ($user->getSalesforcesandbox()) {
+                $login_URI = "https://test.salesforce.com";
+            } else {
+                $login_URI = "https://login.salesforce.com";
+            }
+
+            $redirect_URI = 'https://' . $_SERVER['HTTP_HOST'] . '/auth/salesforce/oauth2callback';
             $auth_url = $login_URI . "/services/oauth2/authorize?response_type=code&client_id="
                 . $client_id . "&redirect_uri=" . urlencode($redirect_URI);
 
@@ -62,8 +67,13 @@ class Salesforce {
 
             $client_id = $user->getWaveId();
 
-            $login_URI = "https://login.salesforce.com";
-            $redirect_URI = "http://localhost/auth/salesforce/oauth2callback";
+            if ($user->getSalesforcesandbox()) {
+                $login_URI = "https://test.salesforce.com";
+            } else {
+                $login_URI = "https://login.salesforce.com";
+            }
+
+            $redirect_URI = 'https://' . $_SERVER['HTTP_HOST'] . '/auth/salesforce/oauth2callback';
             $auth_url = $login_URI . "/services/oauth2/authorize?response_type=code&client_id="
                 . $client_id . "&redirect_uri=" . urlencode($redirect_URI);
 
@@ -87,8 +97,14 @@ class Salesforce {
 
             $client_id = $user->getSalesforceId();
             $client_secret = $user->getSalesforceSecret();
-            $login_URI = "https://login.salesforce.com";
-            $redirect_URI = "http://localhost/auth/salesforce/oauth2callback";
+
+            if ($user->getSalesforcesandbox()) {
+                $login_URI = "https://test.salesforce.com";
+            } else {
+                $login_URI = "https://login.salesforce.com";
+            }
+
+            $redirect_URI = 'https://' . $_SERVER['HTTP_HOST'] . '/auth/salesforce/oauth2callback';
             $token_url = $login_URI . "/services/oauth2/token";
 
             if (!isset($code) || $code == "") {
@@ -127,8 +143,14 @@ class Salesforce {
             }
             $client_id = $user->getSalesforceId();
             $client_secret = $user->getSalesforceSecret();
-            $login_URI = "https://login.salesforce.com";
-            $redirect_URI = "http://localhost/auth/salesforce/oauth2callback";
+
+            if ($user->getSalesforcesandbox()) {
+                $login_URI = "https://test.salesforce.com";
+            } else {
+                $login_URI = "https://login.salesforce.com";
+            }
+
+            $redirect_URI = 'https://' . $_SERVER['HTTP_HOST'] . '/auth/salesforce/oauth2callback';
             $token_url = $login_URI . "/services/oauth2/token";
 
             if (!isset($code) || $code == "") {
@@ -162,7 +184,12 @@ class Salesforce {
             $client_id = $user->getSalesforceId();
             $client_secret = $user->getSalesforceSecret();
             $refresh_token = $user->getRefreshTokenSalesforce();
-            $token_url = "https://login.salesforce.com/services/oauth2/token";
+
+            if ($user->getSalesforcesandbox()) {
+                $token_url = "https://test.salesforce.com/services/oauth2/token";
+            } else {
+                $token_url = "https://login.salesforce.com/services/oauth2/token";
+            }
 
             $client = new Client();
             $request = $client->createRequest('POST', $token_url);
@@ -199,7 +226,12 @@ class Salesforce {
             $client_id = $user->getSalesforceId();
             $client_secret = $user->getSalesforceSecret();
             $refresh_token = $user->getRefreshTokenSalesforce();
-            $token_url = "https://login.salesforce.com/services/oauth2/token";
+
+            if ($user->getSalesforcesandbox()) {
+                $token_url = "https://test.salesforce.com/services/oauth2/token";
+            } else {
+                $token_url = "https://login.salesforce.com/services/oauth2/token";
+            }
 
             $client = new Client();
             $request = $client->createRequest('POST', $token_url);

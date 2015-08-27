@@ -107,6 +107,13 @@ class Users implements UserInterface {
 
     private $salesforce_secret;
 
+    /**
+     * True if using a Salesforce sandbox.
+     * False if it is a production.
+     *
+     * @var boolean
+     */
+    private $salesforce_sandbox;
 
     public function getId() {
         return $this->id;
@@ -257,6 +264,23 @@ class Users implements UserInterface {
         $this->salesforce_secret = $salesforce_secret;
     }
 
+    /**
+     * Set if connected Salesforce is a sandbox.
+     *
+     * @param boolean $salesforce_sandbox True if using a sandbox, or false.
+     */
+    public function setSalesforceSandbox($salesforce_sandbox) {
+        $this->salesforce_sandbox = $salesforce_sandbox;
+    }
+
+    /**
+     * Get if connected Salesforce is a sandbox.
+     *
+     * @return boolean True if using a sandbox, or false.
+     */
+    public function getSalesforceSandbox() {
+        return $this->salesforce_sandbox;
+    }
 
     /**
      * @inheritDoc

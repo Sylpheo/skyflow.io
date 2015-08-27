@@ -188,6 +188,7 @@ class SalesforceController {
             $form = $app['form.factory']->createBuilder('form')
                 ->add('salesforceid','text')
                 ->add('salesforcesecret','text')
+                ->add('salesforcesandbox', 'checkbox')
                 ->getForm();
 
             $form->handleRequest($request);
@@ -196,6 +197,7 @@ class SalesforceController {
                 $data = $form->getData();
                 $user->setSalesforceid($data['salesforceid']);
                 $user->setSalesforcesecret($data['salesforcesecret']);
+                $user->setSalesforcesandbox($data['salesforcesandbox']);
                 $app['dao.user']->save($user);
                 $app['session']->getFlashBag()->add('success', 'The user was succesfully updated.');
 
