@@ -1,21 +1,3 @@
--- --
--- -- This is for development only.
--- -- This is for MySQL, not tested for PostgreSQL.
--- -- The rest of the file is PostgreSQL syntax.
--- -- --------------------
---
--- CREATE DATABASE IF NOT EXISTS skyflow;
---
--- GRANT ALL ON skyflow.* to 'skyflow'@'localhost' IDENTIFIED BY 'skyflow';
---
--- --
--- -- Database: exacttarget
--- --
---
--- USE 'skyflow';
---
--- -- --------------------
-
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL NOT NULL PRIMARY KEY,
   username text NOT NULL,
@@ -50,13 +32,6 @@ CREATE TABLE IF NOT EXISTS event (
   id_user int NOT NULL REFERENCES users (id)
 );
 
-INSERT INTO event (id, name, description, id_user) VALUES
-(12, 'Modificiation', 'test', 1),
-(13, 'nom', 'nom', 1),
-(14, 'remerciements', 'remerciements', 1);
-
-ALTER SEQUENCE event_id_seq START WITH 15;
-
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS flow (
@@ -66,14 +41,6 @@ CREATE TABLE IF NOT EXISTS flow (
   documentation text NOT NULL,
   id_user int NOT NULL REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-INSERT INTO flow (id, name, class, documentation, id_user) VALUES
-(1, 'FLoooow', 'test', '<p>Modificaion</p>', 1),
-(2, 'Flow_nom', 'test2', '<p><strong><span style="background-color:#FF0000">Documentation du Flow_Test2 ! </span></strong></p>', 1),
-(3, 'Mail_remerciement', 'mail_remerciements', '<p>Flow d&#39;envoi d&#39;un mail de remerciement pour la participation + wave</p>', 1),
-(4, 'testModification', 'test', '<p>Modification de la documentation !!!</p>', 1);
-
-ALTER SEQUENCE flow_id_seq START WITH 5;
 
 -- --------------------------------------------------------
 
@@ -85,13 +52,6 @@ CREATE TABLE IF NOT EXISTS mapping (
   UNIQUE (id_event, id_flow, id_user)
 );
 
-INSERT INTO mapping (id, id_event, id_flow, id_user) VALUES
-(6, 12, 1, 1),
-(3, 13, 2, 1),
-(4, 14, 3, 1);
-
-ALTER SEQUENCE mapping_id_seq START WITH 7;
-
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS wave_request (
@@ -99,8 +59,3 @@ CREATE TABLE IF NOT EXISTS wave_request (
   request text NOT NULL,
   id_user int NOT NULL REFERENCES users (id)
 );
-
-INSERT INTO wave_request (id, request, id_user) VALUES
-(1, 'q = load "0FbB00000005KPEKA2/0FcB00000005W4tKAE";q = filter q by ''Email'' in ["e.lodie62@hotmail.fr"];q = foreach q generate ''FirstName'' as ''FirstName'',''LastName'' as ''LastName'';', 1);
-
-ALTER SEQUENCE wave_request_id_seq START WITH 2;
