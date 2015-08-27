@@ -18,8 +18,43 @@ CREATE TABLE IF NOT EXISTS users (
   salesforce_secret text DEFAULT NULL
 );
 
-INSERT INTO users (id, username, password, salt, role, clientid, clientsecret, waveid, wavesecret, wavelogin, wavepassword, skyflowtoken, access_token_salesforce, refresh_token_salesforce, instance_url_salesforce, salesforce_id, salesforce_secret) VALUES
-(1, 'skyflow', 'a1mvTX1PGa/tPegPfCiRHdc3PFLTb3GpTQi3QqBHVp3rBjt/rYQXuJCvU6K96WfPY9OGN+ClmveryL19r5Xg7Q==', '1c75f1db82ca11cff02043b', 'ROLE_ADMIN', NULL, NULL, NULL, NULL, NULL, NULL, '75118235125828845286db3fb91bc1a9', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO users (
+  id,
+  username,
+  password,
+  salt,
+  role,
+  clientid,
+  clientsecret,
+  waveid,
+  wavesecret,
+  wavelogin,
+  wavepassword,
+  skyflowtoken,
+  access_token_salesforce,
+  refresh_token_salesforce,
+  instance_url_salesforce,
+  salesforce_id,
+  salesforce_secret
+) VALUES (
+  1,
+  'skyflow',
+  'a1mvTX1PGa/tPegPfCiRHdc3PFLTb3GpTQi3QqBHVp3rBjt/rYQXuJCvU6K96WfPY9OGN+ClmveryL19r5Xg7Q==',
+  '1c75f1db82ca11cff02043b',
+  'ROLE_ADMIN',
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  '75118235125828845286db3fb91bc1a9',
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL
+);
 
 ALTER SEQUENCE users_id_seq START WITH 2;
 
