@@ -38,7 +38,7 @@ class Salesforce {
             $user = $app['security']->getToken()->getUser();
             $client_id = $user->getWaveId();
 
-            if ($user->getSalesforcesandbox()) {
+            if ($user->getSalesforceSandbox()) {
                 $login_URI = "https://test.salesforce.com";
             } else {
                 $login_URI = "https://login.salesforce.com";
@@ -67,7 +67,7 @@ class Salesforce {
 
             $client_id = $user->getWaveId();
 
-            if ($user->getSalesforcesandbox()) {
+            if ($user->getSalesforceSandbox()) {
                 $login_URI = "https://test.salesforce.com";
             } else {
                 $login_URI = "https://login.salesforce.com";
@@ -98,7 +98,7 @@ class Salesforce {
             $client_id = $user->getSalesforceId();
             $client_secret = $user->getSalesforceSecret();
 
-            if ($user->getSalesforcesandbox()) {
+            if ($user->getSalesforceSandbox()) {
                 $login_URI = "https://test.salesforce.com";
             } else {
                 $login_URI = "https://login.salesforce.com";
@@ -144,7 +144,7 @@ class Salesforce {
             $client_id = $user->getSalesforceId();
             $client_secret = $user->getSalesforceSecret();
 
-            if ($user->getSalesforcesandbox()) {
+            if ($user->getSalesforceSandbox()) {
                 $login_URI = "https://test.salesforce.com";
             } else {
                 $login_URI = "https://login.salesforce.com";
@@ -185,7 +185,7 @@ class Salesforce {
             $client_secret = $user->getSalesforceSecret();
             $refresh_token = $user->getRefreshTokenSalesforce();
 
-            if ($user->getSalesforcesandbox()) {
+            if ($user->getSalesforceSandbox()) {
                 $token_url = "https://test.salesforce.com/services/oauth2/token";
             } else {
                 $token_url = "https://login.salesforce.com/services/oauth2/token";
@@ -227,7 +227,7 @@ class Salesforce {
             $client_secret = $user->getSalesforceSecret();
             $refresh_token = $user->getRefreshTokenSalesforce();
 
-            if ($user->getSalesforcesandbox()) {
+            if ($user->getSalesforceSandbox()) {
                 $token_url = "https://test.salesforce.com/services/oauth2/token";
             } else {
                 $token_url = "https://login.salesforce.com/services/oauth2/token";
