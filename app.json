@@ -4,8 +4,5 @@
   "repository": "https://github.com/Sylpheo/skyflow.io",
   "addons": [
     "heroku-postgresql:hobby-dev"
-  ],
-  "scripts": {
-    "postdeploy": "pg:psql < install.sql"
-  }
+  ]
 }
