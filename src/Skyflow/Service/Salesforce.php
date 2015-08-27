@@ -36,7 +36,8 @@ class Salesforce {
     public static function login(Application $app){
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $app['security']->getToken()->getUser();
-            $client_id = $user->getWaveId();
+            $client_id = $user->getSalesforceId();
+            $client_secret = $user->getSalesforceSecret();
 
             if ($user->getSalesforceSandbox()) {
                 $login_URI = "https://test.salesforce.com";
@@ -46,7 +47,7 @@ class Salesforce {
 
             $redirect_URI = 'https://' . $_SERVER['HTTP_HOST'] . '/auth/salesforce/oauth2callback';
             $auth_url = $login_URI . "/services/oauth2/authorize?response_type=code&client_id="
-                . $client_id . "&redirect_uri=" . urlencode($redirect_URI);
+                . $client_id . "&client_secret=" . $client_secret . "&redirect_uri=" . urlencode($redirect_URI);
 
             $client = new Client();
             $reponse = $client->get($auth_url);
@@ -65,7 +66,8 @@ class Salesforce {
                 return $app->json('No user matching');
             }
 
-            $client_id = $user->getWaveId();
+            $client_id = $user->getSalesforceId();
+            $client_secret = $user->getSalesforceSecret();
 
             if ($user->getSalesforceSandbox()) {
                 $login_URI = "https://test.salesforce.com";
@@ -75,7 +77,7 @@ class Salesforce {
 
             $redirect_URI = 'https://' . $_SERVER['HTTP_HOST'] . '/auth/salesforce/oauth2callback';
             $auth_url = $login_URI . "/services/oauth2/authorize?response_type=code&client_id="
-                . $client_id . "&redirect_uri=" . urlencode($redirect_URI);
+                . $client_id . "&client_secret=" . $client_secret . "&redirect_uri=" . urlencode($redirect_URI);
 
             $client = new Client();
             $reponse = $client->get($auth_url);
