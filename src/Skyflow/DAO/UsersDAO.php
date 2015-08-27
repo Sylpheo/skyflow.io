@@ -101,6 +101,7 @@ class UsersDAO extends DAO implements UserProviderInterface {
             'instance_url_salesforce' => $user->getInstanceUrlSalesforce(),
             'salesforce_id' => $user->getSalesforceId(),
             'salesforce_secret' => $user->getSalesforceSecret()
+            'salesforce_sandbox' => $user->getSalesforceSandbox()
         );
 
         if ($user->getId()) {
@@ -148,6 +149,7 @@ class UsersDAO extends DAO implements UserProviderInterface {
         $user->setInstanceUrlSalesforce($row['instance_url_salesforce']);
         $user->setSalesforceId(($row['salesforce_id']));
         $user->setSalesforceSecret($row['salesforce_secret']);
+        $user->setSalesforceSandbox($row['salesforce_sandbox']);
         return $user;
     }
 }
