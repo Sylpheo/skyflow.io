@@ -100,7 +100,7 @@ class UsersDAO extends DAO implements UserProviderInterface {
             'refresh_token_salesforce' => $user->getRefreshTokenSalesforce(),
             'instance_url_salesforce' => $user->getInstanceUrlSalesforce(),
             'salesforce_id' => $user->getSalesforceId(),
-            'salesforce_secret' => $user->getSalesforceSecret()
+            'salesforce_secret' => $user->getSalesforceSecret(),
             'salesforce_sandbox' => $user->getSalesforceSandbox()
         );
 
