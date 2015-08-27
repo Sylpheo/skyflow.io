@@ -6,6 +6,6 @@
     "heroku-postgresql:hobby-dev"
   ],
   "scripts": {
-    "postdeploy": "heroku pg:psql < install.sql"
+    "postdeploy": "pg:psql < install.sql"
   }
 }
