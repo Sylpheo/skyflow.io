@@ -81,7 +81,7 @@ class WaveServiceProvider implements ServiceProviderInterface
         });
 
         $app['wave.form.type.credentials'] = $app->share(function () use ($app) {
-            return new WaveCredentialsType();
+            return new WaveCredentialsType($app['user']);
         });
 
         $app['wave.form.credentials'] = function () use ($app) {
