@@ -50,7 +50,7 @@ class WaveService
     {
         $waveRequest = $this->httpClient->createRequest(
             'POST',
-            $this->instance_url . '/services/data/v34.0/wave/query',
+            $this->user->getWaveInstanceUrl() . '/services/data/v34.0/wave/query',
             [
                 'json' => [
                     'query' => $request

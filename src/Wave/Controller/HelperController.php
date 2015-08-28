@@ -120,9 +120,9 @@ class HelperController
             $result = $this->waveRequestDAO->findByRequest($r, $userId);
             if($result == null){
                 $waveRequest = new WaveRequest();
-                $waveRequest->setIdUser($userId);
+                $waveRequest->setUserId($userId);
                 $waveRequest->setRequest($r);
-                $waveRequestDAO->save($waveRequest);
+                $this->waveRequestDAO->save($waveRequest);
             }
 
             $data = $this->wave->request($r);
