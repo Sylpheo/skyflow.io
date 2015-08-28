@@ -37,8 +37,8 @@ class WaveCredentialsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('client_id','text')
-            ->add('client_secret','text')
+            ->add('client_id', 'text', array('attr' => array('autocomplete' => 'off')))
+            ->add('client_secret', 'text', array('attr' => array('autocomplete' => 'off')))
             ->add('sandbox', 'checkbox', array('required' => false));
         ;
     }
