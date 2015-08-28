@@ -103,7 +103,7 @@ class HelperController
         //}
 
         $userId = $this->user->getId();
-        $history = $this->requestDAO->findAllByUser($userId);
+        $history = $this->waveRequestDAO->findAllByUser($userId);
 
         $form = $this->formFactory->createBuilder('form')
             ->add('Request','textarea',array(
@@ -117,7 +117,7 @@ class HelperController
             $array = $form->getData();
             $r = $array['Request'];
 
-            $result = $this->requestDAO->findByRequest($r, $userId);
+            $result = $this->waveRequestDAO->findByRequest($r, $userId);
             if($result == null){
                 $waveRequest = new WaveRequest();
                 $waveRequest->setIdUser($userId);
