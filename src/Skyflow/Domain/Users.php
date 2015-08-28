@@ -46,6 +46,12 @@ class Users implements UserInterface {
     private $role;
 
     /**
+     * skyflow token (auto generate)
+     * @var string
+     */
+    private $skyflowtoken;
+
+    /**
      * ExactTarget clientid
      * @var string
      */
@@ -58,35 +64,46 @@ class Users implements UserInterface {
     private $clientsecret;
 
     /**
-     * skyflow token (auto generate)
-     * @var string
-     */
-    private $skyflowtoken;
-
-     /**
-     * Wve client id
-     * @var string
-     */
-    private $waveid;
-
-     /**
-     * Wave clientsecret
+     * Wave connected application client id.
      *
      * @var string
      */
-    private $wavesecret;
+    private $waveClientId;
 
     /**
-     * Wave login
+     * Wave connected application client secret.
+     *
      * @var string
      */
-    private $wavelogin;
+    private $waveClientSecret;
 
-     /**
-     * Wave password
+    /**
+     * Wave is sandbox.
+     *
+     * @var boolean
+     */
+    private $waveSandbox;
+
+    /**
+     * Wave access token.
+     *
      * @var string
      */
-    private $wavepassword;
+    private $waveAccessToken;
+
+    /**
+     * Wave refresh token.
+     *
+     * @var string
+     */
+    private $waveRefreshToken;
+
+    /**
+     * Wave Salesforce instance url.
+     *
+     * @var string
+     */
+    private $waveInstanceUrl;
 
     /**
      * @var access_token
@@ -167,7 +184,15 @@ class Users implements UserInterface {
         $this->role = $role;
     }
 
-        public function getClientid() {
+    public function getSkyflowtoken() {
+        return $this->skyflowtoken;
+    }
+
+    public function setSkyflowtoken($skyflowtoken) {
+        $this->skyflowtoken = $skyflowtoken;
+    }
+
+    public function getClientid() {
         return $this->clientid;
     }
 
@@ -184,44 +209,113 @@ class Users implements UserInterface {
         $this->clientsecret = $clientsecret;
     }
 
-    public function getSkyflowtoken() {
-        return $this->skyflowtoken;
+    /**
+     * Get Wave connected application client id.
+     *
+     * @return string Wave client id.
+     */
+    public function getWaveClientId() {
+        return $this->waveClientId;
     }
 
-    public function setSkyflowtoken($skyflowtoken) {
-        $this->skyflowtoken = $skyflowtoken;
+    /**
+     * Set Wave connected application client id.
+     *
+     * @param string $waveClientId Wave client id.
+     */
+    public function setWaveClientId($waveClientId) {
+        $this->waveClientId = $waveClientId;
     }
 
-    public function getWaveid() {
-        return $this->waveid;
+    /**
+     * Get Wave connected application client secret.
+     *
+     * @return string Wave client secret.
+     */
+    public function getWaveClientSecret() {
+        return $this->waveClientSecret;
     }
 
-    public function setWaveid($waveid) {
-        $this->waveid = $waveid;
+    /**
+     * Set Wave connected application client secret.
+     *
+     * @param string $waveClientSecret The Wave client secret.
+     */
+    public function setWaveClientSecret($waveClientSecret) {
+        $this->waveClientSecret = $waveClientSecret;
     }
 
-    public function getWavesecret() {
-        return $this->wavesecret;
+    /**
+     * Get if wave is on a Salesforce sandbox.
+     *
+     * @return boolean True if wave is on a Salesforce sandbox or false.
+     */
+    public function getWaveSandbox() {
+        return $this->waveSandbox;
     }
 
-    public function setWavesecret($wavesecret) {
-        $this->wavesecret = $wavesecret;
+    /**
+     * Set if wave is on a Salesforce sandbox.
+     *
+     * @param boolean $waveSandbox Boolean indicating if Wave
+     *                             is on a Salesforce sandbox.
+     */
+    public function setWaveSandbox($waveSandbox) {
+        $this->waveSandbox = $waveSandbox;
     }
 
-    public function getWavelogin() {
-        return $this->wavelogin;
+    /**
+     * Get wave access token.
+     *
+     * @return string Wave access token.
+     */
+    public function getWaveAccessToken() {
+        return $this->waveAccessToken;
     }
 
-    public function setWavelogin($wavelogin) {
-        $this->wavelogin = $wavelogin;
+    /**
+     * Set wave access token.
+     *
+     * @param string $waveAccessToken Wave access token.
+     */
+    public function setWaveAccessToken($waveAccessToken) {
+        $this->waveAccessToken = $waveAccessToken;
     }
 
-       public function getWavepassword() {
-        return $this->wavepassword;
+    /**
+     * Get wave refresh token.
+     *
+     * @return string Wave refresh token.
+     */
+    public function getWaveRefreshToken() {
+        return $this->waveRefreshToken;
     }
 
-    public function setWavepassword($wavepassword) {
-        $this->wavepassword = $wavepassword;
+    /**
+     * Set wave refresh token.
+     *
+     * @param string $waveRefreshToken Wave refresh token.
+     */
+    public function setWaveRefreshToken($waveRefreshToken) {
+        $this->waveRefreshToken = $waveRefreshToken;
+    }
+
+    /**
+     * Get wave instance url.
+     *
+     * @return string Wave instance url.
+     */
+    public function getWaveInstanceUrl() {
+        return $this->waveInstanceUrl;
+    }
+
+    /**
+     * Set wave instance url.
+     *
+     * @param string $waveInstanceUrl Wave instance url.
+     */
+    public function setWaveInstanceUrl($waveInstanceUrl) {
+        $this->waveInstanceUrl = $waveInstanceUrl;
     }
 
     public function getAccessTokenSalesforce(){

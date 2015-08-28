@@ -91,10 +91,12 @@ class UsersDAO extends DAO implements UserProviderInterface {
             'role' => $user->getRole(),
             'clientid' => $user->getClientid(),
             'clientsecret' => $user->getClientsecret(),
-            'waveid' => $user->getWaveid(),
-            'wavesecret' => $user->getWavesecret(),
-            'wavelogin' => $user->getWavelogin(),
-            'wavepassword' => $user->getWavepassword(),
+            'wave_client_id' => $user->getWaveClientId(),
+            'wave_client_secret' => $user->getWaveClientSecret(),
+            'wave_sandbox' => $user->getWaveSandbox(),
+            'wave_access_token' => $user->getWaveAccessToken(),
+            'wave_refresh_token' => $user->getWaveRefreshToken(),
+            'wave_instance_url' => $user->getWaveInstanceUrl(),
             'skyflowtoken' => $user->getSkyflowtoken(),
             'access_token_salesforce' => $user->getAccessTokenSalesforce(),
             'refresh_token_salesforce' => $user->getRefreshTokenSalesforce(),
@@ -139,10 +141,12 @@ class UsersDAO extends DAO implements UserProviderInterface {
         $user->setRole($row['role']);
         $user->setClientid($row['clientid']);
         $user->setClientsecret($row['clientsecret']);
-        $user->setWaveid($row['waveid']);
-        $user->setWavesecret($row['wavesecret']);
-        $user->setWavelogin($row['wavelogin']);
-        $user->setWavepassword($row['wavepassword']);
+        $user->setWaveClientId($row['wave_client_id']);
+        $user->setWaveClientSecret($row['wave_client_secret']);
+        $user->setWaveSandbox($row['wave_sandbox']);
+        $user->setWaveAccessToken($row['wave_access_token']);
+        $user->setWaveRefreshToken($row['wave_refresh_token']);
+        $user->setWaveInstanceUrl($row['wave_instance_url']);
         $user->setSkyflowtoken($row['skyflowtoken']);
         $user->setAccessTokenSalesforce($row['access_token_salesforce']);
         $user->setRefreshTokenSalesforce($row['refresh_token_salesforce']);

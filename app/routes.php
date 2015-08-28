@@ -210,27 +210,6 @@ $app->match(
     'skyflow\Controller\TriggerController::infoTriggeredSendAction'
 );
 
-// ========== Wave ==========
-
-// ----- Helper -----
-
-$app->match(
-    '/wave-helper',
-    'skyflow\Controller\WaveController::requestWaveAction'
-)->bind('wave-helper');
-
-$app->get(
-    '/resend/{id}',
-    'skyflow\Controller\WaveController::resendAction'
-)->bind('/resend/{id}');
-
-// ----- Credentials -----
-
-$app->match(
-    '/wave_credentials',
-    'skyflow\Controller\WaveController::setCredentialsWaveAction'
-)->bind('wave_credentials');
-
 // ========== Salesforce ==========
 
 $app->get(

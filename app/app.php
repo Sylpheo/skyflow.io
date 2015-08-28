@@ -9,17 +9,20 @@
 use Silex\Provider\FormServiceProvider;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
-use Symfony\Component\HttpFoundation\Request;
 
 use skyflow\Service\ExactTarget;
 use skyflow\Service\GenerateToken;
 use skyflow\SilexOpauth\OpauthExtension;
 
+use Wave\Provider\WaveServiceProvider;
+use Wave\Provider\WaveControllerProvider;
+
+$app['debug'] = true;
+$app['dev'] = $_SERVER['SERVER_NAME'] === 'localhost' ? true : false;
+
 require_once __DIR__ . '/routes.php';
 
 $app['db.options'] = include __DIR__ . '/db.php';
-
-$app['debug'] = true;
 
 // ========== Error Handlers ==========
 
@@ -46,10 +49,14 @@ $app->error(function (\Exception $e, $code) use ($app) {
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => 'php://stderr',
+    'monolog.logfile' => (
+        $app['dev'] ? __DIR__ . '/../var/logs/silex.log' : 'php://stderr'
+    ),
     'monolog.name' => 'silex',
     'monolog.level' => \Monolog\Logger::WARNING
 ));
+
+$app->register(new Silex\Provider\ServiceControllerServiceProvider());
 
 $app->register(new Silex\Provider\SessionServiceProvider());
 
@@ -82,12 +89,10 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     ),
 ));
 
-// ========== Custom Services ==========
+// ========== Addons ==========
 
-$app['generatetoken'] = $app->share(function($app) {
-    $generate = new skyflow\Service\GenerateToken();
-    return $generate;
-});
+$app->register(new WaveServiceProvider());
+$app->mount('/wave', new WaveControllerProvider());
 
 // ========== DAO ==========
 
@@ -114,13 +119,35 @@ $app['dao.wave_request'] = $app->share(function ($app){
     return new skyflow\DAO\Wave_requestDAO($app['db']);
 });
 
+// ========== Domain ==========
+
+$app['user'] = $app->share(function() use ($app) {
+    $user = null;
+
+    if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+        $user = $app['security']->getToken()->getUser();
+    } else if ($app['request']->headers->has('Skyflow-Token')) {
+        $token = $app['request']->headers->get('Skyflow-Token');
+        $user = $app['dao.user']->findByToken($token);
+    } else {
+        throw new \Exception('User is not fully authenticated or missing skyflow-token');
+    }
+
+    return $user;
+});
+
 // ========== Flows ==========
 
 $app['flow_mail_remerciements'] = $app->share(function ($app){
     return new skyflow\Flows\Flow_mail_remerciements($app);
 });
 
-// ========== Addons ==========
+// ========== Services ==========
+
+$app['generatetoken'] = $app->share(function($app) {
+    $generate = new skyflow\Service\GenerateToken();
+    return $generate;
+});
 
 $app['exacttarget'] = $app->share(function($app) {
     if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -132,12 +159,4 @@ $app['exacttarget'] = $app->share(function($app) {
 
 $app['salesforce'] = $app->share(function(){
     return new skyflow\Service\Salesforce();
-});
-
-$app['wave'] = $app->share(function($app) {
-    if($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-        return skyflow\Service\Wave::login($app);
-    }else{
-        return skyflow\Service\Wave::loginByApi($app);
-    }
 });
