@@ -39,7 +39,7 @@ class WaveCredentialsType extends AbstractType
         $builder
             ->add('client_id','text')
             ->add('client_secret','text')
-            ->add('sandbox', 'checkbox')
+            ->add('sandbox', 'checkbox', array('required' => false));
         ;
     }
 
@@ -48,7 +48,7 @@ class WaveCredentialsType extends AbstractType
         $form->setData(array(
             'client_id' => $this->user->getWaveClientId(),
             'client_secret' => $this->user->getWaveClientSecret(),
-            'sandbox' => $this->user->getWaveSandbox()
+            'sandbox' => $this->user->getWaveSandbox() ? true : false
         ));
     }
 

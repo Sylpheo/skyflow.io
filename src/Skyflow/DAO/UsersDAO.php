@@ -93,7 +93,7 @@ class UsersDAO extends DAO implements UserProviderInterface {
             'clientsecret' => $user->getClientsecret(),
             'wave_client_id' => $user->getWaveClientId(),
             'wave_client_secret' => $user->getWaveClientSecret(),
-            'wave_sandbox' => $user->getWaveSandbox(),
+            'wave_sandbox' => $user->getWaveSandbox() ? 1 : 0,
             'wave_access_token' => $user->getWaveAccessToken(),
             'wave_refresh_token' => $user->getWaveRefreshToken(),
             'wave_instance_url' => $user->getWaveInstanceUrl(),
@@ -103,7 +103,7 @@ class UsersDAO extends DAO implements UserProviderInterface {
             'instance_url_salesforce' => $user->getInstanceUrlSalesforce(),
             'salesforce_id' => $user->getSalesforceId(),
             'salesforce_secret' => $user->getSalesforceSecret(),
-            'salesforce_sandbox' => $user->getSalesforceSandbox()
+            'salesforce_sandbox' => $user->getSalesforceSandbox() ? 1 : 0
         );
 
         if ($user->getId()) {
