@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DAO class for the Users domain object.
+ * DAO class for the Skyflow user.
  *
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
@@ -13,18 +13,20 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
-use skyflow\Domain\Users;
+use skyflow\DAO\AbstractDAO;
+use skyflow\Domain\AbstractModel;
+use skyflow\Domain\SkyflowUser;
 
 /**
- * DAO class for the Users domain object.
+ * DAO class for the Skyflow user.
  */
-class UsersDAO extends DAO implements UserProviderInterface {
+class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface {
 
     /**
      * Find a User from its id.
      *
      * @param string $id The User's id.
-     * @return Users The found User.
+     * @return SkyflowUser The found User.
      * @throws \Exception if no user found.
      */
     public function find($id) {
@@ -41,7 +43,7 @@ class UsersDAO extends DAO implements UserProviderInterface {
      * Find a User from its skyflow-token.
      *
      * @param $skyflowToken The User's skyflow-token.
-     * @return Users The found User.
+     * @return SkyflowUser The found User.
      */
     public function findByToken($skyflowToken) {
         $sql = "select * from users where skyflowtoken=?";
@@ -79,32 +81,36 @@ class UsersDAO extends DAO implements UserProviderInterface {
     }
 
     /**
-     * Save a User.
+     * Get user data formatted for storage in database.
      *
-     * @param Users $user The User to save.
+     * It returns an associative array where the key is the
+     * field name in database and the value is the current value
+     * in the application.
+     *
+     * @param  AbstractModel $user The user to get data from.
+     * @return array                The user data formatted for storage.
      */
-    public function save(Users $user) {
-        $userData = array(
+    public function getData(AbstractModel $user)
+    {
+        return array(
             'username' => $user->getUsername(),
             'salt' => $user->getSalt(),
             'password' => $user->getPassword(),
             'role' => $user->getRole(),
-            'clientid' => $user->getClientid(),
-            'clientsecret' => $user->getClientsecret(),
-            'wave_client_id' => $user->getWaveClientId(),
-            'wave_client_secret' => $user->getWaveClientSecret(),
-            'wave_sandbox' => $user->getWaveSandbox() ? 1 : 0,
-            'wave_access_token' => $user->getWaveAccessToken(),
-            'wave_refresh_token' => $user->getWaveRefreshToken(),
-            'wave_instance_url' => $user->getWaveInstanceUrl(),
-            'skyflowtoken' => $user->getSkyflowtoken(),
-            'access_token_salesforce' => $user->getAccessTokenSalesforce(),
-            'refresh_token_salesforce' => $user->getRefreshTokenSalesforce(),
-            'instance_url_salesforce' => $user->getInstanceUrlSalesforce(),
-            'salesforce_id' => $user->getSalesforceId(),
-            'salesforce_secret' => $user->getSalesforceSecret(),
-            'salesforce_sandbox' => $user->getSalesforceSandbox() ? 1 : 0
+            'skyflowtoken' => $user->getSkyflowtoken()
         );
+    }
+
+    /**
+     * Save a User.
+     *
+     * This is an upsert. If the user already exists (it has an id)
+     * then it is updated, or it is inserted.
+     *
+     * @param SkyflowUser $user The User to save.
+     */
+    public function save(SkyflowUser $user) {
+        $userData = $this->getData($user);
 
         if ($user->getId()) {
             // The user has already been saved : update it
@@ -123,37 +129,23 @@ class UsersDAO extends DAO implements UserProviderInterface {
      */
     public function supportsClass($class)
     {
-        return 'skyflow\Domain\Users' === $class;
+        return 'skyflow\Domain\SkyflowUser' === $class;
     }
 
     /**
      * Creates a User object based on a DB row.
      *
      * @param array $row The DB row containing User data.
-     * @return Users
+     * @return SkyflowUser
      */
     protected function buildDomainObject($row) {
-        $user = new Users();
+        $user = new SkyflowUser();
         $user->setId($row['id']);
         $user->setUsername($row['username']);
         $user->setPassword($row['password']);
         $user->setSalt($row['salt']);
         $user->setRole($row['role']);
-        $user->setClientid($row['clientid']);
-        $user->setClientsecret($row['clientsecret']);
-        $user->setWaveClientId($row['wave_client_id']);
-        $user->setWaveClientSecret($row['wave_client_secret']);
-        $user->setWaveSandbox($row['wave_sandbox']);
-        $user->setWaveAccessToken($row['wave_access_token']);
-        $user->setWaveRefreshToken($row['wave_refresh_token']);
-        $user->setWaveInstanceUrl($row['wave_instance_url']);
         $user->setSkyflowtoken($row['skyflowtoken']);
-        $user->setAccessTokenSalesforce($row['access_token_salesforce']);
-        $user->setRefreshTokenSalesforce($row['refresh_token_salesforce']);
-        $user->setInstanceUrlSalesforce($row['instance_url_salesforce']);
-        $user->setSalesforceId(($row['salesforce_id']));
-        $user->setSalesforceSecret($row['salesforce_secret']);
-        $user->setSalesforceSandbox($row['salesforce_sandbox']);
         return $user;
     }
 }

@@ -8,13 +8,16 @@
 
 namespace Wave\Provider;
 
+use GuzzleHttp\Client as HttpClient;
+
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
-use Wave\Authenticator\WaveAuthenticator;
+use Salesforce\Authenticator\SalesforceAuthenticator;
+use Salesforce\Domain\SalesforceUser;
+
 use Wave\Controller\AuthController;
 use Wave\Controller\HelperController;
-use Wave\Controller\WaveController;
 use Wave\DAO\WaveRequestDAO;
 use Wave\Domain\WaveRequest;
 use Wave\Form\Type\WaveCredentialsType;
@@ -40,7 +43,7 @@ class WaveServiceProvider implements ServiceProviderInterface
             }
 
             // code must be defined later in the AuthController callback action
-            return new WaveAuthenticator(array(
+            return new SalesforceAuthenticator(array(
                 'login_url'     => $loginUrl,
                 'response_type' => 'code',
                 'grant_type'    => 'code',
@@ -76,12 +79,20 @@ class WaveServiceProvider implements ServiceProviderInterface
             );
         });
 
+        $app['wave.user'] = $app->share(function () use ($app) {
+            $app['wave.user.dao']->findBySkyflowUserId();
+        });
+
+        $app['wave.user.dao'] = $app->share(function () use ($app) {
+            return new SalesforceUserDAO($app['db']);
+        });
+
         $app['dao.wave_request'] = $app->share(function () use ($app) {
             return new WaveRequestDAO($app['db']);
         });
 
         $app['wave.form.type.credentials'] = $app->share(function () use ($app) {
-            return new WaveCredentialsType($app['user']);
+            return new WaveCredentialsType($app['wave.user']);
         });
 
         $app['wave.form.credentials'] = function () use ($app) {
@@ -99,7 +110,7 @@ class WaveServiceProvider implements ServiceProviderInterface
         $app['wave'] = $app->share(function () use ($app) {
             return new WaveService(
                 $app['user'],
-                new \GuzzleHttp\Client()
+                new HttpClient()
             );
         });
     }

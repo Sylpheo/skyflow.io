@@ -33,24 +33,6 @@ class EventDAO extends DAO {
     }
 
     /**
-     * Find an Event by its id.
-     *
-     * @param $id The Event id.
-     * @return Event|null The found Event or null if none found.
-     * @throws \Doctrine\DBAL\DBALException
-     */
-    public function findOneById($id) {
-        $sql = $this->getDb()->prepare("select * from event where id = ?");
-        $sql->bindValue(1,$id);
-        $sql->execute();
-        $event = $sql->fetch();
-
-        if ($event) {
-            return $this->buildDomainObject($event);
-        }
-    }
-
-    /**
      * Find all Events owned by a User using the user's id.
      *
      * @param $id_user The id of the User who owns the Events to find.
@@ -70,35 +52,18 @@ class EventDAO extends DAO {
     }
 
     /**
-     * Save an Event.
-     *
-     * @param Event $event The Event to save.
+     * {@inheritdoc}
      */
-    public function save(Event $event){
-        $eventData = array(
+    public function getData(Event $event)
+    {
+        return array(
             'name' => $event->getName(),
             'description' => $event->getDescription(),
-            'id_user' => $event->getIdUsers(),
+            'id_user' => $event->getUserId(),
         );
-
-        if($event->getId()) {
-            $this->getDb()->update('event',$eventData, array('id' => $event->getId()));
-        } else {
-            $this->getDb()->insert('event',$eventData);
-            $id = $this->getDb()->lastInsertId();
-            $event->setId($id);
-        }
     }
 
-    /**
-     * Delete an Event.
-     *
-     * @param string $id The id of the Event to delete.
-     * @throws \Doctrine\DBAL\Exception\InvalidArgumentException
-     */
-    public function delete($id){
-        $this->getDb()->delete('event',array('id' => $id));
-    }
+    
 
     /**
      * Creates a Event object based on a DB row.

@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use skyflow\Domain\Users;
+use skyflow\Controller\AbstractHelperController;
 
 use Wave\Domain\WaveRequest;
 use Wave\DAO\WaveRequestDAO;
@@ -20,76 +21,8 @@ use Wave\Service\WaveService;
 /**
  * Controller for Wave helper actions.
  */
-class HelperController
+class HelperController extends AbstractHelperController
 {
-    /**
-     * The HTTP request.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * The Wave service.
-     *
-     * @var WaveService
-     */
-    protected $wave;
-
-    /**
-     * The skyflow logged-in user.
-     *
-     * @var Users
-     */
-    protected $user;
-
-    /**
-     * The DAO object for Request.
-     *
-     * @var WaveRequestDAO
-     */
-    protected $waveRequestDAO;
-
-    /**
-     * The form factory.
-     *
-     * @var FormFactoryInterface
-     */
-    protected $formFactory;
-
-    /**
-     * The Twig environment.
-     *
-     * @var \Twig_Environment
-     */
-    protected $twig;
-
-    /**
-     * WaveController constructor.
-     *
-     * @param Request              $request     The HTTP request.
-     * @param WaveService          $wave        The Wave service.
-     * @param Users                $user        The logged-in skyflow user.
-     * @param WaveRequestDAO       $userDAO     The DAO object for WaveRequest.
-     * @param FormFactoryInterface $formFactory The Form factory.
-     * @param \Twig_Environment    $twig        The Twig environment.
-     */
-    public function __construct(
-        Request $request,
-        WaveService $wave,
-        Users $user,
-        WaveRequestDAO $waveRequestDAO,
-        FormFactoryInterface $formFactory,
-        \Twig_Environment $twig
-    ) {
-        $this->request = $request;
-        $this->wave = $wave;
-        $this->user = $user;
-        $this->waveRequestDAO = $waveRequestDAO;
-        $this->formFactory = $formFactory;
-        $this->twig = $twig;
-    }
-
     /**
      * Send a Wave request.
      *

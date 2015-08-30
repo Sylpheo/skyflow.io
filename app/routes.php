@@ -32,7 +32,7 @@ $app->match(
 $app->get(
     '/',
     'skyflow\Controller\HomeController::indexAction'
-);
+)->bind('home');
 
 $app->get(
     '/gestionToken',
@@ -208,28 +208,4 @@ $app->match(
 $app->match(
     '/trigger/{customerKey}',
     'skyflow\Controller\TriggerController::infoTriggeredSendAction'
-);
-
-// ========== Salesforce ==========
-
-$app->get(
-    '/salesforce',
-    'skyflow\Controller\SalesforceController::salesforceAction'
-)->bind("/salesforce");
-
-$app->get(
-    '/auth/salesforce/oauth2callback',
-    'skyflow\Controller\SalesforceController::callbackAction'
-);
-
-$app->match(
-    '/query',
-    'skyflow\Controller\SalesforceController::queryAction'
-);
-
-// ----- Credentials -----
-
-$app->match(
-    '/salesforce-credentials',
-    'skyflow\Controller\SalesforceController::setCredentialsSalesforceAction'
 );

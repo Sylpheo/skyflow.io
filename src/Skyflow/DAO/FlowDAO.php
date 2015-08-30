@@ -36,23 +36,6 @@ class FlowDAO extends DAO {
     }
 
     /**
-     * Find a Flow by its id.
-     *
-     * @param string $id The Flow id.
-     * @return Flow|null The found Flow or null if none found.
-     */
-    public function findOneById($id){
-        $sql = $this->getDb()->prepare("select * from flow where id = ?");
-        $sql->bindValue(1,$id);
-        $sql->execute();
-        $flow = $sql->fetch();
-
-        if($flow){
-            return $this->buildDomainObject($flow);
-        }
-    }
-
-    /**
      * Find all Flows owned by a User using the user's id.
      *
      * @param string $id_user The id of the User who owns the Flows to find.

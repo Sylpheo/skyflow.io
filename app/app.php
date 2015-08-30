@@ -10,9 +10,13 @@ use Silex\Provider\FormServiceProvider;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 
+use skyflow\DAO\SkyflowUserDAO;
 use skyflow\Service\ExactTarget;
 use skyflow\Service\GenerateToken;
 use skyflow\SilexOpauth\OpauthExtension;
+
+use Salesforce\Provider\SalesforceServiceProvider;
+use Salesforce\Provider\SalesforceControllerProvider;
 
 use Wave\Provider\WaveServiceProvider;
 use Wave\Provider\WaveControllerProvider;
@@ -64,7 +68,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../views',
 ));
 
-$app['twig'] = $app->share($app->extend('twig', function(Twig_Environment $twig, $app) {
+$app['twig'] = $app->share($app->extend('twig', function (Twig_Environment $twig, $app) {
     $twig->addExtension(new Twig_Extensions_Extension_Text());
     return $twig;
 }));
@@ -81,9 +85,12 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
             'pattern' => '^/',
             'anonymous' => true,
             'logout' => true,
-            'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
+            'form' => array(
+                'login_path' => '/login',
+                'check_path' => '/login_check'
+            ),
             'users' => $app->share(function () use ($app) {
-                return new skyflow\DAO\UsersDAO($app['db']);
+                return new skyflow\DAO\SkyflowUserDAO($app['db']);
             }),
         ),
     ),
@@ -91,13 +98,20 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 
 // ========== Addons ==========
 
+$app->register(new SalesforceServiceProvider());
+$app->mount('/salesforce', new SalesforceControllerProvider());
+
 $app->register(new WaveServiceProvider());
 $app->mount('/wave', new WaveControllerProvider());
+
+$app['http.client'] = $app->share(function ($app) {
+    return new \GuzzleHttp\Client();
+});
 
 // ========== DAO ==========
 
 $app['dao.user'] = $app->share(function ($app) {
-    return new skyflow\DAO\UsersDAO($app['db']);
+    return new skyflow\DAO\SkyflowUserDAO($app['db']);
 });
 
 $app['dao.event'] = $app->share(function ($app) {
@@ -115,22 +129,26 @@ $app['dao.mapping'] = $app->share(function ($app) {
     return $mappingDAO;
 });
 
-$app['dao.wave_request'] = $app->share(function ($app){
-    return new skyflow\DAO\Wave_requestDAO($app['db']);
-});
-
 // ========== Domain ==========
 
-$app['user'] = $app->share(function() use ($app) {
+$app['user'] = $app->share(function () use ($app) {
     $user = null;
 
-    if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-        $user = $app['security']->getToken()->getUser();
-    } else if ($app['request']->headers->has('Skyflow-Token')) {
-        $token = $app['request']->headers->get('Skyflow-Token');
-        $user = $app['dao.user']->findByToken($token);
+    if (0 === strpos($app['request']->headers->get('Content-Type'), 'application/json')) {
+        // Skyflow JSON API request
+        if ($app['request']->headers->has('Skyflow-Token')) {
+            $token = $app['request']->headers->get('Skyflow-Token');
+            $user = $app['dao.user']->findByToken($token);
+        } else {
+            throw new \Exception('Missing skyflow-token');
+        }
     } else {
-        throw new \Exception('User is not fully authenticated or missing skyflow-token');
+        // Skyflow interface request
+        if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $app['security']->getToken()->getUser();
+        } else {
+            $user = null;
+        }
     }
 
     return $user;
@@ -138,25 +156,21 @@ $app['user'] = $app->share(function() use ($app) {
 
 // ========== Flows ==========
 
-$app['flow_mail_remerciements'] = $app->share(function ($app){
+$app['flow_mail_remerciements'] = $app->share(function ($app) {
     return new skyflow\Flows\Flow_mail_remerciements($app);
 });
 
 // ========== Services ==========
 
-$app['generatetoken'] = $app->share(function($app) {
+$app['generatetoken'] = $app->share(function ($app) {
     $generate = new skyflow\Service\GenerateToken();
     return $generate;
 });
 
-$app['exacttarget'] = $app->share(function($app) {
+$app['exacttarget'] = $app->share(function ($app) {
     if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
         return skyflow\Service\ExactTarget::login($app);
-    }else{
+    } else {
         return skyflow\Service\ExactTarget::loginByApi($app);
     }
-});
-
-$app['salesforce'] = $app->share(function(){
-    return new skyflow\Service\Salesforce();
 });

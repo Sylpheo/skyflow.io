@@ -8,65 +8,99 @@
 
 namespace skyflow\Domain;
 
+use skyflow\Domain\AbstractDomainObject;
+
 /**
  * Event Domain Object class.
  */
-class Event  {
+class Event extends AbstractDomainObject
+{
     /**
-     * Event id
-     * @var integer
-     */
-    private $id;
-
-    /**
-     * Event name
+     * The Event name.
+     *
      * @var string
      */
     private $name;
 
     /**
-     * Event flow.
+     * The Event description.
+     *
      * @var string
      */
     private $description;
 
     /**
-    * Event id_user
-    * Users
+    * The id of the User who owns the Event.
+    *
+    * @var string
     */
-    private $idUsers;
+    private $userId;
 
-
-
-    public function getId() {
-        return $this->id;
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return 'event';
     }
 
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    public function getName() {
+    /**
+     * Get the Event name.
+     *
+     * @return string The Event name.
+     */
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function setName($name) {
+    /**
+     * Set the Event name.
+     *
+     * @param string $name The Event name.
+     */
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function getDescription() {
+    /**
+     * Get the Event description.
+     *
+     * @return string The Event description.
+     */
+    public function getDescription()
+    {
         return $this->description;
     }
 
-    public function setDescription($description) {
+    /**
+     * Set the Event description.
+     *
+     * @param string $description The Event description.
+     */
+    public function setDescription($description)
+    {
         $this->description = $description;
     }
 
-    public function getIdUsers(){
-        return $this->idUsers;
+    /**
+     * Get the id of the User who owns the Event.
+     *
+     * @return string The id of the User who owns the Event.
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
-    public function setIdUsers($idUsers){
-        $this->idUsers = $idUsers;
+    /**
+     * Set the id of the User who Owns the Event.
+     *
+     * @param string $id The id of the User who owns the Event.
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
     }
 }
