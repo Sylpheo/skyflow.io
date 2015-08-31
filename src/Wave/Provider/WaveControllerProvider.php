@@ -17,10 +17,10 @@ class WaveControllerProvider implements ControllerProviderInterface
     {
         $controllers = $app['controllers_factory'];
 
-        $controllers->match('/auth', 'wave.controller.auth:credentialsAction')->bind('wave-credentials');
+        $controllers->match('/auth', 'wave.controller.user:credentialsAction')->bind('wave-credentials');
         
-        $controllers->get('/auth/authenticate', 'wave.controller.auth:authenticateAction')->bind('wave-authenticate');
-        $controllers->get('/auth/callback', 'wave.controller.auth:callbackAction')->bind('wave-callback');
+        $controllers->get('/auth/authenticate', 'wave.controller.oauth:authenticateAction')->bind('wave-authenticate');
+        $controllers->get('/auth/callback', 'wave.controller.oauth:callbackAction')->bind('wave-callback');
 
         $controllers->match('/helper', 'wave.controller.helper:requestAction')->bind('wave-helper');
         $controllers->get('/helper/resend/{id}', 'wave.controller.helper:resendAction')->bind('/resend/{id}');

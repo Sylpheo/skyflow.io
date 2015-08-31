@@ -100,44 +100,41 @@ class SalesforceDataService
      */
     public function soql($query)
     {
+        $_query = rtrim($query, ';');
+
         $accessToken = $this->getUser()->getAccessToken();
         $instanceUrl = $this->getUser()->getInstanceUrl();
 
         $salesforceRequest = $this->getHttpClient()->createRequest(
             'GET',
-            $instanceUrl . "/services/data/v20.0/query?q=" . urlencode($query)
+            $instanceUrl . "/services/data/v20.0/query?q=" . urlencode($_query)
         );
 
-        $salesforceRequest->setHeader(
-            'Authorization',
-            'Bearer: ' . $accessToken
-        );
+        $salesforceRequest->setHeader('Authorization', 'OAuth ' . $accessToken);
 
-        $response = null;
-        $statuscode = null;
+        $response = $this->getHttpClient()->send($salesforceRequest);
+        $statuscode = $response->getStatusCode();
 
-        try {
+        /*try {
             $response = $this->getHttpClient()->send($salesforceRequest);
             $statuscode = $response->getStatusCode();
         } catch (\Exception $e) {
-            $statuscode = $e->getCode();
-        }
+            $statuscode= $e->getCode();
+        }*/
 
         if ($statuscode == '401') {
-            $this->getAuthService()->refresh();
+            // Get new access_token
+            $this->getOAuthService()->refresh();
+            $access_token = $this->getOAuthService()->access_token;
+            $this->getUser()->setAccessToken($access_token);
+            $this->getUserDAO()->save($user);
 
             // Resend request
-            $salesforceRequest->setHeader(
-                'Authorization',
-                'Bearer: ' . $this->getUser()->getRefreshToken()
-            );
-
+            $salesforceRequest->setHeader('Authorization', 'OAuth ' . $accessToken);
             $response = $this->getHttpClient()->send($salesforceRequest);
         }
 
         $data = $response->json();
-        var_dump($data);
-        exit;
         $data = json_encode($data);
 
         return $data;

@@ -15,11 +15,12 @@ use Silex\ServiceProviderInterface;
 
 use skyflow\Controller\OAuthController;
 
-use Salesforce\Authenticator\SalesforceAuthenticator;
+use Salesforce\Authenticator\SalesforceOAuthAuthenticator;
+use Salesforce\DAO\SalesforceUserDAO;
 use Salesforce\Domain\SalesforceUser;
+use Salesforce\Service\SalesforceOAuthService;
 
-use Wave\Controller\AuthController;
-use Wave\Controller\HelperController;
+use Wave\Controller\WaveOAuthUserController;
 use Wave\DAO\WaveRequestDAO;
 use Wave\Domain\WaveRequest;
 use Wave\Form\Type\WaveCredentialsType;
@@ -44,18 +45,25 @@ class WaveServiceProvider implements ServiceProviderInterface
                 $loginUrl = 'https://login.salesforce.com';
             }
 
+            $server = $_SERVER['SERVER_NAME'];
+            $host = $_SERVER['HTTP_HOST'];
+
             // code must be defined later in the AuthController callback action
-            return new SalesforceAuthenticator(array(
+            $authenticator = new SalesforceOAuthAuthenticator(array(
                 'login_url'     => $loginUrl,
                 'response_type' => 'code',
                 'grant_type'    => 'code',
                 'client_id'     => $user->getClientId(),
                 'client_secret' => $user->getClientSecret(),
-                'redirect_uri'  => 'https://' . $_SERVER['HTTP_HOST'] . '/wave/auth/callback',
+                'redirect_uri'  => ($server === 'localhost' ? 'http' : 'https')
+                    . '://' . $host . '/wave/auth/callback',
                 'code'          => null,
                 'instance_url'  => $user->getInstanceUrl(),
                 'refresh_token' => $user->getRefreshToken()
             ));
+            $authenticator->setHttpClient($app['http.client']);
+
+            return $authenticator;
         });
 
         $app['wave.controller.helper'] = $app->share(function () use ($app) {
@@ -69,20 +77,37 @@ class WaveServiceProvider implements ServiceProviderInterface
         $app['wave.controller.oauth'] = $app->share(function () use ($app) {
             return new OAuthController(
                 $app['request'],
-                $app['salesforce.oauth'],
-                '/salesforce/auth'
+                $app['wave.oauth'],
+                '/wave/auth'
             );
         });
 
+        $app['wave.controller.user'] = $app->share(function () use ($app) {
+            $controller = new WaveOAuthUserController(
+                $app['request'],
+                $app['wave.oauth'],
+                $app['wave.user'],
+                $app['wave.user.dao'],
+                $app['wave.form.credentials']
+            );
+            $controller->setTwig($app['twig']);
+
+            return $controller;
+        });
+
         $app['wave.user'] = $app->share(function () use ($app) {
-            $app['wave.user.dao']->findBySkyflowUserId();
+            return $app['wave.user.dao']->findById($app['user']->getId());
         });
 
         $app['wave.user.dao'] = $app->share(function () use ($app) {
-            return new SalesforceUserDAO($app['db']);
+            return new SalesforceUserDAO(
+                $app['db'],
+                'users',
+                'Wave'
+            );
         });
 
-        $app['dao.wave_request'] = $app->share(function () use ($app) {
+        $app['wave.wave_request.dao'] = $app->share(function () use ($app) {
             return new WaveRequestDAO($app['db']);
         });
 
@@ -94,11 +119,11 @@ class WaveServiceProvider implements ServiceProviderInterface
             return $app['form.factory']->create($app['wave.form.type.credentials']);
         };
 
-        $app['wave.auth'] = $app->share(function () use ($app) {
-            return new AuthService(
+        $app['wave.oauth'] = $app->share(function () use ($app) {
+            return new SalesforceOAuthService(
                 $app['wave.authenticator'],
-                $app['user'],
-                $app['dao.user']
+                $app['wave.user'],
+                $app['wave.user.dao']
             );
         });
 

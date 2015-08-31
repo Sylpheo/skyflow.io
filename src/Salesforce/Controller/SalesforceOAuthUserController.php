@@ -17,7 +17,9 @@ class SalesforceOAuthUserController extends OAuthUserController
      */
     public function credentialsAction()
     {
-        $this->getCredentialsForm()->handleRequest($this->getRequest());
+        if (!$this->getCredentialsForm()->isSubmitted()) {
+            $this->getCredentialsForm()->handleRequest($this->getRequest());
+        }
 
         if ($this->getCredentialsForm()->isSubmitted()
             && $this->getCredentialsForm()->isValid()

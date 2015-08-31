@@ -45,6 +45,9 @@ class SalesforceServiceProvider implements ServiceProviderInterface
                 $loginUrl = 'https://login.salesforce.com';
             }
 
+            $server = $_SERVER['SERVER_NAME'];
+            $host = $_SERVER['HTTP_HOST'];
+
             // "code" parameter is not defined in the array
             // it must be defined later in the AuthController callback action
             $authenticator = new SalesforceOAuthAuthenticator(array(
@@ -53,7 +56,8 @@ class SalesforceServiceProvider implements ServiceProviderInterface
                 'grant_type'    => 'code',
                 'client_id'     => $user->getClientId(),
                 'client_secret' => $user->getClientSecret(),
-                'redirect_uri'  => 'https://' . $_SERVER['HTTP_HOST'] . '/salesforce/auth/callback',
+                'redirect_uri'  => ($server === 'localhost' ? 'http' : 'https')
+                    . '://' . $host . '/salesforce/auth/callback',
                 'code'          => null,
                 'instance_url'  => $user->getInstanceUrl(),
                 'refresh_token' => $user->getRefreshToken()
