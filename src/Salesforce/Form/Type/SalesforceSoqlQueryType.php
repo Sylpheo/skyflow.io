@@ -8,14 +8,26 @@
 
 namespace Salesforce\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+
+use skyflow\Form\Type\AbstractType;
 
 /**
  * Form for Salesforce SOQL query.
  */
 class SalesforceSoqlQueryType extends AbstractType
 {
+    /**
+     * SalesforceSoqlQueryType constructor.
+     */
+    public function __construct()
+    {
+        $this->setName('salesforce_soql');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -23,10 +35,5 @@ class SalesforceSoqlQueryType extends AbstractType
                 'attr' => array('cols' => '100', 'rows' => '3')
             ))
         ;
-    }
-
-    public function getName()
-    {
-        return 'salesforce_soql';
     }
 }

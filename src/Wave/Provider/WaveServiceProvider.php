@@ -14,17 +14,19 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 use skyflow\Controller\OAuthController;
+use skyflow\Facade;
 
 use Salesforce\Authenticator\SalesforceOAuthAuthenticator;
 use Salesforce\DAO\SalesforceUserDAO;
 use Salesforce\Domain\SalesforceUser;
+use Salesforce\Form\Type\SalesforceOAuthCredentialsType;
+use Salesforce\Form\Type\SalesforceSoqlQueryType;
 use Salesforce\Service\SalesforceOAuthService;
 
+use Wave\Controller\WaveHelperController;
 use Wave\Controller\WaveOAuthUserController;
 use Wave\DAO\WaveRequestDAO;
 use Wave\Domain\WaveRequest;
-use Wave\Form\Type\WaveCredentialsType;
-use Wave\Service\AuthService;
 use Wave\Service\WaveService;
 
 /**
@@ -112,11 +114,25 @@ class WaveServiceProvider implements ServiceProviderInterface
         });
 
         $app['wave.form.type.credentials'] = $app->share(function () use ($app) {
-            return new WaveCredentialsType($app['wave.user']);
+            $type = new SalesforceOAuthCredentialsType($app['wave.user']);
+            $type->setName('wave_credentials');
+
+            return $type;
         });
 
         $app['wave.form.credentials'] = function () use ($app) {
             return $app['form.factory']->create($app['wave.form.type.credentials']);
+        };
+
+        $app['wave.form.type.query'] = $app->share(function () use ($app) {
+            $type = new SalesforceSoqlQueryType($app['wave.user']);
+            $type->setName('wave_saql');
+
+            return $type;
+        });
+
+        $app['wave.form.query'] = function () use ($app) {
+            return $app['form.factory']->create($app['wave.form.type.query']);
         };
 
         $app['wave.oauth'] = $app->share(function () use ($app) {
@@ -127,11 +143,19 @@ class WaveServiceProvider implements ServiceProviderInterface
             );
         });
 
-        $app['wave'] = $app->share(function () use ($app) {
+        // TODO: Find another name for this service.
+        $app['wave.service'] = $app->share(function () use ($app) {
             return new WaveService(
-                $app['user'],
-                new HttpClient()
+                $app['wave.user'],
+                $app['http.client']
             );
+        });
+
+        $app['wave'] = $app->share(function () use ($app) {
+            return new Facade(array(
+                'oauth' => $app['wave.oauth'],
+                'wave' => $app['wave.service']
+            ));
         });
     }
 

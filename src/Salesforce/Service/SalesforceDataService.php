@@ -10,13 +10,15 @@ namespace Salesforce\Service;
 
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
-use Salesforce\Domain\SalesforceUser;
+use skyflow\Service\RestService;
 use skyflow\Service\OAuthServiceInterface;
+
+use Salesforce\Domain\SalesforceUser;
 
 /**
  * Service for the Salesforce data API.
  */
-class SalesforceDataService
+class SalesforceDataService extends RestService
 {
     /**
      * The Salesforce OAuth user.
@@ -39,27 +41,22 @@ class SalesforceDataService
     private $authService;
 
     /**
-     * Guzzle HTTP client.
-     *
-     * @var HttpClientInterface
-     */
-    private $httpClient;
-
-    /**
      * SalesforceDataService constructor.
      *
+     * @param HttpClientInterface   $httpClient  An HTTP Client.
      * @param SalesforceUser        $user        The Salesforce OAuth user.
      * @param OAuthServiceInterface $authService The OAuth authentication service.
-     * @param HttpClientInterface   $httpClient  An HTTP Client.
      */
     public function __construct(
+        HttpClientInterface $httpClient,
         SalesforceUser $user,
-        OAuthServiceInterface $authService,
-        HttpClientInterface $httpClient
+        OAuthServiceInterface $authService
     ) {
+        parent::__construct($httpClient);
         $this->user = $user;
         $this->authService = $authService;
-        $this->httpClient = $httpClient;
+        $this->setEndPoint($this->getUser()->getInstanceUrl() . '/services/data');
+        $this->setVersion('v20.0');
     }
 
     /**
@@ -83,55 +80,37 @@ class SalesforceDataService
     }
 
     /**
-     * Get the HTTP client.
+     * Send a SOQL query to Salesforce data API.
      *
-     * @return HttpClientInterface The HTTP client.
-     */
-    protected function getHttpClient()
-    {
-        return $this->httpClient;
-    }
-
-    /**
-     * Send a SOQL request to Salesforce data API.
-     *
-     * @param  string $query The SOQL request string.
+     * @param  string $query The SOQL query string.
      * @return string Response as string encoded in JSON format.
      */
-    public function soql($query)
+    public function query($query)
     {
-        $_query = rtrim($query, ';');
+        try {
+            $response = $this->httpGet(
+                "/query",
+                array(
+                    "q" => rtrim($query, ';')
+                ),
+                array(
+                    'Authorization', 'OAuth ' . $this->getUser()->getAccessToken()
+                )
+            );
+        } catch (\Exception $ex) {
+            if ($ex->getCode() === 401) {
+                $this->getAuthService()->refresh();
 
-        $accessToken = $this->getUser()->getAccessToken();
-        $instanceUrl = $this->getUser()->getInstanceUrl();
-
-        $salesforceRequest = $this->getHttpClient()->createRequest(
-            'GET',
-            $instanceUrl . "/services/data/v20.0/query?q=" . urlencode($_query)
-        );
-
-        $salesforceRequest->setHeader('Authorization', 'OAuth ' . $accessToken);
-
-        $response = $this->getHttpClient()->send($salesforceRequest);
-        $statuscode = $response->getStatusCode();
-
-        /*try {
-            $response = $this->getHttpClient()->send($salesforceRequest);
-            $statuscode = $response->getStatusCode();
-        } catch (\Exception $e) {
-            $statuscode= $e->getCode();
-        }*/
-
-        if ($statuscode == '401') {
-            // Get new access_token
-            $this->getOAuthService()->refresh();
-            $access_token = $this->getOAuthService()->access_token;
-            $this->getUser()->setAccessToken($access_token);
-            $this->getUserDAO()->save($user);
-
-            // Resend request
-            $salesforceRequest->setHeader('Authorization', 'OAuth ' . $accessToken);
-            $response = $this->getHttpClient()->send($salesforceRequest);
+                $response = $this->httpGet(
+                    "/query",
+                    array(
+                        "q" => rtrim($query, ';')
+                    ),
+                    array(
+                        'Authorization' => 'OAuth ' . $this->getUser()->getAccessToken()
+                    )
+                );
+            }
         }
 
         $data = $response->json();

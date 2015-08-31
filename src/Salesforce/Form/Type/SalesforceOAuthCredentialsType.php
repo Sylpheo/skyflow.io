@@ -13,11 +13,21 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
 use skyflow\Form\Type\OAuthCredentialsType;
+use skyflow\Domain\OAuthUser;
 
 use Salesforce\Domain\SalesforceUser;
 
 class SalesforceOAuthCredentialsType extends OAuthCredentialsType
 {
+    /**
+     * {@inherit}
+     */
+    public function __construct(OAuthUser $user)
+    {
+        parent::__construct($user);
+        $this->setName('salesforce_credentials');
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
@@ -33,10 +43,5 @@ class SalesforceOAuthCredentialsType extends OAuthCredentialsType
             $data['is_sandbox'] = $this->getUser()->getIsSandbox() ? true : false;
             $form->setData($data);
         }
-    }
-
-    public function getName()
-    {
-        return 'salesforce_credentials';
     }
 }

@@ -128,7 +128,7 @@ class OAuthService implements OAuthServiceInterface
     public function refresh()
     {
         $this->getOAuth()->refresh();
-        $this->getUser()->setAccessToken($this->getOAuth()->access_token);
+        $this->getUser()->setAccessToken($this->getOAuth()->accessToken);
         $this->getUserDAO()->save($this->getUser());
     }
 }

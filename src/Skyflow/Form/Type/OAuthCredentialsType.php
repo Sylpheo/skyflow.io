@@ -8,12 +8,12 @@
 
 namespace skyflow\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
 use skyflow\Domain\OAuthUser;
+use skyflow\Form\Type\AbstractType;
 
 class OAuthCredentialsType extends AbstractType
 {
@@ -32,6 +32,7 @@ class OAuthCredentialsType extends AbstractType
     public function __construct(OAuthUser $user)
     {
         $this->user = $user;
+        $this->setName('oauth_credentials');
     }
 
     /**
@@ -44,6 +45,9 @@ class OAuthCredentialsType extends AbstractType
         return $this->user;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -52,6 +56,9 @@ class OAuthCredentialsType extends AbstractType
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         if (!$form->isSubmitted()) {
@@ -60,10 +67,5 @@ class OAuthCredentialsType extends AbstractType
                 'client_secret' => $this->getUser()->getClientSecret()
             ));
         }
-    }
-
-    public function getName()
-    {
-        return 'oauth_credentials';
     }
 }

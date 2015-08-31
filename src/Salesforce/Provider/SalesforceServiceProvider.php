@@ -126,9 +126,9 @@ class SalesforceServiceProvider implements ServiceProviderInterface
 
         $app['salesforce.data'] = $app->share(function () use ($app) {
             return new SalesforceDataService(
+                $app['http.client'],
                 $app['salesforce.user'],
-                $app['salesforce.oauth'],
-                $app['http.client']
+                $app['salesforce.oauth']
             );
         });
 

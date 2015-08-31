@@ -233,7 +233,7 @@ class SalesforceOAuthAuthenticator extends AbstractOAuthAuthenticator
         $response = $this->getHttpClient()->send($request);
         $json = json_decode($response->getBody());
 
-        $this->access_token = $json->access_token;
+        $this->accessToken = $json->access_token;
     }
 
     /**

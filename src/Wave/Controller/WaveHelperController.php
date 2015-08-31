@@ -12,7 +12,8 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use skyflow\Domain\Users;
-use skyflow\Controller\AbstractHelperController;
+
+use Salesforce\Controller\SalesforceHelperController;
 
 use Wave\Domain\WaveRequest;
 use Wave\DAO\WaveRequestDAO;
@@ -21,7 +22,7 @@ use Wave\Service\WaveService;
 /**
  * Controller for Wave helper actions.
  */
-class WaveHelperController extends AbstractHelperController
+class WaveHelperController extends SalesforceHelperController
 {
     /**
      * Send a Wave request.
@@ -30,12 +31,7 @@ class WaveHelperController extends AbstractHelperController
      */
     public function requestAction()
     {
-        // $app not injected
-        //if ($this->user === null) {
-        //    return $app->redirect('/login');
-        //}
-
-        $userId = $this->user->getId();
+        $userId = $this->getUser->getId();
         $history = $this->waveRequestDAO->findAllByUser($userId);
 
         $form = $this->formFactory->createBuilder('form')
