@@ -28,9 +28,11 @@ class SalesforceOAuthCredentialsType extends OAuthCredentialsType
     {
         parent::buildView($view, $form, $options);
 
-        $data = $form->getData();
-        $data['is_sandbox'] = $this->getUser()->getIsSandbox() ? true : false;
-        $form->setData($data);
+        if (!$form->isSubmitted()) {
+            $data = $form->getData();
+            $data['is_sandbox'] = $this->getUser()->getIsSandbox() ? true : false;
+            $form->setData($data);
+        }
     }
 
     public function getName()

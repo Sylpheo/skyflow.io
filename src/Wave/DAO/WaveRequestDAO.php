@@ -8,14 +8,15 @@
 
 namespace Wave\DAO;
 
-use skyflow\DAO\DAO;
+use skyflow\DAO\AbstractDAO;
+use skyflow\Domain\AbstractModel;
 
 use Wave\Domain\WaveRequest;
 
 /**
  * DAO class for the Wave Request domain object.
  */
-class WaveRequestDAO extends DAO
+class WaveRequestDAO extends AbstractDAO
 {
     /**
      * Find all Wave requests owned by a User from the User's id.
@@ -58,42 +59,14 @@ class WaveRequestDAO extends DAO
     }
 
     /**
-     * Find a Wave request by its id.
-     *
-     * @param integer $id The Wave request id.
-     * @return WaveRequest|null The found Wave request or null if none found.
+     * {@inheritdoc}
      */
-    public function findById($id)
+    public function getData(AbstractModel $domainObject)
     {
-        $sql = $this->getDb()->prepare("select * from wave_request where id = ?");
-        $sql->bindValue(1, $id);
-        $sql->execute();
-        $request = $sql->fetch();
-
-        if ($request){
-            return $this->buildDomainObject($request);
-        }
-    }
-
-    /**
-     * Save a Wave request domain object.
-     *
-     * @param WaveRequest $waveRequest The Wave request domain object to save.
-     */
-    public function save(WaveRequest $waveRequest)
-    {
-        $waveRequestData = array (
+        return array (
             'request' => $waveRequest->getRequest(),
             'id_user' => $waveRequest->getUserId(),
         );
-
-        if ($waveRequest->getId()) {
-            $this->getDb()->update('wave_request', $waveRequestData, array('id' => $waveRequest->getId()));
-        } else {
-            $this->getDb()->insert('wave_request', $waveRequestData);
-            $id = $this->getDb()->lastInsertId();
-            $waveRequest->setId($id);
-        }
     }
 
     /**

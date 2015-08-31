@@ -21,7 +21,7 @@ use Wave\Service\WaveService;
 /**
  * Controller for Wave helper actions.
  */
-class HelperController extends AbstractHelperController
+class WaveHelperController extends AbstractHelperController
 {
     /**
      * Send a Wave request.
@@ -39,19 +39,19 @@ class HelperController extends AbstractHelperController
         $history = $this->waveRequestDAO->findAllByUser($userId);
 
         $form = $this->formFactory->createBuilder('form')
-            ->add('Request','textarea',array(
+            ->add('Request', 'textarea', array(
                 'attr' => array('cols' => '100', 'rows' => '3'),
             ))
             ->getForm();
 
         $form->handleRequest($this->request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $array = $form->getData();
             $r = $array['Request'];
 
             $result = $this->waveRequestDAO->findByRequest($r, $userId);
-            if($result == null){
+            if ($result == null) {
                 $waveRequest = new WaveRequest();
                 $waveRequest->setUserId($userId);
                 $waveRequest->setRequest($r);
@@ -66,7 +66,8 @@ class HelperController extends AbstractHelperController
             );
         }
 
-        return $this->twig->render('wave-apihelper.html.twig',
+        return $this->twig->render(
+            'wave-apihelper.html.twig',
             array(
                 'requestForm' => $form->createView(),
                 'history' => $history,

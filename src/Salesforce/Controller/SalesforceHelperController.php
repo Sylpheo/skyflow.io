@@ -9,7 +9,7 @@
 namespace Salesforce\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Form\FormInterface;
+use Symfony\Component\Form\FormInterface;
 
 use skyflow\Controller\AbstractHelperController;
 use skyflow\Facade;
@@ -24,7 +24,7 @@ class SalesforceHelperController extends AbstractHelperController
      *
      * @var FormInterface
      */
-    protected $queryForm;
+    private $queryForm;
 
     /**
      * AbstractHelperController constructor.
@@ -43,60 +43,31 @@ class SalesforceHelperController extends AbstractHelperController
     }
 
     /**
+     * Get the SOQL query form.
+     *
+     * @return FormInterface The SOQL query form.
+     */
+    protected function getQueryForm()
+    {
+        return $this->queryForm;
+    }
+
+    /**
      * Send a SOQL Query to Salesforce.
      *
      * @return mixed
      */
     public function queryAction()
     {
-        $form = $this->formFactory
-            ->createBuilder('form')
-            ->add('Request', 'textarea', array(
-                'attr' => array('cols' => '100', 'rows' => '3'),
-            ))
-            ->getForm();
+        $this->getQueryForm()->handleRequest($this->getRequest());
 
-        $form->handleRequest($this->request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $array = $form->getData();
+        if ($this->getQueryForm()->isSubmitted() && $this->getQueryForm()->isValid()) {
+            $array = $this->getQueryForm()->getData();
             $query = $array['Request'];
 
-            $accessToken = $this->addonUser->getAccessToken();
-            $instanceUrl = $this->addonUser->getInstanceUrl();
+            $data = $this->getAddon()->getService('data')->soql($query);
 
-            try {
-                $salesforceRequest = $this->httpClient->createRequest(
-                    'GET',
-                    $instanceUrl . "/services/data/v20.0/query?q=" . urlencode($query)
-                );
-
-                $salesforceRequest->setHeader(
-                    'Authorization',
-                    'OAuth ' . $accessToken
-                );
-
-                $response = $this->httpClient->send($salesforceRequest);
-                $statuscode = $response->getStatusCode();
-            } catch (\Exception $e) {
-                $statuscode= $e->getCode();
-            }
-
-            if ($statuscode == '401') {
-                $this->auth->refresh();
-            }
-
-            // Resend request
-            $salesforceRequest->setHeader(
-                'Authorization',
-                'OAuth ' . $this->user->getRefreshToken()
-            );
-
-            $response = $httpClient->send($salesforceRequest);
-            $data = $response->json();
-            $data = json_encode($data);
-
-            return $this->twig->render(
+            return $this->getTwig()->render(
                 'results.html.twig',
                 array(
                     'results' => $data,
@@ -104,10 +75,10 @@ class SalesforceHelperController extends AbstractHelperController
             );
         }
 
-        return $this->twig->render(
+        return $this->getTwig()->render(
             'salesforce-apihelper.html.twig',
             array(
-                'requestForm' => $form->createView(),
+                'requestForm' => $this->getQueryForm()->createView(),
             )
         );
     }

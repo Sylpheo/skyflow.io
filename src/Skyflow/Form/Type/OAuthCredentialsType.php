@@ -54,10 +54,12 @@ class OAuthCredentialsType extends AbstractType
 
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $form->setData(array(
-            'client_id' => $this->getUser()->getClientId(),
-            'client_secret' => $this->getUser()->getClientSecret()
-        ));
+        if (!$form->isSubmitted()) {
+            $form->setData(array(
+                'client_id' => $this->getUser()->getClientId(),
+                'client_secret' => $this->getUser()->getClientSecret()
+            ));
+        }
     }
 
     public function getName()

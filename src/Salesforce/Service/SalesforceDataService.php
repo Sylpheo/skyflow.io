@@ -1,68 +1,143 @@
 <?php
 
 /**
- * Service for Wave.
+ * Service for the Salesforce data API.
  *
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace Wave\Service;
+namespace Salesforce\Service;
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\ClientInterface as HttpClientInterface;
 
-use skyflow\Domain\Users;
+use Salesforce\Domain\SalesforceUser;
+use skyflow\Service\OAuthServiceInterface;
 
-class WaveService
+/**
+ * Service for the Salesforce data API.
+ */
+class SalesforceDataService
 {
     /**
-     * The skyflow logged-in user.
+     * The Salesforce OAuth user.
      *
-     * @var Users
+     * We have to use the SalesforceUser because we need the instance_url.
+     *
+     * @var SalesforceUser
      */
-    protected $user;
+    private $user;
+
+    /**
+     * The OAuth authentication service in case we need to refresh the access_token.
+     *
+     * We can use the OAuthServiceInterface instead of the SalesforceOAuthService
+     * because we may only need to refresh the access_token, nothing to care about
+     * the instance_url.
+     *
+     * @var OAuthServiceInterface
+     */
+    private $authService;
 
     /**
      * Guzzle HTTP client.
      *
-     * @var HttpClient
+     * @var HttpClientInterface
      */
-    protected $httpClient;
+    private $httpClient;
 
     /**
-     * WaveService constructor.
+     * SalesforceDataService constructor.
      *
-     * @param Users           $user       The skyflow logged-in user.
-     * @param ClientInterface $httpClient A Guzzle HTTP Client.
+     * @param SalesforceUser        $user        The Salesforce OAuth user.
+     * @param OAuthServiceInterface $authService The OAuth authentication service.
+     * @param HttpClientInterface   $httpClient  An HTTP Client.
      */
-    public function __construct(Users $user, ClientInterface $httpClient)
-    {
+    public function __construct(
+        SalesforceUser $user,
+        OAuthServiceInterface $authService,
+        HttpClientInterface $httpClient
+    ) {
         $this->user = $user;
+        $this->authService = $authService;
         $this->httpClient = $httpClient;
     }
 
     /**
-     * Send a request to Wave.
+     * Get the Salesforce OAuth user.
      *
-     * @param string $request The request string.
+     * @return SalesforceUser The Salesforce OAuth user.
+     */
+    protected function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Get the OAuth authentication service.
+     *
+     * @return OAuthServiceInterface The OAuth authentication service.
+     */
+    protected function getAuthService()
+    {
+        return $this->authService;
+    }
+
+    /**
+     * Get the HTTP client.
+     *
+     * @return HttpClientInterface The HTTP client.
+     */
+    protected function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+
+    /**
+     * Send a SOQL request to Salesforce data API.
+     *
+     * @param  string $query The SOQL request string.
      * @return string Response as string encoded in JSON format.
      */
-    public function request($request)
+    public function soql($query)
     {
-        $waveRequest = $this->httpClient->createRequest(
-            'POST',
-            $this->user->getWaveInstanceUrl() . '/services/data/v34.0/wave/query',
-            [
-                'json' => [
-                    'query' => $request
-                ]
-            ]
+        $accessToken = $this->getUser()->getAccessToken();
+        $instanceUrl = $this->getUser()->getInstanceUrl();
+
+        $salesforceRequest = $this->getHttpClient()->createRequest(
+            'GET',
+            $instanceUrl . "/services/data/v20.0/query?q=" . urlencode($query)
         );
 
-        $waveRequest->setHeader('Content-Type', 'application/json');
-        $waveRequest->setHeader('Authorization', 'Bearer ' . $this->user->getWaveAccessToken());
-        $response = $this->httpClient->send($waveRequest);
-        $responseBody = json_decode($response->getBody());
+        $salesforceRequest->setHeader(
+            'Authorization',
+            'Bearer: ' . $accessToken
+        );
+
+        $response = null;
+        $statuscode = null;
+
+        try {
+            $response = $this->getHttpClient()->send($salesforceRequest);
+            $statuscode = $response->getStatusCode();
+        } catch (\Exception $e) {
+            $statuscode = $e->getCode();
+        }
+
+        if ($statuscode == '401') {
+            $this->getAuthService()->refresh();
+
+            // Resend request
+            $salesforceRequest->setHeader(
+                'Authorization',
+                'Bearer: ' . $this->getUser()->getRefreshToken()
+            );
+
+            $response = $this->getHttpClient()->send($salesforceRequest);
+        }
+
         $data = $response->json();
+        var_dump($data);
+        exit;
         $data = json_encode($data);
 
         return $data;

@@ -13,12 +13,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-use Salesforce\Form\Type\SalesforceCredentialsType;
+use Salesforce\Form\Type\SalesforceOAuthCredentialsType;
 
-class WaveCredentialsType extends SalesforceCredentialsType
+class WaveCredentialsType extends SalesforceOAuthCredentialsType
 {
     public function getName()
     {
-        return 'app_wave_credentials';
+        return 'wave_credentials';
     }
 }

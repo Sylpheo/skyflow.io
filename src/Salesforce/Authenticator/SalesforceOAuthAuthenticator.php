@@ -222,8 +222,7 @@ class SalesforceOAuthAuthenticator extends AbstractOAuthAuthenticator
 
         $uri = rtrim($this->loginUrl, '/') . '/services/oauth2/token';
 
-        $http = new Client();
-        $request = $http->createRequest('POST', $uri);
+        $request = $this->getHttpClient()->createRequest('POST', $uri);
         $body = $request->getBody();
 
         $body->setField('grant_type', 'refresh_token');
@@ -231,7 +230,7 @@ class SalesforceOAuthAuthenticator extends AbstractOAuthAuthenticator
         $body->setField('client_id', $this->clientId);
         $body->setField('client_secret', $this->clientSecret);
 
-        $response = $http->send($request);
+        $response = $this->getHttpClient()->send($request);
         $json = json_decode($response->getBody());
 
         $this->access_token = $json->access_token;

@@ -12,6 +12,7 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 use skyflow\Controller\OAuthController;
+use skyflow\Facade;
 
 use Salesforce\Authenticator\SalesforceOAuthAuthenticator;
 use Salesforce\Controller\SalesforceHelperController;
@@ -19,10 +20,12 @@ use Salesforce\Controller\SalesforceOAuthUserController;
 use Salesforce\DAO\SalesforceUserDAO;
 use Salesforce\Domain\SalesforceUser;
 use Salesforce\Form\Type\SalesforceOAuthCredentialsType;
+use Salesforce\Form\Type\SalesforceSoqlQueryType;
+use Salesforce\Service\SalesforceDataService;
 use Salesforce\Service\SalesforceOAuthService;
 
 /**
- * Service provider for the Wave addon.
+ * Service provider for the Salesforce addon.
  */
 class SalesforceServiceProvider implements ServiceProviderInterface
 {
@@ -31,9 +34,7 @@ class SalesforceServiceProvider implements ServiceProviderInterface
      */
     public function register(Application $app)
     {
-        // salesforce.authenticator is not shared because it is used
-        // by wave.authenticator (must provide another instance).
-        $app['salesforce.authenticator'] = function () use ($app) {
+        $app['salesforce.authenticator'] = $app->share(function () use ($app) {
             $user = $app['salesforce.user'];
 
             $sandbox = $user->getIsSandbox();
@@ -61,14 +62,17 @@ class SalesforceServiceProvider implements ServiceProviderInterface
             $authenticator->setHttpClient($app['http.client']);
 
             return $authenticator;
-        };
+        });
 
         $app['salesforce.controller.helper'] = $app->share(function () use ($app) {
-            return new SalesforceHelperController(
+            $controller = new SalesforceHelperController(
                 $app['request'],
                 $app['salesforce'],
                 $app['salesforce.form.query']
             );
+            $controller->setTwig($app['twig']);
+
+            return $controller;
         });
 
         $app['salesforce.controller.oauth'] = $app->share(function () use ($app) {
@@ -108,6 +112,22 @@ class SalesforceServiceProvider implements ServiceProviderInterface
             return $app['form.factory']->create($app['salesforce.form.type.credentials']);
         };
 
+        $app['salesforce.form.type.query'] = $app->share(function () use ($app) {
+            return new SalesforceSoqlQueryType();
+        });
+
+        $app['salesforce.form.query'] = function () use ($app) {
+            return $app['form.factory']->create($app['salesforce.form.type.query']);
+        };
+
+        $app['salesforce.data'] = $app->share(function () use ($app) {
+            return new SalesforceDataService(
+                $app['salesforce.user'],
+                $app['salesforce.oauth'],
+                $app['http.client']
+            );
+        });
+
         $app['salesforce.oauth'] = $app->share(function () use ($app) {
             return new SalesforceOAuthService(
                 $app['salesforce.authenticator'],
@@ -117,7 +137,8 @@ class SalesforceServiceProvider implements ServiceProviderInterface
         });
 
         $app['salesforce'] = $app->share(function () use ($app) {
-            return new SalesforceFacade(array(
+            return new Facade(array(
+                'data' => $app['salesforce.data'],
                 'oauth' => $app['salesforce.oauth']
             ));
         });

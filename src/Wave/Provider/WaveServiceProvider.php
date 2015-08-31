@@ -13,6 +13,8 @@ use GuzzleHttp\Client as HttpClient;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
+use skyflow\Controller\OAuthController;
+
 use Salesforce\Authenticator\SalesforceAuthenticator;
 use Salesforce\Domain\SalesforceUser;
 
@@ -31,10 +33,10 @@ class WaveServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['wave.authenticator'] = $app->share(function() use ($app) {
-            $user = $app['user'];
+        $app['wave.authenticator'] = $app->share(function () use ($app) {
+            $user = $app['wave.user'];
 
-            $sandbox = $user->getWaveSandbox();
+            $sandbox = $user->getIsSandbox();
             $loginUrl = null;
             if ($sandbox) {
                 $loginUrl = 'https://test.salesforce.com';
@@ -47,35 +49,28 @@ class WaveServiceProvider implements ServiceProviderInterface
                 'login_url'     => $loginUrl,
                 'response_type' => 'code',
                 'grant_type'    => 'code',
-                'client_id'     => $user->getWaveClientId(),
-                'client_secret' => $user->getWaveClientSecret(),
+                'client_id'     => $user->getClientId(),
+                'client_secret' => $user->getClientSecret(),
                 'redirect_uri'  => 'https://' . $_SERVER['HTTP_HOST'] . '/wave/auth/callback',
                 'code'          => null,
-                'instance_url'  => $user->getWaveInstanceUrl(),
-                'refresh_token' => $user->getWaveRefreshToken()
+                'instance_url'  => $user->getInstanceUrl(),
+                'refresh_token' => $user->getRefreshToken()
             ));
         });
 
-        $app['wave.controller.auth'] = $app->share(function () use ($app) {
-            return new AuthController(
+        $app['wave.controller.helper'] = $app->share(function () use ($app) {
+            return new WaveHelperController(
                 $app['request'],
-                $app['wave.auth'],
                 $app['wave'],
-                $app['user'],
-                $app['dao.user'],
-                $app['wave.form.credentials'],
-                $app['twig']
+                $app['wave.form.query']
             );
         });
 
-        $app['wave.controller.helper'] = $app->share(function () use ($app) {
-            return new HelperController(
+        $app['wave.controller.oauth'] = $app->share(function () use ($app) {
+            return new OAuthController(
                 $app['request'],
-                $app['wave'],
-                $app['user'],
-                $app['dao.wave_request'],
-                $app['form.factory'],
-                $app['twig']
+                $app['salesforce.oauth'],
+                '/salesforce/auth'
             );
         });
 

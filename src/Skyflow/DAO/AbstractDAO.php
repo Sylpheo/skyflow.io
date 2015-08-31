@@ -86,6 +86,18 @@ abstract class AbstractDAO
     }
 
     /**
+     * Alias for findOneById.
+     *
+     * @param $id The domain object id.
+     * @return Event|null The found Event or null if none found.
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function findById($id)
+    {
+        return $this->findOneById($id);
+    }
+
+    /**
      * Get domain object data formatted for storage in database.
      *
      * It returns an associative array where the key is the
