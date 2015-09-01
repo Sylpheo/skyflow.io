@@ -34,8 +34,14 @@ In order to communicate with the different third-party platforms (such as Salesf
 ## Create your first flow
 
 1. Create your flow class in the *src/Skyflow/Flow* directory.
-2. Setup the addons in the home page. You will need to provide your connected application client id and client secret in order to use the addon.
-3. Declare your flow using the Skyflow web interface.
+2. Declare your flow in app/app.php
+
+		$app['flow_TestFlow'] = $app->share(function ($app) {
+			return new skyflow\Flow\TestFlow($app);
+		});
+
+3. Setup the addons in the home page. You will need to provide your connected application client id and client secret in order to use the addon.
+4. Declare your flow using the Skyflow web interface.
 
 ## Use flow services
 
