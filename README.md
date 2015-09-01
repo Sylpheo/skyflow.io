@@ -62,9 +62,9 @@ In order to communicate with the different third-party platforms (such as Salesf
 	     * Assuming you created an event named MyFirstFlow and a mapping
 	     * between the event MyFirstFlow and this flow.
 	     *
-	     * @param $requestJson The JSON request.
+	     * @param $jsonData The JSON data.
 	     */
-		public function event($requestJson)
+		public function event($jsonData)
 	    {
 	        return $this->run();
 	    }
@@ -103,3 +103,29 @@ In order to communicate with the different third-party platforms (such as Salesf
 #### Wave addon
 
 1. Data service to send SAQL query to Wave using the query() method.
+
+## Setup events & Skyflow API
+
+1. Create a new Event from Skyflow console interface
+2. Map it to a flow from the console
+3. Setup a new Skyflow Token from the console Home page
+
+That's it, your API is ready to use:
+
+POST on:
+
+	https://yourskyflowapp.herokuapp.com/api/event/EVENT_NAME
+
+Header :
+
+	Content-Type : application/json
+	Skyflow-Token : GENERATED_TOKEN
+
+Body:
+
+	{
+		"datafield" : "data..."
+		//Any JSON data
+	}
+
+This JSON will be catched by the implemented Flow method "event($jsonData)"
