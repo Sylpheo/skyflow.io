@@ -1,0 +1,8 @@
+{
+  "name": "skyflow.io",
+  "description": "Cloud ETL for Heroku",
+  "repository": "https://github.com/Sylpheo/skyflow.io",
+  "addons": [
+    "heroku-postgresql:hobby-dev"
+  ]
+}
