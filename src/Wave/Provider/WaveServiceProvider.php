@@ -14,7 +14,6 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 use skyflow\Controller\OAuthController;
-use skyflow\Facade;
 
 use Salesforce\Authenticator\SalesforceOAuthAuthenticator;
 use Salesforce\DAO\SalesforceUserDAO;
@@ -28,6 +27,8 @@ use Wave\Controller\WaveOAuthUserController;
 use Wave\DAO\WaveRequestDAO;
 use Wave\Domain\WaveRequest;
 use Wave\Service\WaveDataService;
+
+use Wave\WaveFacade;
 
 /**
  * Service provider for the Wave addon.
@@ -156,7 +157,7 @@ class WaveServiceProvider implements ServiceProviderInterface
         });
 
         $app['wave'] = $app->share(function () use ($app) {
-            return new Facade(array(
+            return new WaveFacade(array(
                 'oauth' => $app['wave.oauth'],
                 'data' => $app['wave.data']
             ));

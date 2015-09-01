@@ -8,7 +8,7 @@
 
 namespace skyflow\Flow;
 
-use Skyflow\Flow\FlowInterface;
+use skyflow\Flow\FlowInterface;
 
 /**
  * Flow abstract class.
@@ -27,14 +27,14 @@ abstract class AbstractFlow implements FlowInterface
      */
     public $app;
 
-    protected function getSaleforce()
+    protected function getSalesforce()
     {
-        return $app['salesforce'];
+        return $this->app['salesforce'];
     }
 
     protected function getWave()
     {
-        return $app['wave'];
+        return $this->app['wave'];
     }
 
     /**

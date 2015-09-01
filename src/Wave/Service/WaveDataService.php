@@ -41,18 +41,37 @@ class WaveDataService extends SalesforceDataService
      */
     public function query($query)
     {
-        $response = $this->httpPost(
-            null,
-            [
-                'json' => [
-                    'query' => $query
-                ]
-            ],
-            array(
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $this->getUser()->getAccessToken()
-            )
-        );
+        try {
+            $response = $this->httpPost(
+                null,
+                [
+                    'json' => [
+                        'query' => $query
+                    ]
+                ],
+                array(
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->getUser()->getAccessToken()
+                )
+            );
+        } catch (\Exception $ex) {
+            if ($ex->getCode() === 401) {
+                $this->getAuthService()->refresh();
+
+                $response = $this->httpPost(
+                    null,
+                    [
+                        'json' => [
+                            'query' => $query
+                        ]
+                    ],
+                    array(
+                        'Content-Type' => 'application/json',
+                        'Authorization' => 'Bearer ' . $this->getUser()->getAccessToken()
+                    )
+                );
+            }
+        }
 
         $responseBody = json_decode($response->getBody());
         $data = $response->json();
