@@ -27,22 +27,33 @@ abstract class AbstractFlow implements FlowInterface
      */
     public $app;
 
+    protected function getSaleforce()
+    {
+        return $app['salesforce'];
+    }
+
+    protected function getWave()
+    {
+        return $app['wave'];
+    }
+
     /**
      * Flow class contructor.
      *
      * @param Silex/Application Instance of Silex Application.
      */
-    public function __construct($app){
+    public function __construct($app)
+    {
         $this->app = $app;
     }
 
     /**
      * {@inheritdoc}
      */
-    public abstract function event($requestJson);
+    abstract public function event($requestJson);
 
     /**
      * {@inheritdoc}
      */
-    public abstract function run();
+    abstract public function run();
 }
