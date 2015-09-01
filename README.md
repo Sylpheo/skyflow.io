@@ -43,29 +43,52 @@ In order to communicate with the different third-party platforms (such as Salesf
 
 	namespace Skyflow\Flow;
 
-	use Skyflow\Flow\AbstractFlow;
+	use skyflow\Flow\AbstractFlow;
 
 	/**
 	 * My first flow class.
+	 *
+	 * The Flow must extend Skyflow\Flow\AbstractFlow.
 	 */
 	class MyFirstFlow extends AbstractFlow
 	{
 		/**
-		 * The code that will be executed when a HTTP POST request is sent to
-		 * https://your-app-name.heroku.com/api/event/MyFirstFlow
-		 *
-		 * @param $requestJson The JSON request.
-		 */
+	     * The code that will be executed when a HTTP POST request is sent to
+	     * https://your-app-name.heroku.com/api/event/MyFirstFlow
+	     * Assuming you created an event named MyFirstFlow and a mapping
+	     * between the event MyFirstFlow and this flow.
+	     *
+	     * @param $requestJson The JSON request.
+	     */
 		public function event($requestJson)
-		{
-			// Send a SOQL request to Salesforce.
-			// Be sure the Salesforce addon is setup with client id and client secret or this will not work.
-			$resultSalesforce = $this->getSalesforce()->getData()->query('SELECT Name FROM Account LIMIT 1');
+	    {
+	        return $this->run();
+	    }
 
-			// Send a SAQL request to Wave
-			// Be sure the Wave addon is setup with client id and client secret or this will not work.
-			$resultWave = $this->getWave()->getData()->query('q = load 0001232323/12233A4A34; q = filter by Email in ["my-email@gmail.com"]; q = foreach q generate FirstName as FirstName, LastName as LastName");
-		}
+	    /**
+	     * The code that will be run via Heroku Scheduler.
+	     */
+	    public function run()
+	    {
+			// Send a SOQL request to Salesforce.
+	        // Be sure the Salesforce addon is setup with client id and client secret
+			// or this will not work.
+	        // At this point your query must be well formed or it will fail.
+
+	        $resultSalesforce = $this->getSalesforce()->getData()->query('SELECT Name FROM Account LIMIT 1');
+
+	        // Send a SAQL request to Wave
+	        // Be sure the Wave addon is setup with client id and client secret or
+	        // this will not work.
+			// At this point your query must be well formed or it will fail.
+
+	        $resultWave = $this->getWave()->getData()->query(
+				'q = load "0FbB000010E3KLS/0FcB0000000FBQLMUZ7";'
+	            . 'q = filter q by Email in ["my-email@gmail.com"];'
+	            . 'q = foreach q generate FirstName as FirstName, LastName as LastName'
+	        );
+	    }
+	}
 
 ### Available services by addon :
 
