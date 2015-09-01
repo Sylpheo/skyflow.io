@@ -63,11 +63,11 @@ In order to communicate with the different third-party platforms (such as Salesf
 
 	    public function run()
     	{
-        	// Send a SOQL request to Salesforce.
+        	// Send a SOQL query to Salesforce.
 	        // Be sure the Salesforce addon is setup with client id and client secret or this will not work.
     	    $resultSalesforce = $this->getSalesforce()->getData()->query('SELECT Name FROM Account LIMIT 1');
 
-        	// Send a SAQL request to Wave
+        	// Send a SAQL query to Wave
 	        // Be sure the Wave addon is setup with client id and client secret or this will not work.
 	        $resultWave = $this->getWave()->getData()->query('q = load 0001232323/12233A4A34; q = filter by Email in ["my-email@gmail.com"]; q = foreach q generate FirstName as FirstName, LastName as LastName"');
 
@@ -80,8 +80,8 @@ In order to communicate with the different third-party platforms (such as Salesf
 
 #### Salesforce addon
 
-1. Data service to send SOQL requests to Salesforce using the request() method.
+1. Data service to send SOQL query to Salesforce using the query() method.
 
 #### Wave addon
 
-1. Data service to send SAQL requests to Wave using the request() method.
+1. Data service to send SAQL query to Wave using the query() method.
