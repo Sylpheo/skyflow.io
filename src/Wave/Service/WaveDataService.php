@@ -10,6 +10,9 @@ namespace Wave\Service;
 
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
+use skyflow\Service\OAuthServiceInterface;
+
+use Salesforce\Domain\SalesforceUser;
 use Salesforce\Service\SalesforceDataService;
 
 /**
@@ -21,44 +24,36 @@ class WaveDataService extends SalesforceDataService
      * {@inheritdoc}
      */
     public function __construct(
+        HttpClientInterface $httpClient,
         SalesforceUser $user,
-        OAuthServiceInterface $authService,
-        HttpClientInterface $httpClient
+        OAuthServiceInterface $authService
     ) {
-        parent::__construct($user, $authService, $httpClient);
-        $this->setEndPoint('/services/data');
-        $this->setVersion('v24.0');
+        parent::__construct($httpClient, $user, $authService);
+        $this->setEndpoint($this->getUser()->getInstanceUrl() . '/services/data/v34.0/wave/query');
+        $this->setVersion(null);
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function soql($query)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Send a request to Wave.
+     * Send a query to Wave.
      *
-     * @param string $request The request string.
+     * @param  string $query The query string.
      * @return string Response as string encoded in JSON format.
      */
-    public function saql($request)
+    public function query($query)
     {
-        $waveRequest = $this->getHttpClient()->createRequest(
-            'POST',
-            $this->getUser()->getInstanceUrl() . $this->getEndpoint() . "/" . $this->getVersion() . "/wave/query",
+        $response = $this->httpPost(
+            null,
             [
                 'json' => [
-                    'query' => $request
+                    'query' => $query
                 ]
-            ]
+            ],
+            array(
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->getUser()->getAccessToken()
+            )
         );
 
-        $waveRequest->setHeader('Content-Type', 'application/json');
-        $waveRequest->setHeader('Authorization', 'Bearer ' . $this->getUser()->getAccessToken());
-        $response = $this->getHttpClient()->send($waveRequest);
         $responseBody = json_decode($response->getBody());
         $data = $response->json();
         $data = json_encode($data);

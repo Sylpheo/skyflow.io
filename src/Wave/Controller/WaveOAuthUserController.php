@@ -31,8 +31,8 @@ class WaveOAuthUserController extends SalesforceOAuthUserController
         }
 
         return $this->getTwig()->render(
-            'wave-credentials.html.twig',
-            array('waveCredentialsForm' => $this->getCredentialsForm()->createView())
+            'wave/setup/credentials-form.html.twig',
+            array('credentialsForm' => $this->getCredentialsForm()->createView())
         );
     }
 }

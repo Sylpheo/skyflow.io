@@ -15,18 +15,19 @@ use skyflow\Domain\Mapping;
 /**
  * Controller for Skyflow Mapping actions.
  */
-class MappingController {
-
+class MappingController
+{
     /**
      * Retrieve all Mappings.
      *
      * @param Application $app The Silex Application.
      * @return mixed
      */
-    public function indexAction(Application $app) {
+    public function indexAction(Application $app)
+    {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $id= $app['security']->getToken()->getUser()->getId();
-            $mapping = $app['dao.mapping']->findAllByUser($id);
+            $mapping = $app['dao.mapping']->findAllByUserId($id);
 
             return $app['twig']->render(
                 "mapping.html.twig",
@@ -44,37 +45,38 @@ class MappingController {
      * @param Application $app     The Silex Application.
      * @return mixed
      */
-    public function createMappingAction(Request $request, Application $app) {
+    public function createMappingAction(Request $request, Application $app)
+    {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $iduser = $app['security']->getToken()->getUser()->getId();
-            $allEvents = $app['dao.event']->findAllByUser($iduser);
-            $allFlows = $app['dao.flow']->findAllByUser($iduser);
+            $allEvents = $app['dao.event']->findAllByUserId($iduser);
+            $allFlows = $app['dao.flow']->findAllByUserId($iduser);
 
             $events =array();
             $flows = array();
-            foreach($allEvents as $event){
+            foreach ($allEvents as $event) {
                 $events[$event->getId()]=$event->getName();
             }
 
-            foreach($allFlows as $flow){
+            foreach ($allFlows as $flow) {
                 $flows[$flow->getId()]=$flow->getName();
             }
 
             $form = $app['form.factory']->createBuilder('form')
-                ->add('event','choice',array(
+                ->add('event', 'choice', array(
                     'choices' => $events
                 ))
-                ->add('flow','choice',array(
+                ->add('flow', 'choice', array(
                     'choices'=>$flows
                 ))
                 ->getForm();
             $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid()){
+            if ($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
 
                 $mapping = new Mapping();
-                $mapping->setIdUser($iduser);
+                $mapping->setUserId($iduser);
                 $event = $app['dao.event']->findOneById($data['event']);
                 $mapping->setEvent($event);
                 $flow = $app['dao.flow']->findOneById($data['flow']);
@@ -100,7 +102,8 @@ class MappingController {
      * @param Application $app The Silex Application.
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteMappingAction($id, Application $app) {
+    public function deleteMappingAction($id, Application $app)
+    {
         $app['dao.mapping']->delete($id);
 
         return $app->redirect('/mapping');

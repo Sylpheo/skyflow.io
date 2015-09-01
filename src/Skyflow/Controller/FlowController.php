@@ -15,18 +15,19 @@ use skyflow\Domain\Flow;
 /**
  * Controller for Flow actions.
  */
-class FlowController {
-
+class FlowController
+{
     /**
      * Retrieve all flows.
      *
      * @param Application $app The Silex Application.
      * @return mixed
      */
-    public function indexAction(Application $app) {
+    public function indexAction(Application $app)
+    {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $id= $app['security']->getToken()->getUser()->getId();
-            $flows = $app['dao.flow']->findAllByUser($id);
+            $flows = $app['dao.flow']->findAllByUserId($id);
 
             return $app['twig']->render(
                 "flows.html.twig",
@@ -42,25 +43,26 @@ class FlowController {
      * @param Application $app     The Silex Application.
      * @return mixed
      */
-    public function createFlowAction(Request $request, Application $app) {
+    public function createFlowAction(Request $request, Application $app)
+    {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $iduser = $app['security']->getToken()->getUser()->getId();
 
             $form = $app['form.factory']->createBuilder('form')
-                ->add('name','text')
-                ->add('class','text')
-                ->add('documentation','textarea',array('attr' => array('class' => 'ckeditor')))
+                ->add('name', 'text')
+                ->add('class', 'text')
+                ->add('documentation', 'textarea', array('attr' => array('class' => 'ckeditor')))
                 ->getForm();
             $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid()){
+            if ($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
 
                 $flow = new Flow();
                 $flow->setName($data['name']);
                 $flow->setClass($data['class']);
                 $flow->setDocumentation($data['documentation']);
-                $flow->setIdUser($iduser);
+                $flow->setUserId($iduser);
 
                 $app['dao.flow']->save($flow);
 
@@ -84,19 +86,20 @@ class FlowController {
      * @param Application $app The Silex Application.
      * @return mixed
      */
-    public function editFlowAction($id,Request $request, Application $app) {
+    public function editFlowAction($id, Request $request, Application $app)
+    {
         if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
             $iduser = $app['security']->getToken()->getUser()->getId();
 
             $flow = $app['dao.flow']->findOneById($id);
-            $form = $app['form.factory']->createBuilder('form',$flow)
-                ->add('name','text')
-                ->add('class','text')
-                ->add('documentation','textarea',array('attr' => array('class' => 'ckeditor')))
+            $form = $app['form.factory']->createBuilder('form', $flow)
+                ->add('name', 'text')
+                ->add('class', 'text')
+                ->add('documentation', 'textarea', array('attr' => array('class' => 'ckeditor')))
                 ->getForm();
             $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid()){
+            if ($form->isSubmitted() && $form->isValid()) {
                 $app['dao.flow']->save($flow);
 
                 return $app->redirect('/mapping');
@@ -118,7 +121,8 @@ class FlowController {
      * @param Application $app The Silex Application.
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteFlowAction($id, Application $app) {
+    public function deleteFlowAction($id, Application $app)
+    {
         $app['dao.flow']->delete($id);
 
         return $app->redirect('/flows');

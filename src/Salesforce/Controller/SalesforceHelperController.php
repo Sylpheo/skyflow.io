@@ -27,7 +27,7 @@ class SalesforceHelperController extends AbstractHelperController
     private $queryForm;
 
     /**
-     * AbstractHelperController constructor.
+     * SalesforceHelperController constructor.
      *
      * @param Request               $request      The HTTP request.
      * @param Facade                $addon        The addon facade.
@@ -76,9 +76,9 @@ class SalesforceHelperController extends AbstractHelperController
         }
 
         return $this->getTwig()->render(
-            'salesforce-apihelper.html.twig',
+            'salesforce/helper/query-form.html.twig',
             array(
-                'requestForm' => $this->getQueryForm()->createView(),
+                'queryForm' => $this->getQueryForm()->createView(),
             )
         );
     }

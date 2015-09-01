@@ -55,7 +55,7 @@ class SalesforceDataService extends RestService
         parent::__construct($httpClient);
         $this->user = $user;
         $this->authService = $authService;
-        $this->setEndPoint($this->getUser()->getInstanceUrl() . '/services/data');
+        $this->setEndpoint($this->getUser()->getInstanceUrl() . '/services/data');
         $this->setVersion('v20.0');
     }
 

@@ -19,6 +19,20 @@ use skyflow\Service\ServiceInterface;
 abstract class AbstractService implements ServiceInterface
 {
     /**
+     * The service name.
+     *
+     * @var string
+     */
+    private $name;
+
+    /**
+     * The service provider name.
+     *
+     * @var string
+     */
+    private $provider;
+
+    /**
      * The service endpoint.
      *
      * @var string
@@ -33,9 +47,41 @@ abstract class AbstractService implements ServiceInterface
     private $version;
 
     /**
-     * Set the service endpoint.
+     * {@inheritdoc}
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+    }
+
+    /**
+     * Get the name of the service provider.
      *
-     * @param string $endpoint The service endpoint.
+     * @return string The name of the service provider.
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function setEndpoint($endpoint)
     {
@@ -43,9 +89,7 @@ abstract class AbstractService implements ServiceInterface
     }
 
     /**
-     * Get the service endpoint.
-     *
-     * @return string The service endpoint.
+     * {@inheritdoc}
      */
     public function getEndpoint()
     {
@@ -53,9 +97,7 @@ abstract class AbstractService implements ServiceInterface
     }
 
     /**
-     * Set the service version.
-     *
-     * @param string $version The service version.
+     * {@inheritdoc}
      */
     public function setVersion($version)
     {
@@ -63,9 +105,7 @@ abstract class AbstractService implements ServiceInterface
     }
 
     /**
-     * Get the service version.
-     *
-     * @return string The service version.
+     * {@inheritdoc}
      */
     public function getVersion()
     {

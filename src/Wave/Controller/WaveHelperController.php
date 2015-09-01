@@ -25,30 +25,69 @@ use Wave\Service\WaveService;
 class WaveHelperController extends SalesforceHelperController
 {
     /**
-     * Send a Wave request.
+     * The Wave request history.
+     *
+     * @var WaveRequest[]
+     * @todo Manage a Wave query history.
+     */
+    //private $waveQueries;
+
+    /**
+     * WaveHelperController constructor.
+     *
+     * @param Request               $request      The HTTP request.
+     * @param Facade                $addon        The addon facade.
+     * @param FormInterface         $queryForm    The query form.
+     * @param WaveRequest[]         $waveRequests The wave request history.
+     * @todo  Manage a Wave query history.
+     */
+    /*public function __construct(
+        Request $request,
+        Facade $addon,
+        FormInterface $queryForm,
+        array $waveRequests
+    ) {
+        parent::__construct($request, $addon, $queryForm);
+        $this->waveQueries = $waveQueries;
+    }*/
+
+    /**
+     * Get the Wave requests.
+     *
+     * @return WaveRequest[] An array of WaveRequests.
+     * @todo   Manage a Wave query history.
+     */
+    /*protected function getWaveRequests()
+    {
+        return $this->waveRequests;
+    }*/
+
+    /**
+     * Send a SAQL Query to Wave.
      *
      * @return mixed
+     * @todo   Manage a Wave query history.
      */
-    public function requestAction()
+    /*public function queryAction()
     {
-        $userId = $this->getUser->getId();
-        $history = $this->waveRequestDAO->findAllByUser($userId);
+        $this->getQueryForm()->handleRequest($this->getRequest());
 
-        $form = $this->formFactory->createBuilder('form')
-            ->add('Request', 'textarea', array(
-                'attr' => array('cols' => '100', 'rows' => '3'),
-            ))
-            ->getForm();
-
-        $form->handleRequest($this->request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($this->getQueryForm()->isSubmitted()
+            && $this->getQueryForm()->isValid()
+        ) {
             $array = $form->getData();
             $r = $array['Request'];
 
-            $result = $this->waveRequestDAO->findByRequest($r, $userId);
-            if ($result == null) {
-                $waveRequest = new WaveRequest();
+            $currentWaveRequest = null;
+            foreach ($this->waveRequests as $waveRequest) {
+                if ($waveRequest->getRequest() === $r) {
+                    $currentWaveRequest = $waveRequest;
+                    exit;
+                }
+            }
+
+            if (is_null($currentWaveRequest)) {
+                $currentWaveRequest = new WaveRequest();
                 $waveRequest->setUserId($userId);
                 $waveRequest->setRequest($r);
                 $this->waveRequestDAO->save($waveRequest);
@@ -67,6 +106,64 @@ class WaveHelperController extends SalesforceHelperController
             array(
                 'requestForm' => $form->createView(),
                 'history' => $history,
+            )
+        );
+
+        
+        
+        $this->getQueryForm()->handleRequest($this->getRequest());
+
+        if ($this->getQueryForm()->isSubmitted() && $this->getQueryForm()->isValid()) {
+            $array = $this->getQueryForm()->getData();
+            $query = $array['Request'];
+
+            $data = $this->getAddon()->getService('data')->query($query);
+
+            return $this->getTwig()->render(
+                'salesforce-soql-query-results.html.twig',
+                array(
+                    'results' => $data,
+                )
+            );
+        }
+
+        return $this->getTwig()->render(
+            'salesforce-apihelper.html.twig',
+            array(
+                'requestForm' => $this->getQueryForm()->createView(),
+            )
+        );
+    }*/
+
+    /**
+     * Send a SAQL Query to Wave.
+     *
+     * @return mixed
+     */
+    public function queryAction()
+    {
+        $this->getQueryForm()->handleRequest($this->getRequest());
+
+        if ($this->getQueryForm()->isSubmitted()
+            && $this->getQueryForm()->isValid()
+        ) {
+            $array = $this->getQueryForm()->getData();
+            $query = $array['Request'];
+
+            $data = $this->getAddon()->getService('data')->query($query);
+
+            return $this->getTwig()->render(
+                'wave/helper/query-results.html.twig',
+                array(
+                    'results' => $data,
+                )
+            );
+        }
+
+        return $this->getTwig()->render(
+            'wave/helper/query-form.html.twig',
+            array(
+                'queryForm' => $this->getQueryForm()->createView(),
             )
         );
     }

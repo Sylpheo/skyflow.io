@@ -14,12 +14,10 @@
                 </ol>
             </div>
         </div>
-        {{ form_start(requestForm,  { 'attr': {'class': 'form-horizontal'} })}}
-        {{ form_row(requestForm.Request, {'label': 'Request'}) }}
+        {{ form_start(queryForm,  { 'attr': {'class': 'form-horizontal'} })}}
+        {{ form_row(queryForm.Request, {'label': 'Request'}) }}
         <input type="submit" name="submit" id="submit" value="Send Request ! "/>
-        {{ form_end(requestForm) }}
-
-
+        {{ form_end(queryForm) }}
     </div>
 
 {% endblock %}

@@ -160,6 +160,11 @@ $app['flow_mail_remerciements'] = $app->share(function ($app) {
     return new skyflow\Flows\Flow_mail_remerciements($app);
 });
 
+$app['flow_TestFlow'] = $app->share(function ($app) {
+    var_dump("cocuou");
+    exit;
+});
+
 // ========== Services ==========
 
 $app['generatetoken'] = $app->share(function ($app) {

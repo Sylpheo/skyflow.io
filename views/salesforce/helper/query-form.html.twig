@@ -1,23 +1,21 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}Salesforce Helper Json{% endblock %}
+{% block title %}Salesforce API Helper{% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Salesforce Helper Json
+                <h1 class="page-header">Salesforce API Helper
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="/">Home</a></li>
-                    <li><a href="{{ path('salesforce-helper') }}">Salesforce API Helper</a></li>
-                    <li class="active">Result Json</li>
+                    <li class="active">Salesforce API Helper</li>
                 </ol>
             </div>
         </div>
 
-        {% include "skyflow/helper/query-results.html.twig" %}
-
+        {% include "skyflow/helper/query-form.html.twig" %}
+        
     </div>
-
 {% endblock %}

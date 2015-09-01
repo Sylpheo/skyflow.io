@@ -8,12 +8,12 @@
 
 namespace skyflow\Domain;
 
-use skyflow\Domain\AbstractDomainObject;
+use skyflow\Domain\AbstractUserOwnedModel;
 
 /**
  * Flow Domain Object class.
  */
-class Flow extends AbstractDomainObject
+class Flow extends AbstractUserOwnedModel
 {
     /**
      * The Flow name
@@ -35,13 +35,6 @@ class Flow extends AbstractDomainObject
      * @var string
      */
     private $documentation;
-
-    /**
-     * The id of the User who owns the Flow.
-     *
-     * @var string
-     */
-    private $userId;
 
     /**
      * {@inheritdoc}
@@ -109,25 +102,5 @@ class Flow extends AbstractDomainObject
     public function setDocumentation($documentation)
     {
         $this->documentation = $documentation;
-    }
-
-    /**
-     * Get the id of the User who owns the Flow.
-     *
-     * @return string The id of the User who owns the Flow.
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set the id of the User who owns the Flow.
-     *
-     * @param string $userId The id of the User who owns the Flow.
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
     }
 }

@@ -8,12 +8,12 @@
 
 namespace skyflow\Domain;
 
-use skyflow\Domain\AbstractDomainObject;
+use skyflow\Domain\AbstractUserOwnedModel;
 
 /**
  * Event Domain Object class.
  */
-class Event extends AbstractDomainObject
+class Event extends AbstractUserOwnedModel
 {
     /**
      * The Event name.
@@ -28,13 +28,6 @@ class Event extends AbstractDomainObject
      * @var string
      */
     private $description;
-
-    /**
-    * The id of the User who owns the Event.
-    *
-    * @var string
-    */
-    private $userId;
 
     /**
      * {@inheritdoc}
@@ -82,25 +75,5 @@ class Event extends AbstractDomainObject
     public function setDescription($description)
     {
         $this->description = $description;
-    }
-
-    /**
-     * Get the id of the User who owns the Event.
-     *
-     * @return string The id of the User who owns the Event.
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set the id of the User who Owns the Event.
-     *
-     * @param string $id The id of the User who owns the Event.
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
     }
 }

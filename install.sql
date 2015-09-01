@@ -98,6 +98,12 @@ CREATE TABLE IF NOT EXISTS mapping (
 
 -- --------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS query (
+  id SERIAL NOT NULL PRIMARY KEY,
+  query text NOT NULL,
+  id_user int NOT NULL REFERENCES users (id)
+);
+
 CREATE TABLE IF NOT EXISTS wave_request (
   id SERIAL NOT NULL PRIMARY KEY,
   request text NOT NULL,

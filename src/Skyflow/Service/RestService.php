@@ -44,16 +44,26 @@ class RestService extends AbstractService implements RestServiceInterface
     {
         return $this->httpClient;
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function httpGet($url, $parameters, $headers = null)
+    public function getServiceUrl()
     {
-        $requestUrl = $this->getEndpoint();
-        $requestUrl .= '/';
-        $requestUrl .= empty($this->getVersion()) ? "" : $this->getVersion() . "/";
-        $requestUrl .= ltrim($url, '/');
+        return $this->getEndpoint()
+            . (empty($this->getVersion()) ? "" : '/' . $this->getVersion());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRequestUrl($url, $parameters = null)
+    {
+        $requestUrl = $this->getServiceUrl();
+
+        if (!empty($url)) {
+            $requestUrl = $requestUrl . '/' . ltrim($url, '/');
+        }
 
         if (is_array($parameters) && !empty($parameters)) {
             $requestUrl .= "?";
@@ -65,7 +75,20 @@ class RestService extends AbstractService implements RestServiceInterface
             $requestUrl = rtrim($requestUrl, '&');
         }
 
-        $request = $this->getHttpClient()->createRequest('GET', $requestUrl);
+        return $requestUrl;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function httpGet($url, $parameters, $headers = null)
+    {
+        $requestUrl = $this->getRequestUrl($url, $parameters);
+
+        $request = $this->getHttpClient()->createRequest(
+            'GET',
+            $this->getRequestUrl($url, $parameters)
+        );
 
         if (is_array($headers)) {
             $request->setHeaders($headers);
@@ -76,10 +99,19 @@ class RestService extends AbstractService implements RestServiceInterface
 
     /**
      * {@inheritdoc}
-     * @todo Implement this method.
      */
     public function httpPost($url, $parameters, $headers = null)
     {
-        
+        $request = $this->getHttpClient()->createRequest(
+            'POST',
+            $this->getRequestUrl($url),
+            $parameters
+        );
+
+        if (is_array($headers)) {
+            $request->setHeaders($headers);
+        }
+
+        return $this->getHttpClient()->send($request);
     }
 }

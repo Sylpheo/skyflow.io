@@ -27,7 +27,7 @@ use Wave\Controller\WaveHelperController;
 use Wave\Controller\WaveOAuthUserController;
 use Wave\DAO\WaveRequestDAO;
 use Wave\Domain\WaveRequest;
-use Wave\Service\WaveService;
+use Wave\Service\WaveDataService;
 
 /**
  * Service provider for the Wave addon.
@@ -69,11 +69,14 @@ class WaveServiceProvider implements ServiceProviderInterface
         });
 
         $app['wave.controller.helper'] = $app->share(function () use ($app) {
-            return new WaveHelperController(
+            $controller = new WaveHelperController(
                 $app['request'],
                 $app['wave'],
                 $app['wave.form.query']
             );
+            $controller->setTwig($app['twig']);
+
+            return $controller;
         });
 
         $app['wave.controller.oauth'] = $app->share(function () use ($app) {
@@ -105,6 +108,7 @@ class WaveServiceProvider implements ServiceProviderInterface
             return new SalesforceUserDAO(
                 $app['db'],
                 'users',
+                'Salesforce\\Domain\\SalesforceUser',
                 'Wave'
             );
         });
@@ -143,18 +147,18 @@ class WaveServiceProvider implements ServiceProviderInterface
             );
         });
 
-        // TODO: Find another name for this service.
-        $app['wave.service'] = $app->share(function () use ($app) {
-            return new WaveService(
+        $app['wave.data'] = $app->share(function () use ($app) {
+            return new WaveDataService(
+                $app['http.client'],
                 $app['wave.user'],
-                $app['http.client']
+                $app['wave.oauth']
             );
         });
 
         $app['wave'] = $app->share(function () use ($app) {
             return new Facade(array(
                 'oauth' => $app['wave.oauth'],
-                'wave' => $app['wave.service']
+                'data' => $app['wave.data']
             ));
         });
     }

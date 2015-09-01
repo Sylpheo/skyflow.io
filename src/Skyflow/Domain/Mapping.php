@@ -8,12 +8,12 @@
 
 namespace skyflow\Domain;
 
-use skyflow\Domain\AbstractDomainObject;
+use skyflow\Domain\AbstractUserOwnedModel;
 
 /**
  * Mapping Domain Object class.
  */
-class Mapping extends AbstractDomainObject
+class Mapping extends AbstractUserOwnedModel
 {
     /**
      * The Event mapped by this Mapping.
@@ -28,13 +28,6 @@ class Mapping extends AbstractDomainObject
      * @var Flow
      */
     private $flow;
-
-    /**
-     * The id of the User who owns this Mapping.
-     *
-     * @var string
-     */
-    private $userId;
 
     /**
      * {@inheritdoc}
@@ -82,25 +75,5 @@ class Mapping extends AbstractDomainObject
     public function setFlow(Flow $flow)
     {
         $this->flow = $flow;
-    }
-
-    /**
-     * Get the id of the User who owns this Mapping.
-     *
-     * @return string The id of the User.
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set the id of the User who owns this Mapping.
-     *
-     * @param string $id The id fo the User.
-     */
-    public function setIdUser($idUser)
-    {
-        $this->idUser = $idUser;
     }
 }

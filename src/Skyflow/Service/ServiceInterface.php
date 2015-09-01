@@ -10,6 +10,37 @@ namespace skyflow\Service;
 
 interface ServiceInterface
 {
+
+    /**
+     * Set the name of the service.
+     *
+     * @param string $name The service name.
+     */
+    public function setName($name);
+
+    /**
+     * Get the name of the service.
+     *
+     * @return string The service name.
+     */
+    public function getName();
+
+    /**
+     * Set the name of the service provider.
+     *
+     * May it be "Salesforce", "Wave", "Office360"...
+     *
+     * @param string $provider The name of the service provider.
+     */
+    public function setProvider($provider);
+
+    /**
+     * Get the name of the service provider.
+     *
+     * @return string The name of the service provider.
+     */
+    public function getProvider();
+
     /**
      * Set the service endpoint.
      *

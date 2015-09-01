@@ -40,8 +40,8 @@ class SalesforceOAuthUserController extends OAuthUserController
         }
 
         return $this->getTwig()->render(
-            'salesforce-credentials.html.twig',
-            array('salesforceCredentialsForm' => $this->getCredentialsForm()->createView())
+            'salesforce/setup/credentials-form.html.twig',
+            array('credentialsForm' => $this->getCredentialsForm()->createView())
         );
     }
 }

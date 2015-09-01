@@ -26,10 +26,10 @@ class SalesforceUserDAO extends OAuthUserDAO
     public function __construct(
         Connection $db,
         $objectType = null,
-        $provider = 'Salesforce',
-        $domainObjectClass = 'Salesforce\\Domain\\SalesforceUser'
+        $domainObjectClass = 'Salesforce\\Domain\\SalesforceUser',
+        $provider = 'Salesforce'
     ) {
-        parent::__construct($db, $objectType, $provider, $domainObjectClass);
+        parent::__construct($db, $objectType, $domainObjectClass, $provider);
     }
 
     /**
@@ -38,10 +38,8 @@ class SalesforceUserDAO extends OAuthUserDAO
     public function getData(AbstractModel $domainObject)
     {
         $data = parent::getData($domainObject);
-
         $data[$this->getProviderPrefix() . 'instance_url'] = $domainObject->getInstanceUrl();
         $data[$this->getProviderPrefix() . 'is_sandbox'] = $domainObject->getIsSandbox() ? 1 : 0;
-
         return $data;
     }
 
@@ -53,7 +51,6 @@ class SalesforceUserDAO extends OAuthUserDAO
         $domainObject = parent::buildDomainObject($row);
         $domainObject->setInstanceUrl($row[$this->getProviderPrefix() . 'instance_url']);
         $domainObject->setIsSandbox($row[$this->getProviderPrefix() . 'is_sandbox']);
-        
         return $domainObject;
     }
 }

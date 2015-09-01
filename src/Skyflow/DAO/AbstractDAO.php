@@ -14,6 +14,9 @@ use skyflow\Domain\AbstractModel;
 
 /**
  * Abstract Data Access Object class.
+ *
+ * This class is abstract because it only manage the id of a Model. Subclasses
+ * must handle model's other fields.
  */
 abstract class AbstractDAO
 {
@@ -32,15 +35,29 @@ abstract class AbstractDAO
     private $objectType;
 
     /**
+     * The class to instantiate during buildDomainObject.
+     *
+     * This is the class that is instantiated during buildDomainObject().
+     *
+     * @var string
+     */
+    private $domainObjectClass;
+
+    /**
      * Constructor
      *
-     * @param Connection $db         The database connection object.
-     * @param string     $objectType The model object type handled by this DAO.
+     * @param Connection $db                The database connection object.
+     * @param string     $objectType        The model object type handled by this
+     *                                      DAO.
+     * @param string     $domainObjectClass The domain object class instantiated
+     *                                      by this DAO.
+     *
      */
-    public function __construct(Connection $db, $objectType = null)
+    public function __construct(Connection $db, $objectType, $domainObjectClass)
     {
         $this->db = $db;
-        $this->objectType = isset($objectType) ? $this->normalize($objectType) : null;
+        $this->objectType = $this->normalize($objectType);
+        $this->domainObjectClass = $domainObjectClass;
     }
 
     /**
@@ -54,6 +71,26 @@ abstract class AbstractDAO
     }
 
     /**
+     * Get the model obejct type handled by this DAO.
+     *
+     * @var string
+     */
+    protected function getObjectType()
+    {
+        return $this->objectType;
+    }
+
+    /**
+     * Get the class to instantiate during buildDomainObject.
+     *
+     * @return string The class full name with namespace.
+     */
+    protected function getDomainObjectClass()
+    {
+        return $this->domainObjectClass;
+    }
+
+    /**
      * Normalize from camelCase to snake_case for the request.
      *
      * @param  string $str The string to normalize.
@@ -64,6 +101,40 @@ abstract class AbstractDAO
     protected function normalize($str)
     {
         return ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $str)), '_');
+    }
+
+    /**
+     * Get domain object data formatted for storage in database.
+     *
+     * It returns an associative array where the key is the
+     * field name in database and the value is the current value
+     * in the application.
+     *
+     * The id MUST NOT be part of getData return array. This is because the id
+     * must never be changed. As we only know the id at this point, this method
+     * returns empty array to allow parent::getData($model) on subclasses.
+     *
+     * @param AbstractModel $model The domain object to get data from.
+     * @return array The domain object data formatted for storage.
+     */
+    public function getData(AbstractModel $model)
+    {
+        return array();
+    }
+
+    /**
+     * Builds a domain object from a DB row.
+     *
+     * At this point we only know the id. Subclasses must use
+     * $model = parent::buildDomainObject($row) to add additional fields.
+     *
+     * @param $row The DB row ro build a Domain object from.
+     */
+    protected function buildDomainObject($row)
+    {
+        $model = new $this->domainObjectClass();
+        $model->setId($row['id']);
+        return $model;
     }
 
     /**
@@ -98,32 +169,20 @@ abstract class AbstractDAO
     }
 
     /**
-     * Get domain object data formatted for storage in database.
-     *
-     * It returns an associative array where the key is the
-     * field name in database and the value is the current value
-     * in the application.
-     *
-     * @param AbstractModel $domainObject The domain object to get data from.
-     * @return array The domain object data formatted for storage.
-     */
-    abstract public function getData(AbstractModel $domainObject);
-
-    /**
      * Save a domain object.
      *
-     * @param AbstractModel $domainObject The domain object to save.
+     * @param AbstractModel $model The domain object to save.
      */
-    public function save(AbstractModel $domainObject)
+    public function save(AbstractModel $model)
     {
-        $data = $this->getData($domainObject);
+        $data = $this->getData($model);
 
-        if ($domainObject->getId()) {
-            $this->getDb()->update($this->objectType, $data, array('id' => $domainObject->getIdentifier()));
+        if ($model->getId()) {
+            $this->getDb()->update($this->objectType, $data, array('id' => $model->getIdentifier()));
         } else {
             $this->getDb()->insert($this->objectType, $data);
             $id = $this->getDb()->lastInsertId();
-            $domainObject->setId($id);
+            $model->setId($id);
         }
     }
 
@@ -137,13 +196,4 @@ abstract class AbstractDAO
     {
         $this->getDb()->delete($this->objectType, array('id' => $id));
     }
-
-    /**
-     * Builds a domain object from a DB row.
-     *
-     * Must be overridden by child classes.
-     *
-     * @param $row The DB row ro build a Domain object from.
-     */
-    abstract protected function buildDomainObject($row);
 }
