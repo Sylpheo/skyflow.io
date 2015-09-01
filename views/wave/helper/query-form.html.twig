@@ -1,0 +1,21 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Wave API Helper{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Wave API Helper
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active">Wave API Helper</li>
+                </ol>
+            </div>
+        </div>
+
+        {% include "skyflow/helper/query-form.html.twig" %}
+        
+    </div>
+{% endblock %}

@@ -2,11 +2,23 @@
 
 namespace skyflow\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+
+use skyflow\Form\Type\AbstractType;
 
 class UsersType extends AbstractType
 {
+    /**
+     * Users type contructor.
+     */
+    public function __construct()
+    {
+        $this->setName('user');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -21,10 +33,5 @@ class UsersType extends AbstractType
             ->add('role', 'choice', array(
                 'choices' => array('ROLE_ADMIN' => 'Admin', 'ROLE_USER' => 'User')
             ));
-    }
-
-    public function getName()
-    {
-        return 'user';
     }
 }

@@ -1,32 +1,39 @@
 <?php
 
 /**
- * Wave_request Domain Object class.
+ * Wave Request Domain Object class.
  *
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Domain;
+namespace Wave\Domain;
 
 /**
- * Wave_request Domain Object class.
+ * Wave Request Domain Object class.
  */
-class Wave_request {
-
+class WaveRequest
+{
     /**
-     * @var id
+     * This id of the request.
+     *
+     * @var integer
      */
     private $id;
 
     /**
-     * @var request
+     * The request string.
+     *
+     * @var string
      */
     private $request;
 
     /**
-     * @var id_user
+     * The id of the User who owns the request.
+     *
+     * @var integer
      */
-    private $id_user;
+    private $userId;
+
     public function getId()
     {
         return $this->id;
@@ -44,11 +51,11 @@ class Wave_request {
         $this->request = $request;
     }
 
-    public function getIdUser(){
-        return $this->id_user;
+    public function getUserId(){
+        return $this->userId;
     }
 
-    public function setIdUser($id_user){
-        $this->id_user = $id_user;
+    public function setUserId($userId){
+        $this->userId = $userId;
     }
 }

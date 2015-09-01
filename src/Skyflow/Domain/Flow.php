@@ -8,75 +8,99 @@
 
 namespace skyflow\Domain;
 
+use skyflow\Domain\AbstractUserOwnedModel;
+
 /**
  * Flow Domain Object class.
  */
-class Flow {
+class Flow extends AbstractUserOwnedModel
+{
     /**
-     * Flow id
-     * @var integer
-     */
-    private $id;
-
-    /**
-     * Flow name
-     * @var varchar
+     * The Flow name
+     *
+     * @var string
      */
     private $name;
 
     /**
-     * Flow class
-     * @var varchar
+     * The Flow class
+     *
+     * @var string
      */
     private $class;
 
     /**
-     * Flow documentation
-     * @var varchar
+     * The Flow documentation
+     *
+     * @var string
      */
     private $documentation;
 
-    private $idUser;
-
-
-
-    public function getId(){
-        return $this->id;
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return 'flow';
     }
 
-    public function setId($id){
-        $this->id = $id;
-    }
-
-    public function getName(){
+    /**
+     * Get the Flow name.
+     *
+     * @return string The Flow name.
+     */
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function setName($name){
+    /**
+     * Set the Flow name.
+     *
+     * @param string $name The Flow name.
+     */
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    public function getClass(){
+    /**
+     * Get the Flow class.
+     *
+     * @return string The Flow class.
+     */
+    public function getClass()
+    {
         return $this->class;
     }
 
-    public function setClass($class){
+    /**
+     * Set the Flow class.
+     *
+     * @param string $class The Flow class.
+     */
+    public function setClass($class)
+    {
         $this->class = $class;
     }
 
-    public function getDocumentation(){
+    /**
+     * Get the Flow documentation.
+     *
+     * @return string The Flow documentation.
+     */
+    public function getDocumentation()
+    {
         return $this->documentation;
     }
 
-    public function setDocumentation($documentation){
+    /**
+     * Set the Flow documentation.
+     *
+     * @param string $documentation The Flow documentation.
+     */
+    public function setDocumentation($documentation)
+    {
         $this->documentation = $documentation;
-    }
-
-    public function getIdUser(){
-        return $this->idUser;
-    }
-
-    public function setIdUser($idUser){
-        $this->idUser = $idUser;
     }
 }

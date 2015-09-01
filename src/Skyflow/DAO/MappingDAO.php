@@ -8,30 +8,67 @@
 
 namespace skyflow\DAO;
 
-use skyflow\Domain\Mapping;
+use Doctrine\DBAL\Connection;
+
+use skyflow\DAO\AbstractUserOwnedDAO;
+use skyflow\DAO\EventDAO;
+use skyflow\DAO\FlowDAO;
+use skyflow\Domain\AbstractModel;
 
 /**
  * DAO class for the Mapping domain object.
  */
-class MappingDAO extends DAO {
-
+class MappingDAO extends AbstractUserOwnedDAO
+{
     /**
-     * @var \skyflow\DAO\EventDAO The related Event DAO object.
+     * The related Event DAO object.
+     *
+     * The event DAO is used when binding the mapping object event using
+     * mapping->setEvent().
+     *
+     * @var EventDAO
      */
     private $eventDAO;
 
     /**
-     * @var \skyflow\DAO\FlowDAO The related Flow DAO object.
+     * The related Flow DAO object.
+     *
+     * The flow DAO is used when binding the mapping object flow using
+     * mapping->setFlow().
+     *
+     * @var FlowDAO
      */
     private $flowDAO;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(
+        Connection $db,
+        $objectType = 'mapping',
+        $domainObjectClass = 'skyflow\\Domain\\Mapping'
+    ) {
+        parent::__construct($db, $objectType, $domainObjectClass);
+    }
 
     /**
      * Set the related Event DAO object.
      *
      * @param EventDAO $eventDAO The related Event DAO object.
      */
-    public function setEventDAO(EventDAO $eventDAO){
+    public function setEventDAO(EventDAO $eventDAO)
+    {
         $this->eventDAO = $eventDAO;
+    }
+
+    /**
+     * Get the related Event DAO object.
+     *
+     * @return EventDAO The related Event DAO object.
+     */
+    public function getEventDAO()
+    {
+        return $this->eventDAO;
     }
 
     /**
@@ -39,121 +76,71 @@ class MappingDAO extends DAO {
      *
      * @param FlowDAO $flowDAO The related Flow DAO object.
      */
-    public function setFlowDAO(FlowDAO $flowDAO){
+    public function setFlowDAO(FlowDAO $flowDAO)
+    {
         $this->flowDAO = $flowDAO;
     }
 
     /**
-     * Find a Mapping by its id.
+     * Get the related Flow DAO object.
      *
-     * @param string $id The Mapping id.
-     * @return mixed
-     * @throws \Doctrine\DBAL\DBALException
+     * @return FlowDAO The related Flow DAO object.
      */
-    public function findOne($id) {
-        $sql = $this->getDb()->prepare("select * from mapping where id = ?");
-        $sql->bindValue(1,$id);
-        $sql->execute();
-        $mapping = $sql->fetch();
-
-        if($mapping){
-            return $association;
-        }
+    public function getFlowDAO()
+    {
+        return $this->flowDAO;
     }
 
     /**
-     * Find all Mappings owned by a User using the user's id.
-     *
-     * @param $id_user The id of the User who owns the Mappings to find.
-     * @return Mapping[] An array of found Mappings. Empty array if none found.
+     * {@inheritdoc}
      */
-    public function findAllByUser($id_user){
-        $sql = "select * from mapping where id_user =?";
-        $result = $this->getDb()->fetchAll($sql,array($id_user));
-
-        $mappings = array();
-        foreach ($result as $row) {
-            $mappingId = $row['id'];
-            $mappings[$mappingId] = $this->buildDomainObject($row);
-        }
-
-        return $mappings;
+    public function getData(AbstractModel $model)
+    {
+        $data = parent::getData($model);
+        $data['id_event'] = $model->getEvent()->getId();
+        $data['id_flow'] = $model->getFlow()->getId();
+        return $data;
     }
 
     /**
-     * Save a Mapping.
-     *
-     * @param Mapping $mapping The Mapping to save.
+     * {@inheritdoc}
      */
-    public function save(Mapping $mapping){
-        $mappingData = array(
-            'id_event' => $mapping->getEvent()->getId(),
-            'id_flow' => $mapping->getFlow()->getId(),
-            'id_user' => $mapping->getIdUser(),
-        );
+    protected function buildDomainObject($row)
+    {
+        $mapping = parent::buildDomainObject($row);
 
-        if($mapping->getId()) {
-            $this->getDb()->update('mapping',$mappingData, array('id' => $mapping->getId()));
-        } else {
-            $this->getDb()->insert('mapping',$mappingData);
-            $id = $this->getDb()->lastInsertId();
-            $mapping->setId($id);
+        if (array_key_exists('id_event', $row)) {
+            // Find and set the associated article
+            $eventId = $row['id_event'];
+            $event = $this->getEventDAO()->findOneById($eventId);
+            $mapping->setEvent($event);
         }
+        if (array_key_exists('id_flow', $row)) {
+            $flowId = $row['id_flow'];
+            $flow = $this->getFlowDAO()->findOneById($flowId);
+            $mapping->setFlow($flow);
+        }
+
+        return $mapping;
     }
 
     /**
      * Find a Mapping from it's User id and related Event id.
      *
-     * @param string $id_event The id of the related Event.
-     * @param string $id_user  The id of the User who owns the Mapping.
+     * @param string $eventId The id of the related Event.
+     * @param string $userId  The id of the User who owns the Mapping.
      * @return Mapping|null The found Mapping or null if none found.
      */
-    public function findByEventUser($id_event,$id_user){
+    public function findByEventUser($eventId, $userId)
+    {
         $sql = $this->getDb()->prepare("select * from mapping where id_event = ? and id_user = ?");
-        $sql->bindValue(1,$id_event);
-        $sql->bindValue(2,$id_user);
+        $sql->bindValue(1, $eventId);
+        $sql->bindValue(2, $userId);
         $sql->execute();
         $mapping = $sql->fetch();
 
-        if($mapping){
+        if ($mapping) {
             return $mapping;
         }
-    }
-
-    /**
-     * Delete a Mapping.
-     *
-     * @param string $id The id of the Mapping to delete.
-     * @throws \Doctrine\DBAL\Exception\InvalidArgumentException
-     */
-    public function delete($id){
-        $this->getDb()->delete('mapping',array('id' => $id));
-    }
-
-
-    /**
-     * Creates a Mapping object based on a DB row.
-     *
-     * @param array $row The DB row containing Mapping data.
-     * @return Mapping
-     */
-    protected function buildDomainObject($row) {
-        $mapping = new Mapping();
-        $mapping->setId($row['id']);
-        $mapping->setIdUser($row['id_user']);
-
-        if (array_key_exists('id_event', $row)) {
-            // Find and set the associated article
-            $eventId = $row['id_event'];
-            $event = $this->eventDAO->findOneById($eventId);
-            $mapping->setEvent($event);
-        }
-        if(array_key_exists('id_flow',$row)){
-            $flowId = $row['id_flow'];
-            $flow = $this->flowDAO->findOneById($flowId);
-            $mapping->setFlow($flow);
-        }
-
-        return $mapping;
     }
 }

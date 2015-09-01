@@ -1,0 +1,23 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Wave Helper Json{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Wave Helper Json
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="{{ path('wave-helper') }}">Wave API Helper</a></li>
+                    <li class="active">Result Json</li>
+                </ol>
+            </div>
+        </div>
+
+        {% include "skyflow/helper/query-results.html.twig" %}
+
+    </div>
+
+{% endblock %}

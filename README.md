@@ -43,12 +43,10 @@ In order to communicate with the different third-party platforms (such as Salesf
 
 	namespace Skyflow\Flow;
 
-	use skyflow\Flow\AbstractFlow;
+	use Skyflow\Flow\AbstractFlow;
 
 	/**
 	 * My first flow class.
-	 *
-	 * The Flow must extend Skyflow\Flow\AbstractFlow.
 	 */
 	class MyFirstFlow extends AbstractFlow
 	{

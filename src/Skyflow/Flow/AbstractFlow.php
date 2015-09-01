@@ -8,16 +8,18 @@
 
 namespace skyflow\Flow;
 
+use skyflow\Flow\FlowInterface;
+
 /**
  * Flow abstract class.
  *
- * Extend this class to create custom flow.
+ * Extend this class to create a custom flow.
  * Put your custom flow in directory "skyflow.io/src/Skyflow/Flow".
  *
  * This class cannot be instanciated.
  */
-abstract class AbstractFlow {
-
+abstract class AbstractFlow implements FlowInterface
+{
     /**
      * Instance of Silex Application.
      *
@@ -25,20 +27,33 @@ abstract class AbstractFlow {
      */
     public $app;
 
+    protected function getSalesforce()
+    {
+        return $this->app['salesforce'];
+    }
+
+    protected function getWave()
+    {
+        return $this->app['wave'];
+    }
+
     /**
      * Flow class contructor.
      *
      * @param Silex/Application Instance of Silex Application.
      */
-    public function __construct($app){
+    public function __construct($app)
+    {
         $this->app = $app;
     }
 
     /**
-     * Flow execution when run via an event (HTTP POST request with JSON content).
-     *
-     * @param Symfony\Component\HttpFoundation\Request The JSON request handled by the application.
-     * @return ??? (TODO)
+     * {@inheritdoc}
      */
-    public abstract function event($requestJson);
+    abstract public function event($requestJson);
+
+    /**
+     * {@inheritdoc}
+     */
+    abstract public function run();
 }

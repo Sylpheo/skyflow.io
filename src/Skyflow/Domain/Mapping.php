@@ -8,63 +8,72 @@
 
 namespace skyflow\Domain;
 
+use skyflow\Domain\AbstractUserOwnedModel;
+
 /**
  * Mapping Domain Object class.
  */
-class Mapping {
+class Mapping extends AbstractUserOwnedModel
+{
     /**
-     * Flow id
-     * @var integer
-     */
-    private $id;
-
-    /**
-     * @var Event event
+     * The Event mapped by this Mapping.
+     *
+     * @var Event
      */
     private $event;
 
     /**
+     * The Flow mapped by this Mapping.
      *
-     * @var Flow flow
+     * @var Flow
      */
     private $flow;
 
     /**
-     * Mapping idUser
-     * @var
+     * {@inheritdoc}
      */
-    private $idUser;
-
-
-
-    public function getId(){
-        return $this->id;
+    public function getType()
+    {
+        return 'mapping';
     }
 
-    public function setId($id){
-        $this->id = $id;
-    }
-
-    public function getEvent(){
+    /**
+     * Get the Event mapped by this Mapping.
+     *
+     * @return Event The Event.
+     */
+    public function getEvent()
+    {
         return $this->event;
     }
 
-    public function setEvent(Event $event){
+    /**
+     * Set the Event mapped by this Mapping.
+     *
+     * @param Event $event The Event.
+     */
+    public function setEvent(Event $event)
+    {
         $this->event =$event;
     }
 
-    public function getFlow(){
+    /**
+     * Get the Flow mapped by this Mapping.
+     *
+     * @return Flow The Flow.
+     */
+    public function getFlow()
+    {
         return $this->flow;
     }
 
-    public function setFlow(Flow $flow){
+    /**
+     * Set the Flow mapped by this Mapping.
+     *
+     * @param Flow $flow The Flow.
+     */
+    public function setFlow(Flow $flow)
+    {
         $this->flow = $flow;
-    }
-    public function getIdUser(){
-        return $this->idUser;
-    }
-
-    public function setIdUser($idUser){
-        $this->idUser = $idUser;
     }
 }

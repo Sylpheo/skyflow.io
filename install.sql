@@ -4,19 +4,21 @@ CREATE TABLE IF NOT EXISTS users (
   password text NOT NULL,
   salt text NOT NULL,
   role text NOT NULL,
+  skyflowtoken text NOT NULL,
   clientid text DEFAULT NULL,
   clientsecret text DEFAULT NULL,
-  waveid text DEFAULT NULL,
-  wavesecret text DEFAULT NULL,
-  wavelogin text DEFAULT NULL,
-  wavepassword text DEFAULT NULL,
-  skyflowtoken text NOT NULL,
-  access_token_salesforce text DEFAULT NULL,
-  refresh_token_salesforce text DEFAULT NULL,
-  instance_url_salesforce text DEFAULT NULL,
-  salesforce_id text DEFAULT NULL,
-  salesforce_secret text DEFAULT NULL,
-  salesforce_sandbox boolean DEFAULT NULL
+  wave_client_id text DEFAULT NULL,
+  wave_client_secret text DEFAULT NULL,
+  wave_access_token text DEFAULT NULL,
+  wave_refresh_token text DEFAULT NULL,
+  wave_instance_url text DEFAULT NULL,
+  wave_is_sandbox boolean DEFAULT NULL,
+  salesforce_client_id text DEFAULT NULL,
+  salesforce_client_secret text DEFAULT NULL,
+  salesforce_access_token text DEFAULT NULL,
+  salesforce_refresh_token text DEFAULT NULL,
+  salesforce_instance_url text DEFAULT NULL,
+  salesforce_is_sandbox boolean DEFAULT NULL
 );
 
 INSERT INTO users (
@@ -25,32 +27,36 @@ INSERT INTO users (
   password,
   salt,
   role,
+  skyflowtoken,
   clientid,
   clientsecret,
-  waveid,
-  wavesecret,
-  wavelogin,
-  wavepassword,
-  skyflowtoken,
-  access_token_salesforce,
-  refresh_token_salesforce,
-  instance_url_salesforce,
-  salesforce_id,
-  salesforce_secret,
-  salesforce_sandbox
+  wave_client_id,
+  wave_client_secret,
+  wave_access_token,
+  wave_refresh_token,
+  wave_instance_url,
+  wave_is_sandbox,
+  salesforce_client_id,
+  salesforce_client_secret,
+  salesforce_access_token,
+  salesforce_refresh_token,
+  salesforce_instance_url,
+  salesforce_is_sandbox
 ) VALUES (
   1,
   'skyflow',
   'a1mvTX1PGa/tPegPfCiRHdc3PFLTb3GpTQi3QqBHVp3rBjt/rYQXuJCvU6K96WfPY9OGN+ClmveryL19r5Xg7Q==',
   '1c75f1db82ca11cff02043b',
   'ROLE_ADMIN',
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
-  NULL,
   '75118235125828845286db3fb91bc1a9',
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
   NULL,
   NULL,
   NULL,
@@ -91,6 +97,12 @@ CREATE TABLE IF NOT EXISTS mapping (
 );
 
 -- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS query (
+  id SERIAL NOT NULL PRIMARY KEY,
+  query text NOT NULL,
+  id_user int NOT NULL REFERENCES users (id)
+);
 
 CREATE TABLE IF NOT EXISTS wave_request (
   id SERIAL NOT NULL PRIMARY KEY,
