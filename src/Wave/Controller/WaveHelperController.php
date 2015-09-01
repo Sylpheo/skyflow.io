@@ -142,6 +142,10 @@ class WaveHelperController extends SalesforceHelperController
      */
     public function queryAction()
     {
+        // Test query:
+        // q = load "0FbB00000005KPEKA2/0FcB00000005W4tKAE";
+        // q = filter q by Email in ["e.lodie62@hotmail.fr"];
+        // q = foreach q generate FirstName as FirstName, LastName as LastName
         $this->getQueryForm()->handleRequest($this->getRequest());
 
         if ($this->getQueryForm()->isSubmitted()
