@@ -137,10 +137,10 @@ class MappingDAO extends AbstractUserOwnedDAO
         $sql->bindValue(1, $eventId);
         $sql->bindValue(2, $userId);
         $sql->execute();
-        $mapping = $sql->fetch();
+        $row = $sql->fetch();
 
-        if ($mapping) {
-            return $mapping;
+        if ($row) {
+            return $this->buildDomainObject($row);
         }
     }
 }

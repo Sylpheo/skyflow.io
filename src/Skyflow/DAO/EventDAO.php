@@ -55,21 +55,21 @@ class EventDAO extends AbstractUserOwnedDAO
      * Find a User's Event by name.
      *
      * @param string $name   The Event name.
-     * @param string $idUser The id of the User who owns the Event.
+     * @param string $userId The id of the User who owns the Event.
      * @return Event|null The found Event or null if none found.
      * @throws \Doctrine\DBAL\DBALException
      * @todo Refactor this in a parent class.
      */
-    public function findOne($name, $idUser)
+    public function findOne($name, $userId)
     {
         $sql = $this->getDb()->prepare("select * from event where name = ? and id_user = ?");
         $sql->bindValue(1, $name);
-        $sql->bindValue(2, $idUser);
+        $sql->bindValue(2, $userId);
         $sql->execute();
-        $event = $sql->fetch();
+        $row = $sql->fetch();
 
-        if ($event) {
-            return $event;
+        if ($row) {
+            return $this->buildDomainObject($row);
         }
     }
 }

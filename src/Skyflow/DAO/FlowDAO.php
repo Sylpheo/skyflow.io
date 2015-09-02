@@ -68,10 +68,10 @@ class FlowDAO extends AbstractUserOwnedDAO
         $sql->bindValue(1, $name);
         $sql->bindValue(2, $idUser);
         $sql->execute();
-        $flow = $sql->fetch();
+        $row = $sql->fetch();
 
-        if ($flow) {
-            return $flow;
+        if ($row) {
+            return $this->buildDomainObject($row);
         }
     }
 }
