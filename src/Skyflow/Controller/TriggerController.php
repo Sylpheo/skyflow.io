@@ -84,7 +84,6 @@ class TriggerController {
 
             if($form->isSubmitted() && $form->isValid()){
                 $data = $form->getData();
-                //var_dump($data);
 
                 $triggeredsend = new ET_TriggeredSend();
                 $triggeredsend->authStub = $myclient;
