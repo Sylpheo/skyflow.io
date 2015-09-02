@@ -10,8 +10,10 @@ namespace Salesforce\Provider;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 use skyflow\Controller\OAuthController;
+use skyflow\Facade;
 
 use Salesforce\Authenticator\SalesforceOAuthAuthenticator;
 use Salesforce\Controller\SalesforceHelperController;
@@ -22,8 +24,6 @@ use Salesforce\Form\Type\SalesforceOAuthCredentialsType;
 use Salesforce\Form\Type\SalesforceSoqlQueryType;
 use Salesforce\Service\SalesforceDataService;
 use Salesforce\Service\SalesforceOAuthService;
-
-use Salesforce\SalesforceFacade;
 
 /**
  * Service provider for the Salesforce addon.
@@ -142,7 +142,7 @@ class SalesforceServiceProvider implements ServiceProviderInterface
         });
 
         $app['salesforce'] = $app->share(function () use ($app) {
-            return new SalesforceFacade(array(
+            return new Facade(array(
                 'data' => $app['salesforce.data'],
                 'oauth' => $app['salesforce.oauth']
             ));
@@ -151,8 +151,15 @@ class SalesforceServiceProvider implements ServiceProviderInterface
 
     /**
      * {@inheritdoc}
+     *
+     * Add the Salesforce facade to the current executing flow if there is one.
      */
     public function boot(Application $app)
     {
+        $app->before(function (Request $request, Application $app) {
+            if (isset($app['flow'])) {
+                $app['flow']->addFacade('Salesforce', $app['salesforce']);
+            }
+        });
     }
 }

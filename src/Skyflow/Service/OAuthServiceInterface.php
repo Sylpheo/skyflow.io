@@ -8,7 +8,9 @@
 
 namespace Skyflow\Service;
 
-interface OAuthServiceInterface
+use skyflow\Service\ServiceInterface;
+
+interface OAuthServiceInterface extends ServiceInterface
 {
     /**
      * Authenticate to an OAuth2 application.

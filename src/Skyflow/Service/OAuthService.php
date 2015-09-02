@@ -29,7 +29,7 @@ use skyflow\Service\OAuthServiceInterface;
  * Salesforce authenticate response includes an instance_url which is not handled
  * here.
  */
-class OAuthService implements OAuthServiceInterface
+class OAuthService extends AbstractService implements OAuthServiceInterface
 {
     /**
      * The OAuth authenticator.

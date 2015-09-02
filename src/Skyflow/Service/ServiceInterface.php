@@ -8,23 +8,11 @@
 
 namespace skyflow\Service;
 
+/**
+ * Service interface for the Skyflow addon services.
+ */
 interface ServiceInterface
 {
-
-    /**
-     * Set the name of the service.
-     *
-     * @param string $name The service name.
-     */
-    public function setName($name);
-
-    /**
-     * Get the name of the service.
-     *
-     * @return string The service name.
-     */
-    public function getName();
-
     /**
      * Set the name of the service provider.
      *

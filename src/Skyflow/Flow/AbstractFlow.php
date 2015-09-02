@@ -8,43 +8,74 @@
 
 namespace skyflow\Flow;
 
+use skyflow\FacadeInterface;
 use skyflow\Flow\FlowInterface;
 
 /**
  * Flow abstract class.
  *
  * Extend this class to create a custom flow.
- * Put your custom flow in directory "skyflow.io/src/Skyflow/Flow".
+ * Put your custom flow in directory "src/Skyflow/Flow" and namespace it under
+ * skyflow\Flow.
  *
- * This class cannot be instanciated.
+ * Do __NOT__ declare getter methods on this class. The syntax "getSomething" is used
+ * to get an addon facade by its name.
  */
 abstract class AbstractFlow implements FlowInterface
 {
     /**
-     * Instance of Silex Application.
+     * An array of the addons facades exposed by the flow.
      *
-     * @var Silex/Application
+     * @var FacadeInterface[]
      */
-    public $app;
+    private $facades;
 
-    protected function getSalesforce()
+    /**
+     * Flow constructor.
+     *
+     * @param FacadeInterface[] $facades An array of the addons facades exposed
+     *                                   by the flow.
+     */
+    public function __construct(array $facades = null)
     {
-        return $this->app['salesforce'];
-    }
-
-    protected function getWave()
-    {
-        return $this->app['wave'];
+        $this->facades = $facades;
     }
 
     /**
-     * Flow class contructor.
+     * Allow to get a facade using the syntax "get" concatenated with the name
+     * of the facade.
      *
-     * @param Silex/Application Instance of Silex Application.
+     * Example $this->getSalesforce() returns the facade named "Salesforce".
+     * The facade name first letter must be uppercase or this will not work.
+     *
+     * @param  string $name      The name of the method to call.
+     * @param  array  $arguments An array of the method arguments.
      */
-    public function __construct($app)
+    public function __call($name, $arguments)
     {
-        $this->app = $app;
+        if (substr($name, 0, 3) === 'get') {
+            $facadeName = substr($name, 3, strlen($name));
+
+            if (isset($this->facades[$facadeName])) {
+                return $this->facades[$facadeName];
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addFacade($name, FacadeInterface $facade)
+    {
+        $this->facades[$name] = $facade;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFacade($name)
+    {
+        return $this->facades[$name];
     }
 
     /**

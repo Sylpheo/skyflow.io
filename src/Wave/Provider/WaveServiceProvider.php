@@ -12,8 +12,10 @@ use GuzzleHttp\Client as HttpClient;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 use skyflow\Controller\OAuthController;
+use skyflow\Facade;
 
 use Salesforce\Authenticator\SalesforceOAuthAuthenticator;
 use Salesforce\DAO\SalesforceUserDAO;
@@ -28,13 +30,14 @@ use Wave\DAO\WaveRequestDAO;
 use Wave\Domain\WaveRequest;
 use Wave\Service\WaveDataService;
 
-use Wave\WaveFacade;
-
 /**
  * Service provider for the Wave addon.
  */
 class WaveServiceProvider implements ServiceProviderInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function register(Application $app)
     {
         $app['wave.authenticator'] = $app->share(function () use ($app) {
@@ -157,14 +160,24 @@ class WaveServiceProvider implements ServiceProviderInterface
         });
 
         $app['wave'] = $app->share(function () use ($app) {
-            return new WaveFacade(array(
+            return new Facade(array(
                 'oauth' => $app['wave.oauth'],
                 'data' => $app['wave.data']
             ));
         });
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * Add the Wave facade to the current executing flow if there is one.
+     */
     public function boot(Application $app)
     {
+        $app->before(function (Request $request, Application $app) {
+            if (isset($app['flow'])) {
+                $app['flow']->addFacade('Wave', $app['wave']);
+            }
+        });
     }
 }

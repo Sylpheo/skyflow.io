@@ -13,7 +13,7 @@
 $app->post(
     '/api/event/{event}',
     'skyflow\Controller\ApiController::flowAction'
-);
+)->bind('flow');
 
 // ----- Login Form -----
 

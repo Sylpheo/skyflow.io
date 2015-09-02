@@ -6,9 +6,11 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
+use Silex\Application;
 use Silex\Provider\FormServiceProvider;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 use skyflow\DAO\SkyflowUserDAO;
 use skyflow\Service\ExactTarget;
@@ -98,6 +100,30 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 
 // ========== Addons ==========
 
+$app->before(function (Request $request, Application $app) {
+    if ($request->get('_route') === 'flow') {
+        $eventName = $request
+            ->attributes
+            ->get('_route_params')['event'];
+
+        if ($eventName !== '') {
+            $userId = $app['user']->getId();
+            $event = $app['dao.event']->findOne($eventName, $userId);
+
+            if (isset($event)) {
+                $mapping = $app['dao.mapping']->findByEventUser($event->getId(), $userId);
+
+                if (isset($mapping)) {
+                    $flow = $mapping->getFlow();
+                    $class = $flow->getClass();
+
+                    $app['flow'] = new $class();
+                }
+            }
+        }
+    }
+});
+
 $app->register(new SalesforceServiceProvider());
 $app->mount('/salesforce', new SalesforceControllerProvider());
 
@@ -152,12 +178,6 @@ $app['user'] = $app->share(function () use ($app) {
     }
 
     return $user;
-});
-
-// ========== Flows ==========
-
-$app['flow_TestFlow'] = $app->share(function ($app) {
-    return new skyflow\Flow\TestFlow($app);
 });
 
 // ========== Services ==========
