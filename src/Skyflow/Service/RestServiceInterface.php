@@ -12,12 +12,16 @@ use skyflow\Service\ServiceInterface;
 
 use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 
+/**
+ * Interface for a REST service.
+ */
 interface RestServiceInterface extends ServiceInterface
 {
     /**
      * Get the service url.
      *
-     * The service url is the concatenation of the endpoint and version.
+     * The service url is the concatenation of the endpoint and version
+     * (getEndpoint() and getVersion() are declared in ServiceInterface).
      *
      * @return string The service url.
      */
