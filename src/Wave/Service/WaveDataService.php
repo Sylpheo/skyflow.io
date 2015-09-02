@@ -73,10 +73,6 @@ class WaveDataService extends SalesforceDataService
             }
         }
 
-        $responseBody = json_decode($response->getBody());
-        $data = $response->json();
-        $data = json_encode($data);
-
-        return $data;
+        return $response->json();
     }
 }

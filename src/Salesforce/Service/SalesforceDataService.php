@@ -113,9 +113,6 @@ class SalesforceDataService extends RestService
             }
         }
 
-        $data = $response->json();
-        $data = json_encode($data);
-
-        return $data;
+        return $response->json();
     }
 }
