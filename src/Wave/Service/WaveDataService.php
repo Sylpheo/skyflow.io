@@ -29,7 +29,7 @@ class WaveDataService extends SalesforceDataService
         OAuthServiceInterface $authService
     ) {
         parent::__construct($httpClient, $user, $authService);
-        $this->setEndpoint($this->getUser()->getInstanceUrl() . '/services/data/v34.0/wave/query');
+        $this->setEndpoint($this->getUser()->getInstanceUrl() . '/services/data/v34.0/wave');
         $this->setVersion(null);
     }
 
@@ -43,7 +43,7 @@ class WaveDataService extends SalesforceDataService
     {
         try {
             $response = $this->httpPost(
-                null,
+                '/query',
                 [
                     'json' => [
                         'query' => $query
@@ -59,7 +59,7 @@ class WaveDataService extends SalesforceDataService
                 $this->getAuthService()->refresh();
 
                 $response = $this->httpPost(
-                    null,
+                    '/query',
                     [
                         'json' => [
                             'query' => $query
