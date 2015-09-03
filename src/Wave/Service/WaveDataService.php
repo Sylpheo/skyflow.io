@@ -10,6 +10,7 @@ namespace Wave\Service;
 
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
+use skyflow\Domain\OAuthUser;
 use skyflow\Service\OAuthServiceInterface;
 
 use Salesforce\Domain\SalesforceUser;
@@ -25,7 +26,7 @@ class WaveDataService extends SalesforceDataService
      */
     public function __construct(
         HttpClientInterface $httpClient,
-        SalesforceUser $user,
+        OAuthUser $user,
         OAuthServiceInterface $authService
     ) {
         parent::__construct($httpClient, $user, $authService);

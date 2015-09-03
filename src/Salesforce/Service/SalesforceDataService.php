@@ -10,38 +10,22 @@ namespace Salesforce\Service;
 
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
-use skyflow\Service\RestService;
+use skyflow\Domain\OAuthUser;
 use skyflow\Service\OAuthServiceInterface;
+use skyflow\Service\RestOAuthAuthenticatedService;
 
 use Salesforce\Domain\SalesforceUser;
 
 /**
  * Service for the Salesforce data API.
  */
-class SalesforceDataService extends RestService
+class SalesforceDataService extends RestOAuthAuthenticatedService
 {
     /**
-     * The Salesforce OAuth user.
-     *
-     * We have to use the SalesforceUser because we need the instance_url.
-     *
-     * @var SalesforceUser
-     */
-    private $user;
-
-    /**
-     * The OAuth authentication service in case we need to refresh the access_token.
-     *
-     * We can use the OAuthServiceInterface instead of the SalesforceOAuthService
-     * because we may only need to refresh the access_token, nothing to care about
-     * the instance_url.
-     *
-     * @var OAuthServiceInterface
-     */
-    private $authService;
-
-    /**
      * SalesforceDataService constructor.
+     *
+     * We need a SalesforceUser because we need the Salesforce instance url which
+     * is specific to Salesforce.
      *
      * @param HttpClientInterface   $httpClient  An HTTP Client.
      * @param SalesforceUser        $user        The Salesforce OAuth user.
@@ -49,34 +33,14 @@ class SalesforceDataService extends RestService
      */
     public function __construct(
         HttpClientInterface $httpClient,
-        SalesforceUser $user,
+        OAuthUser $user,
         OAuthServiceInterface $authService
     ) {
-        parent::__construct($httpClient);
-        $this->user = $user;
-        $this->authService = $authService;
+        parent::__construct($httpClient, $user, $authService);
+
+        $this->setProvider('Salesforce');
         $this->setEndpoint($this->getUser()->getInstanceUrl() . '/services/data');
         $this->setVersion('v20.0');
-    }
-
-    /**
-     * Get the Salesforce OAuth user.
-     *
-     * @return SalesforceUser The Salesforce OAuth user.
-     */
-    protected function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Get the OAuth authentication service.
-     *
-     * @return OAuthServiceInterface The OAuth authentication service.
-     */
-    protected function getAuthService()
-    {
-        return $this->authService;
     }
 
     /**
