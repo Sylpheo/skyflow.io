@@ -22,6 +22,7 @@ use Salesforce\DAO\SalesforceUserDAO;
 use Salesforce\Domain\SalesforceUser;
 use Salesforce\Form\Type\SalesforceOAuthCredentialsType;
 use Salesforce\Form\Type\SalesforceSoqlQueryType;
+use Salesforce\Service\Data\SalesforceSObjectsService;
 use Salesforce\Service\SalesforceDataService;
 use Salesforce\Service\SalesforceOAuthService;
 
@@ -126,7 +127,29 @@ class SalesforceServiceProvider implements ServiceProviderInterface
         };
 
         $app['salesforce.data'] = $app->share(function () use ($app) {
+            $instanceUrl = $app['salesforce.user']->getInstanceUrl();
+
             return new SalesforceDataService(
+                null,
+                array(
+                    'provider' => 'Salesforce',
+                    'endpoint' => $instanceUrl . '/services/data',
+                    'version' => 'v20.0'
+                ),
+                $app['http.client'],
+                $app['salesforce.user'],
+                $app['salesforce.oauth']
+            );
+
+            return $service;
+        });
+
+        $app['salesforce.data.sobjects'] = $app->share(function () use ($app) {
+            return new SalesforceSObjectsService(
+                $app['salesforce.data'],
+                array(
+                    'extension' => '/sobjects',
+                ),
                 $app['http.client'],
                 $app['salesforce.user'],
                 $app['salesforce.oauth']
@@ -134,14 +157,52 @@ class SalesforceServiceProvider implements ServiceProviderInterface
         });
 
         $app['salesforce.oauth'] = $app->share(function () use ($app) {
+            /**
+             * @todo Remove the authenticator and do the authentication inside
+             *       the service.
+             */
+            $instanceUrl = $app['salesforce.user']->getInstanceUrl();
+
+            // The endpoint is not used at all.
             return new SalesforceOAuthService(
+                null,
+                array(
+                    'provider' => 'Salesforce',
+                    'endpoint' => $instanceUrl . '/services/oauth2',
+                ),
                 $app['salesforce.authenticator'],
                 $app['salesforce.user'],
                 $app['salesforce.user.dao']
             );
         });
 
+        /**
+         * Chaining Salesforce services.
+         *
+         * Chaining services cannot be done on service declaration or we fall
+         * into an unresolvable circular dependency scenario e.g.:
+         * declaring $app['salesforce.data'] we add it the service
+         * $app['salesforce.data.sobjects'] which needs $app['salesforce.data']
+         * which we are currently defining ==> circular dependency scenario.
+         *
+         * We must take care of the Skyflow user $app['user'] because we need
+         * a valid Salesforce user in order to get the Salesforce instance url
+         * needed on Salesforce services declaration.
+         *
+         * Plus the Skyflow user is only available right before the request
+         * is processed by the controllers. That's why we have to put this
+         * service chaining in a $app->before() hook.
+         */
+        $app->before(function (Request $request, Application $app) {
+            if (isset($app['user'])) {
+                $app['salesforce.data']->addService('sobjects', $app['salesforce.data.sobjects']);
+            }
+        });
+
         $app['salesforce'] = $app->share(function () use ($app) {
+            /**
+             * @todo Remove the notion of Facade and only use services.
+             */
             return new Facade(array(
                 'data' => $app['salesforce.data'],
                 'oauth' => $app['salesforce.oauth']

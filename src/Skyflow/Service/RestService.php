@@ -12,6 +12,7 @@ use GuzzleHttp\ClientInterface as HttpClientInterface;
 
 use skyflow\Service\AbstractService;
 use skyflow\Service\RestServiceInterface;
+use skyflow\Service\ServiceInterface;
 
 /**
  * REST service class for Skyflow services.
@@ -28,10 +29,17 @@ class RestService extends AbstractService implements RestServiceInterface
     /**
      * RestService constructor.
      *
-     * @param HttpClientInterface $httpClient The HTTP client.
+     * @param ServiceInterface    $parentService The parent service.
+     * @param array               $config        The service configuration: provider,
+     *                                           endpoint, version, extension.
+     * @param HttpClientInterface $httpClient    The HTTP client.
      */
-    public function __construct(HttpClientInterface $httpClient)
-    {
+    public function __construct(
+        $parentService,
+        $config,
+        HttpClientInterface $httpClient
+    ) {
+        parent::__construct($parentService, $config);
         $this->httpClient = $httpClient;
     }
 

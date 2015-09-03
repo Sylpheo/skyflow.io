@@ -31,7 +31,7 @@ class Facade implements FacadeInterface
      * @param ServiceInterface[] $services An array of the addon services exposed
      *                                     by the facade.
      */
-    public function __construct(array $services)
+    public function __construct($services = null)
     {
         $this->services = $services;
     }

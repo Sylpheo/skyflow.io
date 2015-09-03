@@ -144,7 +144,19 @@ class WaveServiceProvider implements ServiceProviderInterface
         };
 
         $app['wave.oauth'] = $app->share(function () use ($app) {
+            /**
+             * @todo Remove the authenticator and do the authentication inside
+             *       the service.
+             */
+            $instanceUrl = $app['wave.user']->getInstanceUrl();
+
+            // The endpoint is not used at all.
             return new SalesforceOAuthService(
+                null,
+                array(
+                    'provider' => 'Wave',
+                    'endpoint' => $instanceUrl . '/services/oauth2',
+                ),
                 $app['wave.authenticator'],
                 $app['wave.user'],
                 $app['wave.user.dao']
@@ -152,7 +164,14 @@ class WaveServiceProvider implements ServiceProviderInterface
         });
 
         $app['wave.data'] = $app->share(function () use ($app) {
+            $instanceUrl = $app['wave.user']->getInstanceUrl();
+
             return new WaveDataService(
+                null,
+                array(
+                    'provider' => 'Wave',
+                    'endpoint' => $instanceUrl . '/services/data/v34.0/wave'
+                ),
                 $app['http.client'],
                 $app['wave.user'],
                 $app['wave.oauth']

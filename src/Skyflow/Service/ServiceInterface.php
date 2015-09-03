@@ -8,19 +8,19 @@
 
 namespace skyflow\Service;
 
+use skyflow\FacadeInterface;
+
 /**
  * Service interface for the Skyflow addon services.
  */
-interface ServiceInterface
+interface ServiceInterface extends FacadeInterface
 {
     /**
-     * Set the name of the service provider.
+     * Get the parent service.
      *
-     * May it be "Salesforce", "Wave", "Office360"...
-     *
-     * @param string $provider The name of the service provider.
+     * @return ServiceInterface The parent service.
      */
-    public function setProvider($provider);
+    public function getParentService();
 
     /**
      * Get the name of the service provider.
@@ -30,25 +30,11 @@ interface ServiceInterface
     public function getProvider();
 
     /**
-     * Set the service endpoint.
-     *
-     * @param string $endpoint The service endpoint.
-     */
-    public function setEndpoint($endpoint);
-
-    /**
      * Get the service endpoint.
      *
      * @return string The service endpoint.
      */
     public function getEndpoint();
-    
-    /**
-     * Set the service version.
-     *
-     * @param string $version The service version.
-     */
-    public function setVersion($version);
 
     /**
      * Get the service version.
@@ -56,4 +42,13 @@ interface ServiceInterface
      * @return string The service version.
      */
     public function getVersion();
+
+    /**
+     * Get the endpoint extension.
+     *
+     * endpoint/version/extension
+     *
+     * @return string The endpoint extension.
+     */
+    public function getExtension();
 }

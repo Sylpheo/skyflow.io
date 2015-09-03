@@ -12,6 +12,7 @@ use skyflow\Authenticator\OAuthAuthenticatorInterface;
 use skyflow\Domain\OAuthUser;
 use skyflow\DAO\OAuthUserDAO;
 use skyflow\Service\OAuthServiceInterface;
+use skyflow\Service\ServiceInterface;
 
 /**
  * OAuth authentication service for use by the Skyflow addons.
@@ -55,15 +56,21 @@ class OAuthService extends AbstractService implements OAuthServiceInterface
     /**
      * OAuth authentication service constructor.
      *
-     * @param OAuthAuthenticatorInterface $oauth   The OAuth authenticator.
-     * @param OAuthUser                   $user    The OAuth user.
-     * @param OAuthUserDAO                $userDAO The DAO object for the user.
+     * @param ServiceInterface            $parentService The parent service.
+     * @param array                       $config        The service configuration.
+     * @param OAuthAuthenticatorInterface $oauth         The OAuth authenticator.
+     * @param OAuthUser                   $user          The OAuth user.
+     * @param OAuthUserDAO                $userDAO       The DAO object for the user.
      */
     public function __construct(
+        $parentService,
+        $config,
         OAuthAuthenticatorInterface $oauth,
         OAuthUser $user,
         OAuthUserDAO $userDAO
     ) {
+        parent::__construct($parentService, $config);
+
         $this->oauth = $oauth;
         $this->user = $user;
         $this->userDAO = $userDAO;
