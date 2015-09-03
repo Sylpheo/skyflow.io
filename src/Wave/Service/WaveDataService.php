@@ -30,6 +30,7 @@ class WaveDataService extends SalesforceDataService
         OAuthServiceInterface $authService
     ) {
         parent::__construct($httpClient, $user, $authService);
+        $this->setProvider('Wave');
         $this->setEndpoint($this->getUser()->getInstanceUrl() . '/services/data/v34.0/wave');
         $this->setVersion(null);
     }
