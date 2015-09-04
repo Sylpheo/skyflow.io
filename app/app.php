@@ -10,6 +10,7 @@ use Silex\Application;
 use Silex\Provider\FormServiceProvider;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 use skyflow\DAO\SkyflowUserDAO;
@@ -194,5 +195,16 @@ $app['exacttarget'] = $app->share(function ($app) {
         return skyflow\Service\ExactTarget::login($app);
     } else {
         return skyflow\Service\ExactTarget::loginByApi($app);
+    }
+});
+
+/**
+ * Automatically redirect non authenticated users to /login.
+ */
+$app->before(function (Request $request, Application $app) {
+    if (!($app['request']->headers->has('Skyflow-Token'))) {
+        if ($app['user'] === null && $request->get('_route') !== 'login') {
+            return new RedirectResponse('/login');
+        }
     }
 });
