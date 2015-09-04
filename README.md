@@ -35,7 +35,7 @@ In order to communicate with the different third-party platforms (such as Salesf
 
 1. Create your flow class in the *src/Skyflow/Flow* directory.
 2. Setup the addons in the home page. You will need to provide your connected application client id and client secret in order to use the addon.
-3. Declare your flow using the Skyflow web interface with the namespace: skyflow\Flow\MyFlow
+3. Declare your flow using the Skyflow web interface with the namespace: Skyflow\Flow\MyFlow
 
 ## Use flow services
 
