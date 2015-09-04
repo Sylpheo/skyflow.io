@@ -18,6 +18,7 @@ use skyflow\DAO\AbstractDAO;
 use skyflow\Domain\AbstractModel;
 use skyflow\Domain\SkyflowUser;
 use Silex\Application;
+
 /**
  * DAO class for the Skyflow user.
  */
@@ -53,7 +54,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $data['salt'] = $user->getSalt();
         $data['password'] = $user->getPassword();
         $data['role'] = $user->getRole();
-        $data['skyflowtoken'] = $this->app['skyflow.config']['security']['crypt']($user->getSkyflowtoken(),'',$this->app);
+        $data['skyflowtoken'] = $this->app['skyflow.config']['security']['crypt']($user->getSkyflowtoken(),$user->getId(),$this->app);
         return $data;
     }
 
@@ -70,7 +71,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $user->setPassword($row['password']);
         $user->setSalt($row['salt']);
         $user->setRole($row['role']);
-        $user->setSkyflowtoken($this->app['skyflow.config']['security']['uncrypt']($row['skyflowtoken'],'',$this->app));
+        $user->setSkyflowtoken($this->app['skyflow.config']['security']['uncrypt']($row['skyflowtoken'],$row['id'],$this->app));
         return $user;
     }
 
@@ -104,12 +105,20 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
      */
     public function findByToken($skyflowToken)
     {
-        $sql = "select * from users where skyflowtoken=?";
-        $row = $this->getDb()->fetchAssoc($sql, array($this->app['skyflow.config']['security']['crypt']($skyflowToken,'',$this->app)));
+        $rows = $this->getDb()->fetchAll('select * from users');
 
-        if ($row) {
-            return $this->buildDomainObject($row);
+        $user = null;
+
+        $i = 0;
+        while ($user === null && $i < count($rows)) {
+            if ($this->app['skyflow.config']['security']['uncrypt']($rows[$i]['skyflowtoken'], $rows[$i]['id'], $this->app) == $skyflowToken) {
+                $user = $this->buildDomainObject($rows[$i]);
+            }
+
+            $i++;
         }
+
+        return $user;
     }
 
     /**
