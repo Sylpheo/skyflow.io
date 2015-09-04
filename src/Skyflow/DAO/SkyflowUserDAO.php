@@ -17,21 +17,30 @@ use Doctrine\DBAL\Connection;
 use skyflow\DAO\AbstractDAO;
 use skyflow\Domain\AbstractModel;
 use skyflow\Domain\SkyflowUser;
-
+use Silex\Application;
 /**
  * DAO class for the Skyflow user.
  */
 class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
 {
+
+    /**
+     * Use for the access at the security crypt/uncrypt
+     * @var null|Application
+     */
+    protected $app = null;
+
     /**
      * {@inheritdoc}
      */
     public function __construct(
         Connection $db,
+        Application $app,
         $objectType = 'users',
         $domainObjectClass = 'skyflow\\Domain\\SkyflowUser'
     ) {
         parent::__construct($db, $objectType, $domainObjectClass);
+        $this->app = $app;
     }
 
     /**
@@ -44,7 +53,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $data['salt'] = $user->getSalt();
         $data['password'] = $user->getPassword();
         $data['role'] = $user->getRole();
-        $data['skyflowtoken'] = $user->getSkyflowtoken();
+        $data['skyflowtoken'] = $this->app['skyflow.config']['security']['crypt']($user->getSkyflowtoken(),$user->getId());
         return $data;
     }
 
@@ -61,7 +70,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $user->setPassword($row['password']);
         $user->setSalt($row['salt']);
         $user->setRole($row['role']);
-        $user->setSkyflowtoken($row['skyflowtoken']);
+        $user->setSkyflowtoken($this->app['skyflow.config']['security']['uncrypt']($row['skyflowtoken'],$user->getId()));
         return $user;
     }
 
