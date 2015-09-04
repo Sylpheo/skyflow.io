@@ -194,7 +194,7 @@ class SalesforceServiceProvider implements ServiceProviderInterface
          * service chaining in a $app->before() hook.
          */
         $app->before(function (Request $request, Application $app) {
-            if (isset($app['user'])) {
+            if ($app['user'] !== null) {
                 $app['salesforce.data']->addService('sobjects', $app['salesforce.data.sobjects']);
             }
         });
