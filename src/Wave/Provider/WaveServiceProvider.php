@@ -111,6 +111,7 @@ class WaveServiceProvider implements ServiceProviderInterface
         $app['wave.user.dao'] = $app->share(function () use ($app) {
             return new SalesforceUserDAO(
                 $app['db'],
+                $app,
                 'users',
                 'Salesforce\\Domain\\SalesforceUser',
                 'Wave'

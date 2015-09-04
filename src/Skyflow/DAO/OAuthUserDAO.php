@@ -95,10 +95,9 @@ class OAuthUserDAO extends AbstractDAO
         $prefix = $this->getProviderPrefix();
 
         $user->setClientId($row[$prefix . 'client_id']);
-        $user->setClientSecret($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'client_secret']),$user->getId(),$this->app);
-        $user->setAccessToken($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'access_token']),$user->getId(),$this->app);
-        $user->setRefreshToken($this->app['skyflow.config']['security']['nucrypt']($row[$prefix . 'refresh_token'],$user->getId(),$this->app));
-        
+        $user->setClientSecret($this->app['skyflow.config']['security']['uncrypt']( $row[$prefix . 'client_secret'],$row['id'],$this->app));
+        $user->setAccessToken($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'access_token'],$row['id'],$this->app));
+        $user->setRefreshToken($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'refresh_token'],$row['id'],$this->app));
         return $user;
     }
 }
