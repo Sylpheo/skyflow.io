@@ -118,8 +118,8 @@ class ExactTargetController {
 
             if($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
-                $user->setClientid($data['clientid']);
-                $user->setClientsecret($data['clientsecret']);
+                $user->setClientId($data['clientid']);
+                $user->setClientSecret($data['clientsecret']);
                 $app['dao.user']->save($user);
                 $app['session']->getFlashBag()->add('success', 'The user was succesfully updated.');
             }

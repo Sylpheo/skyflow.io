@@ -41,7 +41,9 @@ INSERT INTO users (
   salesforce_access_token,
   salesforce_refresh_token,
   salesforce_instance_url,
-  salesforce_is_sandbox
+  salesforce_is_sandbox,
+  exact_target_client_id,
+  exact_target_client_secret
 ) VALUES (
   1,
   'skyflow',
@@ -49,6 +51,8 @@ INSERT INTO users (
   '1c75f1db82ca11cff02043b',
   'ROLE_ADMIN',
   'trfKG56uBhu4WnBNLxc07tGaAkfx+PMLmAzhP6BO6ZpAz3D1Oy+MIBGTpkuP2+vLItCLeVepHp1XfrUGMCP8xQ==',
+  NULL,
+  NULL,
   NULL,
   NULL,
   NULL,
