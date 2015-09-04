@@ -53,7 +53,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $data['salt'] = $user->getSalt();
         $data['password'] = $user->getPassword();
         $data['role'] = $user->getRole();
-        $data['skyflowtoken'] = $this->app['skyflow.config']['security']['crypt']($user->getSkyflowtoken(),$user->getId(),$this->app);
+        $data['skyflowtoken'] = $this->app['skyflow.config']['security']['crypt']($user->getSkyflowtoken(),'',$this->app);
         return $data;
     }
 
@@ -70,7 +70,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $user->setPassword($row['password']);
         $user->setSalt($row['salt']);
         $user->setRole($row['role']);
-        $user->setSkyflowtoken($this->app['skyflow.config']['security']['uncrypt']($row['skyflowtoken'],$user->getId(),$this->app));
+        $user->setSkyflowtoken($this->app['skyflow.config']['security']['uncrypt']($row['skyflowtoken'],'',$this->app));
         return $user;
     }
 
@@ -105,7 +105,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
     public function findByToken($skyflowToken)
     {
         $sql = "select * from users where skyflowtoken=?";
-        $row = $this->getDb()->fetchAssoc($sql, array($skyflowToken));
+        $row = $this->getDb()->fetchAssoc($sql, array($this->app['skyflow.config']['security']['crypt']($skyflowToken,'',$this->app)));
 
         if ($row) {
             return $this->buildDomainObject($row);
