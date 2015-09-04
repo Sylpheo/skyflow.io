@@ -103,7 +103,7 @@ class SalesforceServiceProvider implements ServiceProviderInterface
         });
 
         $app['salesforce.user.dao'] = $app->share(function () use ($app) {
-            return new SalesforceUserDAO($app['db'], 'users');
+            return new SalesforceUserDAO($app['db'],$app, 'users');
         });
 
         $app['salesforce.user'] = $app->share(function () use ($app) {

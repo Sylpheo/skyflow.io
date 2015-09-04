@@ -26,6 +26,8 @@ use Wave\Provider\WaveControllerProvider;
 $app['debug'] = true;
 $app['dev'] = $_SERVER['SERVER_NAME'] === 'localhost' ? true : false;
 
+require_once __DIR__ . '/config.php';
+
 require_once __DIR__ . '/routes.php';
 
 $app['db.options'] = include __DIR__ . '/db.php';
@@ -92,7 +94,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
                 'check_path' => '/login_check'
             ),
             'users' => $app->share(function () use ($app) {
-                return new skyflow\DAO\SkyflowUserDAO($app['db']);
+                return new skyflow\DAO\SkyflowUserDAO($app['db'],$app);
             }),
         ),
     ),
@@ -137,7 +139,7 @@ $app['http.client'] = $app->share(function ($app) {
 // ========== DAO ==========
 
 $app['dao.user'] = $app->share(function ($app) {
-    return new skyflow\DAO\SkyflowUserDAO($app['db']);
+    return new skyflow\DAO\SkyflowUserDAO($app['db'],$app);
 });
 
 $app['dao.event'] = $app->share(function ($app) {
