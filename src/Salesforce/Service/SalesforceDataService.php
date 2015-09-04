@@ -35,7 +35,7 @@ class SalesforceDataService extends RestOAuthAuthenticatedService
                 "q" => rtrim($query, ';')
             ),
             array(
-                'Authorization', 'OAuth ' . $this->getUser()->getAccessToken()
+                'Authorization' => 'OAuth ' . $this->getUser()->getAccessToken()
             )
         );
 
@@ -53,7 +53,7 @@ class SalesforceDataService extends RestOAuthAuthenticatedService
             "/sobjects",
             array(),
             array(
-                'Authorization', 'OAuth ' . $this->getUser()->getAccessToken()
+                'Authorization' => 'OAuth ' . $this->getUser()->getAccessToken()
             )
         );
 
