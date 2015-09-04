@@ -26,6 +26,7 @@ use Wave\Provider\WaveControllerProvider;
 
 $app['debug'] = true;
 $app['dev'] = $_SERVER['SERVER_NAME'] === 'localhost' ? true : false;
+$app['application_name'] = explode('.', $_SERVER['SERVER_NAME'], 2)[0];
 
 require_once __DIR__ . '/config.php';
 
