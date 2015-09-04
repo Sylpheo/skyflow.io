@@ -5,8 +5,6 @@ CREATE TABLE IF NOT EXISTS users (
   salt text NOT NULL,
   role text NOT NULL,
   skyflowtoken text NOT NULL,
-  clientid text DEFAULT NULL,
-  clientsecret text DEFAULT NULL,
   wave_client_id text DEFAULT NULL,
   wave_client_secret text DEFAULT NULL,
   wave_access_token text DEFAULT NULL,
@@ -18,7 +16,9 @@ CREATE TABLE IF NOT EXISTS users (
   salesforce_access_token text DEFAULT NULL,
   salesforce_refresh_token text DEFAULT NULL,
   salesforce_instance_url text DEFAULT NULL,
-  salesforce_is_sandbox boolean DEFAULT NULL
+  salesforce_is_sandbox boolean DEFAULT NULL,
+  exact_target_client_id text DEFAULT NULL,
+  exact_target_client_secret text DEFAULT NULL
 );
 
 INSERT INTO users (
@@ -28,8 +28,6 @@ INSERT INTO users (
   salt,
   role,
   skyflowtoken,
-  clientid,
-  clientsecret,
   wave_client_id,
   wave_client_secret,
   wave_access_token,
@@ -51,8 +49,6 @@ INSERT INTO users (
   '1c75f1db82ca11cff02043b',
   'ROLE_ADMIN',
   'trfKG56uBhu4WnBNLxc07tGaAkfx+PMLmAzhP6BO6ZpAz3D1Oy+MIBGTpkuP2+vLItCLeVepHp1XfrUGMCP8xQ==',
-  NULL,
-  NULL,
   NULL,
   NULL,
   NULL,
