@@ -54,6 +54,66 @@ class SkyflowUser extends AbstractModel implements UserInterface
     private $skyflowtoken;
 
     /**
+     * ExactTarget client id.
+     *
+     * @var string
+     * @todo Delete this.
+     */
+    private $clientId;
+
+    /**
+     * ExactTarget client secret.
+     *
+     * @var string
+     * @todo Delete this.
+     */
+    private $clientSecret;
+
+    /**
+     * Set ExactTarget client id.
+     *
+     * @param string $clientId The ExactTarget client id.
+     * @todo Delete this.
+     */
+    public function setClientId($clientId)
+    {
+        $this->clientId = $clientId;
+    }
+
+    /**
+     * Get ExactTarget client id.
+     *
+     * @return string The ExactTarget client id.
+     * @todo Delete this.
+     */
+    public function getClientId()
+    {
+        return $this->clientId;
+    }
+
+    /**
+     * Set ExactTarget client secret.
+     *
+     * @param string $clientSecret The ExactTarget client secret.
+     * @todo Delete this.
+     */
+    public function setClientSecret($clientSecret)
+    {
+        $this->clientSecret = $clientSecret;
+    }
+
+    /**
+     * Get ExactTarget client secret.
+     *
+     * @return string The ExactTarget client secret.
+     * @todo Delete this.
+     */
+    public function getClientSecret()
+    {
+        return $this->clientSecret;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getType()
