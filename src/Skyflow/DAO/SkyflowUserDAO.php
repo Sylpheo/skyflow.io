@@ -53,7 +53,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $data['salt'] = $user->getSalt();
         $data['password'] = $user->getPassword();
         $data['role'] = $user->getRole();
-        $data['skyflowtoken'] = $this->app['skyflow.config']['security']['crypt']($user->getSkyflowtoken(),$user->getId());
+        $data['skyflowtoken'] = $this->app['skyflow.config']['security']['crypt']($user->getSkyflowtoken(),$user->getId(),$this->app);
         return $data;
     }
 
@@ -70,7 +70,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $user->setPassword($row['password']);
         $user->setSalt($row['salt']);
         $user->setRole($row['role']);
-        $user->setSkyflowtoken($this->app['skyflow.config']['security']['uncrypt']($row['skyflowtoken'],$user->getId()));
+        $user->setSkyflowtoken($this->app['skyflow.config']['security']['uncrypt']($row['skyflowtoken'],$user->getId(),$this->app));
         return $user;
     }
 

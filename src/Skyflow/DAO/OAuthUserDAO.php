@@ -79,9 +79,9 @@ class OAuthUserDAO extends AbstractDAO
         $prefix = $this->getProviderPrefix();
 
         $data[$prefix . 'client_id'] = $model->getClientId();
-        $data[$prefix . 'client_secret'] = $this->app['skyflow.config']['security']['crypt']($model->getClientSecret(),$model->getId());
-        $data[$prefix . 'access_token'] = $this->app['skyflow.config']['security']['crypt']($model->getAccessToken(),$model->getId());
-        $data[$prefix . 'refresh_token'] = $this->app['skyflow.config']['security']['crypt']($model->getRefreshToken(),$model->getId());
+        $data[$prefix . 'client_secret'] = $this->app['skyflow.config']['security']['crypt']($model->getClientSecret(),$model->getId(),$this->app);
+        $data[$prefix . 'access_token'] = $this->app['skyflow.config']['security']['crypt']($model->getAccessToken(),$model->getId(),$this->app);
+        $data[$prefix . 'refresh_token'] = $this->app['skyflow.config']['security']['crypt']($model->getRefreshToken(),$model->getId(),$this->app);
 
         return $data;
     }
@@ -95,9 +95,9 @@ class OAuthUserDAO extends AbstractDAO
         $prefix = $this->getProviderPrefix();
 
         $user->setClientId($row[$prefix . 'client_id']);
-        $user->setClientSecret($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'client_secret']),$user->getId());
-        $user->setAccessToken($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'access_token']),$user->getId());
-        $user->setRefreshToken($this->app['skyflow.config']['security']['nucrypt']($row[$prefix . 'refresh_token'],$user->getId()));
+        $user->setClientSecret($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'client_secret']),$user->getId(),$this->app);
+        $user->setAccessToken($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'access_token']),$user->getId(),$this->app);
+        $user->setRefreshToken($this->app['skyflow.config']['security']['nucrypt']($row[$prefix . 'refresh_token'],$user->getId(),$this->app));
         
         return $user;
     }

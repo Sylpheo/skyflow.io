@@ -18,7 +18,7 @@ $app['skyflow.config'] = [
 if($app['dev'] === false) {
     $app['skyflow.config'] = [
         'security' => [
-            'crypt'      => function ($dataPlain, $salt) use ($app) {
+            'crypt'      => function ($dataPlain, $salt,$app) {
                 $key_str           = substr_replace($app['skyflow.config']['security']['key'], $salt, 0, strlen($salt));
                 $key               = pack('H*', $key_str);
                 $iv_size           = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC);
@@ -30,7 +30,7 @@ if($app['dev'] === false) {
 
                 return $ciphertext_base64;
             },
-            'uncrypt'    => function ($dataCrypt, $salt) use ($app) {
+            'uncrypt'    => function ($dataCrypt, $salt,$app) {
                 $ciphertext_dec = base64_decode($dataCrypt);
                 $iv_size        = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC);
                 $iv_dec         = substr($ciphertext_dec, 0, $iv_size);
