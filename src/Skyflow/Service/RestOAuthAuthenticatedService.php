@@ -51,8 +51,16 @@ class RestOAuthAuthenticatedService extends RestService
             return parent::httpGet($url, $parameters, $headers);
         } catch (\Exception $ex) {
             if ($ex->getCode() === 401) {
-                $this->getAuthService()->refresh();
-                return parent::httpGet($url, $parameters, $headers);
+                if (isset($headers[0]['Authorization'])) {
+                    $type = explode(' ', $headers['Authorization'], 2)[0];
+                    $this->getAuthService()->refresh();
+                    $headers['Authorization'] = $type
+                        . ' '
+                        . $this->getUser()->getAccessToken();
+                    return parent::httpGet($url, $parameters, $headers);
+                } else {
+                    throw $ex;
+                }
             }
         }
     }
