@@ -29,16 +29,7 @@ class SalesforceDataService extends RestOAuthAuthenticatedService
      */
     public function query($query)
     {
-        $response = $this->httpGet(
-            "/query",
-            array(
-                "q" => rtrim($query, ';')
-            ),
-            array(
-                'Authorization' => 'OAuth ' . $this->getUser()->getAccessToken()
-            )
-        );
-
+        $response = $this->httpGet('/query', array('q' => rtrim($query, ';')));
         return $response->json();
     }
 
@@ -49,14 +40,7 @@ class SalesforceDataService extends RestOAuthAuthenticatedService
      */
     public function sobjects()
     {
-        $response = $this->httpGet(
-            "/sobjects",
-            array(),
-            array(
-                'Authorization' => 'OAuth ' . $this->getUser()->getAccessToken()
-            )
-        );
-
+        $response = $this->httpGet('/sobjects');
         return $response->json();
     }
 }

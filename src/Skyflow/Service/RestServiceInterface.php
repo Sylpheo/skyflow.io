@@ -44,7 +44,7 @@ interface RestServiceInterface extends ServiceInterface
      * @param  array  $headers       The HTTP headers as array name => value.
      * @return HttpResponseInterface The HTTP response.
      */
-    public function httpGet($url, $parameters, $headers = null);
+    public function httpGet($url, $parameters = null, $headers = null);
 
     /**
      * Send a POST HTTP request to the endpoint/version/url with provided parameters.
@@ -54,5 +54,5 @@ interface RestServiceInterface extends ServiceInterface
      * @param  array  $headers       The HTTP headers as array name => value.
      * @return HttpResponseInterface The HTTP response.
      */
-    public function httpPost($url, $parameters, $headers = null);
+    public function httpPost($url, $parameters = null, $headers = null);
 }

@@ -89,7 +89,7 @@ class RestService extends AbstractService implements RestServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function httpGet($url, $parameters, $headers = null)
+    public function httpGet($url, $parameters = null, $headers = null)
     {
         $requestUrl = $this->getRequestUrl($url, $parameters);
 
@@ -106,9 +106,9 @@ class RestService extends AbstractService implements RestServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritdoc}. The default content type is "application/json".
      */
-    public function httpPost($url, $parameters, $headers = null)
+    public function httpPost($url, $parameters = null, $headers = null)
     {
         $request = $this->getHttpClient()->createRequest(
             'POST',
@@ -118,6 +118,11 @@ class RestService extends AbstractService implements RestServiceInterface
 
         if (is_array($headers)) {
             $request->setHeaders($headers);
+        }
+
+        $contentType = $request->getHeader('Content-Type');
+        if ($contentType === null || $contentType === '') {
+            $request->setHeader('Content-Type', 'application/json');
         }
 
         return $this->getHttpClient()->send($request);

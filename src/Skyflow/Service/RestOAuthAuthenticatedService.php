@@ -43,47 +43,71 @@ class RestOAuthAuthenticatedService extends RestService
     }
 
     /**
-     * {@inheritdoc} Access token is automatically refreshed if it has expired.
+     * Authorize HTTP headers with OAuth.
+     *
+     * @param  array|null $headers The HTTP headers.
+     * @param  boolean    $refresh Whether to force refresh of existing
+     *                             access_token or not
+     * @return Authorized headers.
      */
-    public function httpGet($url, $parameters, $headers = null)
+    protected function authorize($headers, $refresh = false)
     {
-        try {
-            return parent::httpGet($url, $parameters, $headers);
-        } catch (\Exception $ex) {
-            if ($ex->getCode() === 401) {
-                if (isset($headers[0]['Authorization'])) {
-                    $type = explode(' ', $headers['Authorization'], 2)[0];
-                    $this->getAuthService()->refresh();
-                    $headers['Authorization'] = $type
+        if (!isset($headers)) {
+            $headers = array();
+        }
+
+        if (!isset($headers['Authorization'])) {
+            $headers['Authorization'] = 'Bearer ' . $this->getUser()->getAccessToken();
+        } elseif ($refresh) {
+            $type = explode(' ', $headers['Authorization'], 2)[0];
+            $headers['Authorization'] = $type
                         . ' '
                         . $this->getUser()->getAccessToken();
-                    return parent::httpGet($url, $parameters, $headers);
-                } else {
-                    throw $ex;
-                }
+        }
+
+        return $headers;
+    }
+
+    /**
+     * {@inheritdoc} HTTP request is automatically authorized with OAuth.
+     * Access token is automatically refreshed if it has expired.
+     */
+    public function httpGet($url, $parameters = null, $headers = null)
+    {
+        try {
+            $authorizedHeaders = $this->authorize($headers);
+
+            return parent::httpGet($url, $parameters, $authorizedHeaders);
+        } catch (\Exception $ex) {
+            if ($ex->getCode() === 401) {
+                $this->getAuthService()->refresh();
+                $authorizedHeaders = $this->authorize($headers, true);
+
+                return parent::httpGet($url, $parameters, $authorizedHeaders);
+            } else {
+                throw $ex;
             }
         }
     }
 
     /**
-     * {@inheritdoc} Access token is automatically refreshed if it has expired.
+     * {@inheritdoc} HTTP request is automatically authorized with OAuth.
+     * Access token is automatically refreshed if it has expired.
      */
-    public function httpPost($url, $parameters, $headers = null)
+    public function httpPost($url, $parameters = null, $headers = null)
     {
         try {
-            return parent::httpPost($url, $parameters, $headers);
+            $authorizedHeaders = $this->authorize($headers);
+
+            return parent::httpPost($url, $parameters, $authorizedHeaders);
         } catch (\Exception $ex) {
             if ($ex->getCode() === 401) {
-                if (isset($headers[0]['Authorization'])) {
-                    $type = explode(' ', $headers['Authorization'], 2)[0];
-                    $this->getAuthService()->refresh();
-                    $headers['Authorization'] = $type
-                        . ' '
-                        . $this->getUser()->getAccessToken();
-                    return parent::httpPost($url, $parameters, $headers);
-                } else {
-                    throw $ex;
-                }
+                $this->getAuthService()->refresh();
+                $authorizedHeaders = $this->authorize($headers, true);
+
+                return parent::httpPost($url, $parameters, $authorizedHeaders);
+            } else {
+                throw $ex;
             }
         }
     }
