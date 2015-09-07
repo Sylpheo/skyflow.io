@@ -109,13 +109,15 @@ class WaveServiceProvider implements ServiceProviderInterface
         });
 
         $app['wave.user.dao'] = $app->share(function () use ($app) {
-            return new SalesforceUserDAO(
+            $dao = new SalesforceUserDAO(
                 $app['db'],
-                $app,
                 'users',
                 'Salesforce\\Domain\\SalesforceUser',
                 'Wave'
             );
+            $dao->setEncryption($app['skyflow.security.encryption']);
+
+            return $dao;
         });
 
         $app['wave.wave_request.dao'] = $app->share(function () use ($app) {

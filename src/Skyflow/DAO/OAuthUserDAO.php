@@ -11,18 +11,14 @@ namespace skyflow\DAO;
 use Doctrine\DBAL\Connection;
 
 use skyflow\Domain\AbstractModel;
-use Silex\Application;
+use skyflow\Security\EncryptionTrait;
 
 /**
  * DAO Obejct for OAuth users.
  */
 class OAuthUserDAO extends AbstractDAO
 {
-    /**
-     * Use for the access at the security crypt/uncrypt
-     * @var null|Application
-     */
-    protected $app = null;
+    use EncryptionTrait;
 
     /**
      * The Provider prefix.
@@ -47,12 +43,10 @@ class OAuthUserDAO extends AbstractDAO
      */
     public function __construct(
         Connection $db,
-        Application $app,
         $objectType = null,
         $domainObjectClass = 'skyflow\\Domain\\OAuthUser',
         $provider = null
     ) {
-        $this->app = $app;
         parent::__construct($db, $objectType, $domainObjectClass);
         $this->providerPrefix = isset($provider) ? $this->normalize($provider) . '_' : '';
     }
@@ -79,9 +73,9 @@ class OAuthUserDAO extends AbstractDAO
         $prefix = $this->getProviderPrefix();
 
         $data[$prefix . 'client_id'] = $model->getClientId();
-        $data[$prefix . 'client_secret'] = $this->app['skyflow.config']['security']['crypt']($model->getClientSecret(),$model->getId(),$this->app);
-        $data[$prefix . 'access_token'] = $this->app['skyflow.config']['security']['crypt']($model->getAccessToken(),$model->getId(),$this->app);
-        $data[$prefix . 'refresh_token'] = $this->app['skyflow.config']['security']['crypt']($model->getRefreshToken(),$model->getId(),$this->app);
+        $data[$prefix . 'client_secret'] = $this->getEncryption()->encrypt($model->getClientSecret(), $model->getId());
+        $data[$prefix . 'access_token'] = $this->getEncryption()->encrypt($model->getAccessToken(), $model->getId());
+        $data[$prefix . 'refresh_token'] = $this->getEncryption()->encrypt($model->getRefreshToken(), $model->getId());
 
         return $data;
     }
@@ -95,9 +89,9 @@ class OAuthUserDAO extends AbstractDAO
         $prefix = $this->getProviderPrefix();
 
         $user->setClientId($row[$prefix . 'client_id']);
-        $user->setClientSecret($this->app['skyflow.config']['security']['uncrypt']( $row[$prefix . 'client_secret'],$row['id'],$this->app));
-        $user->setAccessToken($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'access_token'],$row['id'],$this->app));
-        $user->setRefreshToken($this->app['skyflow.config']['security']['uncrypt']($row[$prefix . 'refresh_token'],$row['id'],$this->app));
+        $user->setClientSecret($this->getEncryption()->decrypt($row[$prefix . 'client_secret'], $row['id']));
+        $user->setAccessToken($this->getEncryption()->decrypt($row[$prefix . 'access_token'], $row['id']));
+        $user->setRefreshToken($this->getEncryption()->decrypt($row[$prefix . 'refresh_token'], $row['id']));
         return $user;
     }
 }

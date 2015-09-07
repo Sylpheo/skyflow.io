@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 use skyflow\DAO\SkyflowUserDAO;
+use skyflow\Security\AesEncryption;
 use skyflow\Service\ExactTarget;
 use skyflow\Service\GenerateToken;
 use skyflow\SilexOpauth\OpauthExtension;
@@ -28,11 +29,17 @@ $app['debug'] = true;
 $app['dev'] = $_SERVER['SERVER_NAME'] === 'localhost' ? true : false;
 $app['application_name'] = explode('.', $_SERVER['SERVER_NAME'], 2)[0];
 
-require_once __DIR__ . '/config.php';
-
 require_once __DIR__ . '/routes.php';
 
 $app['db.options'] = include __DIR__ . '/db.php';
+
+// ========== Skyflow Security ==========
+
+$app['skyflow.security.encryption_key'] = 'bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3';
+
+$app['skyflow.security.encryption'] = $app->share(function () use ($app) {
+    return new AesEncryption($app['skyflow.security.encryption_key']);
+});
 
 // ========== Error Handlers ==========
 
@@ -96,7 +103,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
                 'check_path' => '/login_check'
             ),
             'users' => $app->share(function () use ($app) {
-                return new skyflow\DAO\SkyflowUserDAO($app['db'],$app);
+                return $app['dao.user'];
             }),
         ),
     ),
@@ -141,7 +148,10 @@ $app['http.client'] = $app->share(function ($app) {
 // ========== DAO ==========
 
 $app['dao.user'] = $app->share(function ($app) {
-    return new skyflow\DAO\SkyflowUserDAO($app['db'],$app);
+    $dao = new skyflow\DAO\SkyflowUserDAO($app['db']);
+    $dao->setEncryption($app['skyflow.security.encryption']);
+
+    return $dao;
 });
 
 $app['dao.event'] = $app->share(function ($app) {
