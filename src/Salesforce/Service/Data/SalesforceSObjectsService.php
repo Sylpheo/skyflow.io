@@ -15,4 +15,17 @@ use skyflow\Service\RestOAuthAuthenticatedService;
  */
 class SalesforceSObjectsService extends RestOAuthAuthenticatedService
 {
+    /**
+     * Create an SObject.
+     *
+     * @param string $sobject    The SObject name to create.
+     * @param array  $attributes An associative array of sobject attributes
+     *                           with key as field name and value as field value.
+     * @return string Response as string encoded in JSON format.
+     */
+    public function create($sobject, array $attributes)
+    {
+        $response = $this->httpPost($sobject, $attributes);
+        return $response->json();
+    }
 }
