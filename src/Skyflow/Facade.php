@@ -42,8 +42,8 @@ class Facade implements FacadeInterface
      * Allow to get a service using the syntax "get" concatenated with the name
      * of the service.
      *
-     * Example $this->getSalesforce() returns the facade named "Salesforce".
-     * The facade name first letter must be uppercase or this will not work.
+     * Example $this->getSalesforce() returns the service named "salesforce".
+     * $this->getSObjects() returns the service names "sobjects" (all lowercase).
      *
      * Else if the method requested does not start with "get", delegate the call
      * to the services.
@@ -54,7 +54,7 @@ class Facade implements FacadeInterface
     public function __call($name, $arguments)
     {
         if (substr($name, 0, 3) === 'get') {
-            $serviceName = lcfirst(substr($name, 3, strlen($name)));
+            $serviceName = strtolower(substr($name, 3, strlen($name)));
 
             if (isset($this->services[$serviceName])) {
                 return $this->services[$serviceName];
@@ -73,7 +73,7 @@ class Facade implements FacadeInterface
      */
     public function addService($name, ServiceInterface $service)
     {
-        $this->services[$name] = $service;
+        $this->services[strtolower($name)] = $service;
     }
 
     /**
