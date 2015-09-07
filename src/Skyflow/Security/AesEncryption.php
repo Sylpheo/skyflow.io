@@ -79,8 +79,9 @@ class AesEncryption implements EncryptionInterface
             $key_str        = substr_replace($this->getKey(), $salt, 0, strlen($salt));
             $key            = pack('H*', $key_str);
             $plaintext_dec  = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $ciphertext_dec, MCRYPT_MODE_CBC, $iv_dec);
+            $plaintext = rtrim($plaintext_dec, "\0");
 
-            return $plaintext_dec;
+            return $plaintext;
         }
     }
 
