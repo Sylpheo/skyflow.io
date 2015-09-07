@@ -68,6 +68,7 @@ class RestService extends AbstractService implements RestServiceInterface
     public function getRequestUrl($url, $parameters = null)
     {
         $requestUrl = $this->getServiceUrl();
+        $requestUrl .= $this->getExtension();
 
         if (!empty($url)) {
             $requestUrl = $requestUrl . '/' . ltrim($url, '/');
@@ -113,7 +114,7 @@ class RestService extends AbstractService implements RestServiceInterface
         $request = $this->getHttpClient()->createRequest(
             'POST',
             $this->getRequestUrl($url),
-            $parameters
+            is_array($parameters) ? array('json' => $parameters) : array('body' => $parameters)
         );
 
         if (is_array($headers)) {

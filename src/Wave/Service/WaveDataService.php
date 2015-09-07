@@ -29,10 +29,7 @@ class WaveDataService extends RestOAuthAuthenticatedService
      */
     public function query($query)
     {
-        $response = $this->httpPost('/query', array(
-            'json' => array('query' => $query),
-        ));
-
+        $response = $this->httpPost('/query', array('query' => $query));
         return $response->json();
     }
 }
