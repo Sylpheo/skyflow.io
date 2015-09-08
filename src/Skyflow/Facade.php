@@ -69,6 +69,27 @@ class Facade implements FacadeInterface
     }
 
     /**
+     * Get a service using dotted notation.
+     *
+     * For example $this->get('salesforce.data.sobjects');
+     *
+     * @param string $path The path to the service.
+     * @return ServiceInterface The requested service.
+     */
+    public function get($path)
+    {
+        $services = explode('.', $path);
+
+        $requested = $this->getService($services[0]);
+
+        for ($i = 1; $i < count($services); $i++) {
+            $requested = $requested->getService($services[$i]);
+        }
+
+        return $requested;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function addService($name, ServiceInterface $service)

@@ -10,6 +10,7 @@ namespace skyflow\Flow;
 
 use skyflow\FacadeInterface;
 use skyflow\Flow\FlowInterface;
+use skyflow\Service\ServiceInterface;
 
 /**
  * Flow abstract class.
@@ -60,6 +61,27 @@ abstract class AbstractFlow implements FlowInterface
                 return $this->facades[$facadeName];
             }
         }
+    }
+
+    /**
+     * Get a service using dotted notation.
+     *
+     * For example $this->get('salesforce.data.sobjects');
+     *
+     * @param  string $path                     The path to the service.
+     * @return FacadeInterface|ServiceInterface The requested service.
+     */
+    public function get($path)
+    {
+        $services = explode('.', $path);
+
+        $requested = $this->getFacade(ucfirst($services[0]));
+
+        for ($i = 1; $i < count($services); $i++) {
+            $requested = $requested->getService($services[$i]);
+        }
+
+        return $requested;
     }
 
     /**
