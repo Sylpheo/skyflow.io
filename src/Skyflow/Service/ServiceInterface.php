@@ -30,25 +30,9 @@ interface ServiceInterface extends FacadeInterface
     public function getProvider();
 
     /**
-     * Get the service endpoint.
-     *
-     * @return string The service endpoint.
-     */
-    public function getEndpoint();
-
-    /**
      * Get the service version.
      *
      * @return string The service version.
      */
     public function getVersion();
-
-    /**
-     * Get the endpoint extension.
-     *
-     * endpoint/version/extension
-     *
-     * @return string The endpoint extension.
-     */
-    public function getExtension();
 }

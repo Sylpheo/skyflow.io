@@ -10,14 +10,14 @@ namespace skyflow\Service;
 
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
-use skyflow\Service\AbstractService;
+use skyflow\Service\AbstractWebService;
 use skyflow\Service\RestServiceInterface;
 use skyflow\Service\ServiceInterface;
 
 /**
  * REST service class for Skyflow services.
  */
-class RestService extends AbstractService implements RestServiceInterface
+class RestService extends AbstractWebService implements RestServiceInterface
 {
     /**
      * HTTP Client.

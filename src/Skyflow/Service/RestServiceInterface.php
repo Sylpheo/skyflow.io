@@ -8,14 +8,14 @@
 
 namespace skyflow\Service;
 
-use skyflow\Service\ServiceInterface;
+use skyflow\Service\WebServiceInterface;
 
 use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 
 /**
  * Interface for a REST service.
  */
-interface RestServiceInterface extends ServiceInterface
+interface RestServiceInterface extends WebServiceInterface
 {
     /**
      * Get the service url.
