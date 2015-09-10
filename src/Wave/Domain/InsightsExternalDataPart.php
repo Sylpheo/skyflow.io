@@ -8,8 +8,6 @@
 
 namespace Wave\Domain;
 
-use skyflow\Domain\AbstractModel;
-
 /**
  * Domain class for a Wave InsightsExternalDataPart.
  *
@@ -21,7 +19,7 @@ use skyflow\Domain\AbstractModel;
  * part objects to split up your data into parts. If your initial data file is
  * larger than 10 MB, split your file into parts that are smaller than 10 MB.
  */
-class InsightsExternalDataPart extends AbstractModel
+class InsightsExternalDataPart
 {
     /**
      * The part number.
