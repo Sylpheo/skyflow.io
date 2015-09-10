@@ -23,11 +23,13 @@ use Salesforce\Domain\SalesforceUser;
 use Salesforce\Form\Type\SalesforceOAuthCredentialsType;
 use Salesforce\Form\Type\SalesforceSoqlQueryType;
 use Salesforce\Service\SalesforceOAuthService;
+use Salesforce\Service\Data\SalesforceSObjectsService;
 
 use Wave\Controller\WaveHelperController;
 use Wave\Controller\WaveOAuthUserController;
 use Wave\DAO\WaveRequestDAO;
 use Wave\Domain\WaveRequest;
+use Wave\Service\WaveExternalDataService;
 use Wave\Service\WaveDataService;
 
 /**
@@ -166,6 +168,16 @@ class WaveServiceProvider implements ServiceProviderInterface
             );
         });
 
+        $app['wave.externaldata'] = $app->share(function () use ($app) {
+            return new WaveExternalDataService(
+                null,
+                array(
+                    'provider' => 'Wave',
+                ),
+                $app['wave.salesforce.data.sobjects']
+            );
+        });
+
         $app['wave.data'] = $app->share(function () use ($app) {
             $instanceUrl = $app['wave.user']->getInstanceUrl();
 
@@ -181,10 +193,42 @@ class WaveServiceProvider implements ServiceProviderInterface
             );
         });
 
+        /**
+         * This is required by wave.externaldata to create InsightsExternalData
+         * and InsightsExternalDataPart sObjects.
+         *
+         * This is the same SObjects service as the one used by Salesforce,
+         * but it uses the Wave user and so the Wave instance_url, access_token
+         * and refresh_token.
+         *
+         * We do NOT set a parentService so that using getParentService() we
+         * cannot access the Salesforce instance of the Salesforce addon.
+         */
+        $app['wave.salesforce.data.sobjects'] = $app->share(function () use ($app) {
+            $instanceUrl = $app['wave.user']->getInstanceUrl();
+
+            // The InsightsExternalData object is available in API version 31
+            // and later. Using v34.0 to match the WaveDataService endpoint.
+
+            return new SalesforceSObjectsService(
+                null,
+                array(
+                    'provider' => 'Wave',
+                    'endpoint' => $instanceUrl . '/services/data',
+                    'version' => 'v34.0',
+                    'extension' => '/sobjects',
+                ),
+                $app['http.client'],
+                $app['wave.user'],
+                $app['wave.oauth']
+            );
+        });
+
         $app['wave'] = $app->share(function () use ($app) {
             return new Facade(array(
                 'oauth' => $app['wave.oauth'],
-                'data' => $app['wave.data']
+                'data' => $app['wave.data'],
+                'externaldata' => $app['wave.externaldata']
             ));
         });
     }
