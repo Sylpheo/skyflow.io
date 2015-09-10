@@ -197,9 +197,9 @@ class WaveExternalDataService extends AbstractService
         $this->getExternalData()->setEdgemartLabel($edgemartLabel);
         $this->configure($config);
 
-        $response = $this->pushExternalData();
+        $id = $this->pushExternalData();
 
-        $this->getExternalData()->setId($response['id']);
+        $this->getExternalData()->setId($id);
     }
 
     /**

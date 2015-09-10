@@ -26,7 +26,7 @@ class SalesforceSObjectsService extends RestOAuthAuthenticatedService
     public function create($sobject, array $fields)
     {
         $response = $this->httpPost($sobject, $fields);
-        return $response->json();
+        return $response->json()['id'];
     }
 
     /**
