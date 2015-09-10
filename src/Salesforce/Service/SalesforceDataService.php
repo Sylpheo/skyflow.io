@@ -29,17 +29,17 @@ class SalesforceDataService extends RestOAuthAuthenticatedService
      */
     public function query($query)
     {
-        $response = $this->httpGet(
-            "/query",
-            array(
-                "q" => rtrim($query, ';')
-            ),
-            array(
-                'Authorization' => 'OAuth ' . $this->getUser()->getAccessToken()
-            )
-        );
+        $response = $this->httpGet('/query', array('q' => rtrim($query, ';')));
 
-        return $response->json();
+        $records = $response->json()['records'];
+        $values = array();
+
+        foreach ($records as $record) {
+            unset($record['attributes']);
+            array_push($values, $record);
+        }
+
+        return $values;
     }
 
     /**
@@ -49,14 +49,7 @@ class SalesforceDataService extends RestOAuthAuthenticatedService
      */
     public function sobjects()
     {
-        $response = $this->httpGet(
-            "/sobjects",
-            array(),
-            array(
-                'Authorization' => 'OAuth ' . $this->getUser()->getAccessToken()
-            )
-        );
-
+        $response = $this->httpGet('/sobjects');
         return $response->json();
     }
 }

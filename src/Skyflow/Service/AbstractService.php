@@ -34,27 +34,11 @@ abstract class AbstractService extends Facade implements ServiceInterface
     private $provider;
 
     /**
-     * The service endpoint.
-     *
-     * @var string
-     */
-    private $endpoint;
-
-    /**
      * The service version.
      *
      * @var string
      */
     private $version;
-
-    /**
-     * The endpoint extension.
-     *
-     * endpoint/version/extension
-     *
-     * @var string
-     */
-    private $extension;
 
     /**
      * Service constructor.
@@ -63,7 +47,7 @@ abstract class AbstractService extends Facade implements ServiceInterface
      *
      * @param ServiceInterface $parentService The parent service.
      * @param array            $config        The service configuration: provider,
-     *                                        endpoint, version, extension.
+     *                                        version.
      */
     public function __construct(
         $parentService,
@@ -83,14 +67,6 @@ abstract class AbstractService extends Facade implements ServiceInterface
             $this->setProvider(null);
         }
 
-        if (isset($config['endpoint'])) {
-            $this->setEndpoint($config['endpoint']);
-        } elseif ($this->getParentService() !== null) {
-            $this->setEndpoint($this->getParentService()->getEndpoint());
-        } else {
-            throw new \Exception('Service endpoint required');
-        }
-
         if (isset($config['version'])) {
             $this->setVersion($config['version']);
         } elseif ($this->getParentService() !== null) {
@@ -98,17 +74,6 @@ abstract class AbstractService extends Facade implements ServiceInterface
         } else {
             $this->setVersion(null);
         }
-
-        $extension = '';
-        if (isset($config['extension'])) {
-            $extension = $config['extension'];
-            if ($this->getParentService() !== null) {
-                $extension = $this->getParentService()->getExtension() . $extension;
-            }
-        } elseif ($this->getParentService() !== null) {
-            $extension = $this->getParentService()->getExtension();
-        }
-        $this->setExtension($extension);
     }
 
     /**
@@ -152,24 +117,6 @@ abstract class AbstractService extends Facade implements ServiceInterface
     }
 
     /**
-     * Set the service endpoint.
-     *
-     * @param string $endpoint The service endpoint.
-     */
-    protected function setEndpoint($endpoint)
-    {
-        $this->endpoint = rtrim($endpoint, '/');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEndpoint()
-    {
-        return $this->endpoint;
-    }
-
-    /**
      * Set the service version.
      *
      * @param string $version The service version.
@@ -185,25 +132,5 @@ abstract class AbstractService extends Facade implements ServiceInterface
     public function getVersion()
     {
         return $this->version;
-    }
-
-    /**
-     * Set the endpoint extension.
-     *
-     * endpoint/version/extension
-     *
-     * @param string $extension The endpoint extension.
-     */
-    protected function setExtension($extension)
-    {
-        $this->extension = $extension;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExtension()
-    {
-        return $this->extension;
     }
 }

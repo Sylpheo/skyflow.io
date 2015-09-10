@@ -26,12 +26,11 @@ class SalesforceUserDAO extends OAuthUserDAO
      */
     public function __construct(
         Connection $db,
-        Application $app,
         $objectType = null,
         $domainObjectClass = 'Salesforce\\Domain\\SalesforceUser',
         $provider = 'Salesforce'
     ) {
-        parent::__construct($db,$app, $objectType, $domainObjectClass, $provider);
+        parent::__construct($db, $objectType, $domainObjectClass, $provider);
     }
 
     /**

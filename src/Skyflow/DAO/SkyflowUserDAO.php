@@ -17,31 +17,24 @@ use Doctrine\DBAL\Connection;
 use skyflow\DAO\AbstractDAO;
 use skyflow\Domain\AbstractModel;
 use skyflow\Domain\SkyflowUser;
-use Silex\Application;
+use skyflow\Security\EncryptionTrait;
 
 /**
  * DAO class for the Skyflow user.
  */
 class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
 {
-
-    /**
-     * Use for the access at the security crypt/uncrypt
-     * @var null|Application
-     */
-    protected $app = null;
+    use EncryptionTrait;
 
     /**
      * {@inheritdoc}
      */
     public function __construct(
         Connection $db,
-        Application $app,
         $objectType = 'users',
         $domainObjectClass = 'skyflow\\Domain\\SkyflowUser'
     ) {
         parent::__construct($db, $objectType, $domainObjectClass);
-        $this->app = $app;
     }
 
     /**
@@ -54,7 +47,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $data['salt'] = $user->getSalt();
         $data['password'] = $user->getPassword();
         $data['role'] = $user->getRole();
-        $data['skyflowtoken'] = $this->app['skyflow.config']['security']['crypt']($user->getSkyflowtoken(),$user->getId(),$this->app);
+        $data['skyflowtoken'] = $this->getEncryption()->encrypt($user->getSkyflowtoken(), $user->getId());
 
         /**
          * @todo Delete this.
@@ -78,7 +71,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
         $user->setPassword($row['password']);
         $user->setSalt($row['salt']);
         $user->setRole($row['role']);
-        $user->setSkyflowtoken($this->app['skyflow.config']['security']['uncrypt']($row['skyflowtoken'],$row['id'],$this->app));
+        $user->setSkyflowtoken($this->getEncryption()->decrypt($row['skyflowtoken'], $row['id']));
 
         /**
          * @todo Delete this.
@@ -125,7 +118,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
 
         $i = 0;
         while ($user === null && $i < count($rows)) {
-            if ($this->app['skyflow.config']['security']['uncrypt']($rows[$i]['skyflowtoken'], $rows[$i]['id'], $this->app) == $skyflowToken) {
+            if ($this->getEncryption()->decrypt($rows[$i]['skyflowtoken'], $rows[$i]['id']) == $skyflowToken) {
                 $user = $this->buildDomainObject($rows[$i]);
             }
 

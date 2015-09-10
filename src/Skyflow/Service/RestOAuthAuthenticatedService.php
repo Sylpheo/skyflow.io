@@ -43,48 +43,117 @@ class RestOAuthAuthenticatedService extends RestService
     }
 
     /**
-     * {@inheritdoc} Access token is automatically refreshed if it has expired.
+     * Authorize HTTP headers with OAuth.
+     *
+     * @param  array|null $headers The HTTP headers.
+     * @param  boolean    $refresh Whether to force refresh of existing
+     *                             access_token or not
+     * @return Authorized headers.
      */
-    public function httpGet($url, $parameters, $headers = null)
+    protected function authorize($headers, $refresh = false)
     {
-        try {
-            return parent::httpGet($url, $parameters, $headers);
-        } catch (\Exception $ex) {
-            if ($ex->getCode() === 401) {
-                if (isset($headers[0]['Authorization'])) {
-                    $type = explode(' ', $headers['Authorization'], 2)[0];
-                    $this->getAuthService()->refresh();
-                    $headers['Authorization'] = $type
+        if (!isset($headers)) {
+            $headers = array();
+        }
+
+        if (!isset($headers['Authorization'])) {
+            $headers['Authorization'] = 'Bearer ' . $this->getUser()->getAccessToken();
+        } elseif ($refresh) {
+            $type = explode(' ', $headers['Authorization'], 2)[0];
+            $headers['Authorization'] = $type
                         . ' '
                         . $this->getUser()->getAccessToken();
-                    return parent::httpGet($url, $parameters, $headers);
+        }
+
+        return $headers;
+    }
+
+    /**
+     * Send some HTTP request.
+     *
+     * This is here to avoid code duplication.
+     *
+     * @param  string $method     The HTTP method.
+     * @param  string $url        The URL to append to endpoint/version.
+     * @param  array $parameters  The HTTP query parameters as array name => value.
+     * @param  array $headers     The HTTP headers as array name => value.
+     * @return HttpResponseInterface The HTTP response.
+     */
+    protected function httpRequest($method, $url, $parameters, $headers)
+    {
+        $method = ucfirst(strtolower($method));
+
+        try {
+            $authorizedHeaders = $this->authorize($headers);
+
+            if ($method === 'Delete') {
+                // No $parameters for DELETE
+                return call_user_func_array(
+                    array('parent', 'http' . $method),
+                    array($url, $authorizedHeaders)
+                );
+            } else {
+                return call_user_func_array(
+                    array('parent', 'http' . $method),
+                    array($url, $parameters, $authorizedHeaders)
+                );
+            }
+        } catch (\Exception $ex) {
+            if ($ex->getCode() === 401) {
+                $this->getAuthService()->refresh();
+                $authorizedHeaders = $this->authorize($headers, true);
+
+                if ($method === 'Delete') {
+                    // No $parameters for DELETE
+                    return call_user_func_array(
+                        array('parent', 'http' . $method),
+                        array($url, $authorizedHeaders)
+                    );
                 } else {
-                    throw $ex;
+                    return call_user_func_array(
+                        array('parent', 'http' . $method),
+                        array($url, $parameters, $authorizedHeaders)
+                    );
                 }
+            } else {
+                throw $ex;
             }
         }
     }
 
     /**
-     * {@inheritdoc} Access token is automatically refreshed if it has expired.
+     * {@inheritdoc} HTTP request is automatically authorized with OAuth.
+     * Access token is automatically refreshed if it has expired.
      */
-    public function httpPost($url, $parameters, $headers = null)
+    public function httpGet($url, $parameters = null, $headers = null)
     {
-        try {
-            return parent::httpPost($url, $parameters, $headers);
-        } catch (\Exception $ex) {
-            if ($ex->getCode() === 401) {
-                if (isset($headers[0]['Authorization'])) {
-                    $type = explode(' ', $headers['Authorization'], 2)[0];
-                    $this->getAuthService()->refresh();
-                    $headers['Authorization'] = $type
-                        . ' '
-                        . $this->getUser()->getAccessToken();
-                    return parent::httpPost($url, $parameters, $headers);
-                } else {
-                    throw $ex;
-                }
-            }
-        }
+        return $this->httpRequest('GET', $url, $parameters, $headers);
+    }
+
+    /**
+     * {@inheritdoc} HTTP request is automatically authorized with OAuth.
+     * Access token is automatically refreshed if it has expired.
+     */
+    public function httpPost($url, $parameters = null, $headers = null)
+    {
+        return $this->httpRequest('POST', $url, $parameters, $headers);
+    }
+
+    /**
+     * {@inheritdoc} HTTP request is automatically authorized with OAuth.
+     * Access token is automatically refreshed if it has expired.
+     */
+    public function httpPatch($url, $parameters = null, $headers = null)
+    {
+        return $this->httpRequest('PATCH', $url, $parameters, $headers);
+    }
+
+    /**
+     * {@inheritdoc} HTTP request is automatically authorized with OAuth.
+     * Access token is automatically refreshed if it has expired.
+     */
+    public function httpDelete($url, $headers = null)
+    {
+        return $this->httpRequest('DELETE', $url, null, $headers);
     }
 }

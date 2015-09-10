@@ -30,7 +30,7 @@ class ApiController
      */
     public function flowAction($event, Request $request, Application $app)
     {
-        if ($app['flow']) {
+        if (isset($app['flow'])) {
             $result = $app['flow']->event($request);
 
             return $app->json($result);

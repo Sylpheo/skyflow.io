@@ -70,7 +70,7 @@ class SalesforceHelperController extends AbstractHelperController
             return $this->getTwig()->render(
                 'salesforce/helper/query-results.html.twig',
                 array(
-                    'results' => json_encode($data),
+                    'results' => json_encode($data, JSON_PRETTY_PRINT),
                 )
             );
         }

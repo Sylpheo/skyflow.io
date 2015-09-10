@@ -10,14 +10,14 @@ namespace skyflow\Service;
 
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
-use skyflow\Service\AbstractService;
+use skyflow\Service\AbstractWebService;
 use skyflow\Service\RestServiceInterface;
 use skyflow\Service\ServiceInterface;
 
 /**
  * REST service class for Skyflow services.
  */
-class RestService extends AbstractService implements RestServiceInterface
+class RestService extends AbstractWebService implements RestServiceInterface
 {
     /**
      * HTTP Client.
@@ -68,6 +68,7 @@ class RestService extends AbstractService implements RestServiceInterface
     public function getRequestUrl($url, $parameters = null)
     {
         $requestUrl = $this->getServiceUrl();
+        $requestUrl .= $this->getExtension();
 
         if (!empty($url)) {
             $requestUrl = $requestUrl . '/' . ltrim($url, '/');
@@ -89,7 +90,7 @@ class RestService extends AbstractService implements RestServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function httpGet($url, $parameters, $headers = null)
+    public function httpGet($url, $parameters = null, $headers = null)
     {
         $requestUrl = $this->getRequestUrl($url, $parameters);
 
@@ -106,14 +107,59 @@ class RestService extends AbstractService implements RestServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritdoc}. The default content type is "application/json".
      */
-    public function httpPost($url, $parameters, $headers = null)
+    public function httpPost($url, $parameters = null, $headers = null)
     {
         $request = $this->getHttpClient()->createRequest(
             'POST',
             $this->getRequestUrl($url),
-            $parameters
+            is_array($parameters) ? array('json' => $parameters) : array('body' => $parameters)
+        );
+
+        if (is_array($headers)) {
+            $request->setHeaders($headers);
+        }
+
+        $contentType = $request->getHeader('Content-Type');
+        if ($contentType === null || $contentType === '') {
+            $request->setHeader('Content-Type', 'application/json');
+        }
+
+        return $this->getHttpClient()->send($request);
+    }
+
+    /**
+     * {@inheritdoc}. The default content type is "application/json".
+     */
+    public function httpPatch($url, $parameters = null, $headers = null)
+    {
+        $request = $this->getHttpClient()->createRequest(
+            'PATCH',
+            $this->getRequestUrl($url),
+            is_array($parameters) ? array('json' => $parameters) : array('body' => $parameters)
+        );
+
+        if (is_array($headers)) {
+            $request->setHeaders($headers);
+        }
+
+        $contentType = $request->getHeader('Content-Type');
+        if ($contentType === null || $contentType === '') {
+            $request->setHeader('Content-Type', 'application/json');
+        }
+
+        return $this->getHttpClient()->send($request);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function httpDelete($url, $headers = null)
+    {
+        $request = $this->getHttpClient()->createRequest(
+            'DELETE',
+            $this->getRequestUrl($url)
         );
 
         if (is_array($headers)) {

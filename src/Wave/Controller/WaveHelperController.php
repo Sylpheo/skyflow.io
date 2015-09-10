@@ -159,7 +159,7 @@ class WaveHelperController extends SalesforceHelperController
             return $this->getTwig()->render(
                 'wave/helper/query-results.html.twig',
                 array(
-                    'results' => json_encode($data),
+                    'results' => json_encode($data, JSON_PRETTY_PRINT),
                 )
             );
         }

@@ -11,6 +11,7 @@ namespace skyflow\Service;
 use skyflow\Authenticator\OAuthAuthenticatorInterface;
 use skyflow\Domain\OAuthUser;
 use skyflow\DAO\OAuthUserDAO;
+use skyflow\Service\AbstractService;
 use skyflow\Service\OAuthServiceInterface;
 use skyflow\Service\ServiceInterface;
 
