@@ -39,7 +39,7 @@ class SalesforceDataService extends RestOAuthAuthenticatedService
             array_push($values, $record);
         }
 
-        return $response->json()['records'];
+        return $values;
     }
 
     /**
