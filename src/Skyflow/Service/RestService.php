@@ -128,4 +128,44 @@ class RestService extends AbstractWebService implements RestServiceInterface
 
         return $this->getHttpClient()->send($request);
     }
+
+    /**
+     * {@inheritdoc}. The default content type is "application/json".
+     */
+    public function httpPatch($url, $parameters = null, $headers = null)
+    {
+        $request = $this->getHttpClient()->createRequest(
+            'PATCH',
+            $this->getRequestUrl($url),
+            is_array($parameters) ? array('json' => $parameters) : array('body' => $parameters)
+        );
+
+        if (is_array($headers)) {
+            $request->setHeaders($headers);
+        }
+
+        $contentType = $request->getHeader('Content-Type');
+        if ($contentType === null || $contentType === '') {
+            $request->setHeader('Content-Type', 'application/json');
+        }
+
+        return $this->getHttpClient()->send($request);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function httpDelete($url, $headers = null)
+    {
+        $request = $this->getHttpClient()->createRequest(
+            'DELETE',
+            $this->getRequestUrl($url)
+        );
+
+        if (is_array($headers)) {
+            $request->setHeaders($headers);
+        }
+
+        return $this->getHttpClient()->send($request);
+    }
 }
