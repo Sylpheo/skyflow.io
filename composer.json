@@ -15,9 +15,7 @@
         "ext-soap": "*",
         "betterbrief/opauth-salesforce": "dev-master",
         "guzzlehttp/guzzle": "~5.3",
-        "exacttarget/fuel-sdk-php": "^0.9.0"
-    },
-    "require-dev": {
+        "exacttarget/fuel-sdk-php": "^0.9.0",
         "heroku/heroku-buildpack-php": "*"
     },
     "scripts": {
