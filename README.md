@@ -13,7 +13,7 @@ You can deploy your own version of Skyflow in seconds using the Heroku button be
 Please note your heroku application name, it will be referred as *your-app-name* in the additional steps below :
 
 1. Install the heroku toolbelt from [https://toolbelt.heroku.com/](https://toolbelt.heroku.com/).
-2. Download *install.sql* from <a href="https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/install.sql" download>https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/install.sql</a> and provision the database :
+2. Download *install.sql* from <a href="https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/db/install.sql" download>https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/db/install.sql</a> and provision the database :
 
 	~~~
 	heroku login
