@@ -87,7 +87,7 @@ heroku pg:psql -a your-app-name < install.sql</code></pre>
                         <p>Create a Heroku application</p>
                         <div class="highlight">
                             <pre><code class="language-text" data-lang="text">cd skyflow.io/
-heroku create</code></pre>
+heroku create --buildpack https://github.com/heroku/heroku-buildpack-multi</code></pre>
                         </div>
                         <p>Please note your heroku application name, it will be referred to as your-app-name in the instructions below.</p>
                     </li>
