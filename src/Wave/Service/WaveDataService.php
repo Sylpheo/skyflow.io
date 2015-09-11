@@ -10,9 +10,9 @@ namespace Wave\Service;
 
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
-use skyflow\Domain\OAuthUser;
-use skyflow\Service\OAuthServiceInterface;
-use skyflow\Service\RestOAuthAuthenticatedService;
+use Skyflow\Domain\OAuthUser;
+use Skyflow\Service\OAuthServiceInterface;
+use Skyflow\Service\RestOAuthAuthenticatedService;
 
 use Salesforce\Domain\SalesforceUser;
 

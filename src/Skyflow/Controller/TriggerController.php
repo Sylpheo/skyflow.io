@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Controller;
+namespace Skyflow\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;

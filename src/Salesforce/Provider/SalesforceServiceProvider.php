@@ -12,8 +12,8 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-use skyflow\Controller\OAuthController;
-use skyflow\Facade;
+use Skyflow\Controller\OAuthController;
+use Skyflow\Facade;
 
 use Salesforce\Authenticator\SalesforceOAuthAuthenticator;
 use Salesforce\Controller\SalesforceHelperController;

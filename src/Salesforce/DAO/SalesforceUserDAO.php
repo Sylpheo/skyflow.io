@@ -10,8 +10,8 @@ namespace Salesforce\DAO;
 
 use Doctrine\DBAL\Connection;
 
-use skyflow\DAO\OAuthUserDAO;
-use skyflow\Domain\AbstractModel;
+use Skyflow\DAO\OAuthUserDAO;
+use Skyflow\Domain\AbstractModel;
 
 use Salesforce\Domain\SalesforceUser;
 use Silex\Application;

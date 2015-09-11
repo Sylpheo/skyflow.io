@@ -6,14 +6,14 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Service;
+namespace Skyflow\Service;
 
-use skyflow\Authenticator\OAuthAuthenticatorInterface;
-use skyflow\Domain\OAuthUser;
-use skyflow\DAO\OAuthUserDAO;
-use skyflow\Service\AbstractService;
-use skyflow\Service\OAuthServiceInterface;
-use skyflow\Service\ServiceInterface;
+use Skyflow\Authenticator\OAuthAuthenticatorInterface;
+use Skyflow\Domain\OAuthUser;
+use Skyflow\DAO\OAuthUserDAO;
+use Skyflow\Service\AbstractService;
+use Skyflow\Service\OAuthServiceInterface;
+use Skyflow\Service\ServiceInterface;
 
 /**
  * OAuth authentication service for use by the Skyflow addons.

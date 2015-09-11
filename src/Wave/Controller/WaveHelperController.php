@@ -11,7 +11,7 @@ namespace Wave\Controller;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-use skyflow\Domain\Users;
+use Skyflow\Domain\Users;
 
 use Salesforce\Controller\SalesforceHelperController;
 

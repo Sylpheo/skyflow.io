@@ -8,8 +8,8 @@
 
 namespace Wave\DAO;
 
-use skyflow\DAO\AbstractDAO;
-use skyflow\Domain\AbstractModel;
+use Skyflow\DAO\AbstractDAO;
+use Skyflow\Domain\AbstractModel;
 
 use Wave\Domain\WaveRequest;
 

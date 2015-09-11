@@ -6,9 +6,9 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Domain;
+namespace Skyflow\Domain;
 
-use skyflow\Domain\AbstractUserOwnedModel;
+use Skyflow\Domain\AbstractUserOwnedModel;
 
 /**
  * Query class for Skyflow addon queries.

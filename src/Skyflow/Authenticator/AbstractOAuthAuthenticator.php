@@ -6,9 +6,9 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Authenticator;
+namespace Skyflow\Authenticator;
 
-use skyflow\Authenticator\OAuthAuthenticatorInterface;
+use Skyflow\Authenticator\OAuthAuthenticatorInterface;
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
 /**

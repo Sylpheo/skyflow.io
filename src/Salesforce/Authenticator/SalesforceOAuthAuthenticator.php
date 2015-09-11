@@ -8,7 +8,7 @@
 
 namespace Salesforce\Authenticator;
 
-use skyflow\Authenticator\AbstractOAuthAuthenticator;
+use Skyflow\Authenticator\AbstractOAuthAuthenticator;
 
 /**
  * Salesforce OAuth authenticator.

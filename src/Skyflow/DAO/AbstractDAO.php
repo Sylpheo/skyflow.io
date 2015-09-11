@@ -6,11 +6,11 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\DAO;
+namespace Skyflow\DAO;
 
 use Doctrine\DBAL\Connection;
 
-use skyflow\Domain\AbstractModel;
+use Skyflow\Domain\AbstractModel;
 
 /**
  * Abstract Data Access Object class.

@@ -8,7 +8,7 @@
 
 namespace Wave\Service;
 
-use skyflow\Service\AbstractService;
+use Skyflow\Service\AbstractService;
 use Salesforce\Service\Data\SalesforceSObjectsService;
 
 use Wave\Domain\InsightsExternalData;

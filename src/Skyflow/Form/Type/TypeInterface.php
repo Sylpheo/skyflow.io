@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Form\Type;
+namespace Skyflow\Form\Type;
 
 use Symfony\Component\Form\FormTypeInterface;
 

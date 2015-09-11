@@ -8,8 +8,8 @@
 
 namespace Skyflow;
 
-use skyflow\FacadeInterface;
-use skyflow\Service\ServiceInterface;
+use Skyflow\FacadeInterface;
+use Skyflow\Service\ServiceInterface;
 
 /**
  * Abstract facade for use by the Skyflow addons.

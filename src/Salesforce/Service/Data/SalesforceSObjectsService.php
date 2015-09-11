@@ -8,7 +8,7 @@
 
 namespace Salesforce\Service\Data;
 
-use skyflow\Service\RestOAuthAuthenticatedService;
+use Skyflow\Service\RestOAuthAuthenticatedService;
 
 /**
  * Salesforce SObject service.

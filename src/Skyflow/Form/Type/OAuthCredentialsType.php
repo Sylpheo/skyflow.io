@@ -6,14 +6,14 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Form\Type;
+namespace Skyflow\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-use skyflow\Domain\OAuthUser;
-use skyflow\Form\Type\AbstractType;
+use Skyflow\Domain\OAuthUser;
+use Skyflow\Form\Type\AbstractType;
 
 class OAuthCredentialsType extends AbstractType
 {

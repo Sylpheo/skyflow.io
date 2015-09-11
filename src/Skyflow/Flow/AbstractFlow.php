@@ -6,18 +6,18 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Flow;
+namespace Skyflow\Flow;
 
-use skyflow\FacadeInterface;
-use skyflow\Flow\FlowInterface;
-use skyflow\Service\ServiceInterface;
+use Skyflow\FacadeInterface;
+use Skyflow\Flow\FlowInterface;
+use Skyflow\Service\ServiceInterface;
 
 /**
  * Flow abstract class.
  *
  * Extend this class to create a custom flow.
  * Put your custom flow in directory "src/Skyflow/Flow" and namespace it under
- * skyflow\Flow.
+ * Skyflow\Flow.
  *
  * Do __NOT__ declare getter methods on this class. The syntax "getSomething" is used
  * to get an addon facade by its name.

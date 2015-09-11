@@ -6,13 +6,13 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Service;
+namespace Skyflow\Service;
 
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
-use skyflow\Service\AbstractWebService;
-use skyflow\Service\RestServiceInterface;
-use skyflow\Service\ServiceInterface;
+use Skyflow\Service\AbstractWebService;
+use Skyflow\Service\RestServiceInterface;
+use Skyflow\Service\ServiceInterface;
 
 /**
  * REST service class for Skyflow services.

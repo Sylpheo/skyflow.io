@@ -6,11 +6,11 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Domain;
+namespace Skyflow\Domain;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
-use skyflow\Domain\AbstractModel;
+use Skyflow\Domain\AbstractModel;
 
 /**
  * The Skyflow user.

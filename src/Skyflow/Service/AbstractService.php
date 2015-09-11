@@ -6,10 +6,10 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Service;
+namespace Skyflow\Service;
 
-use skyflow\Facade;
-use skyflow\Service\ServiceInterface;
+use Skyflow\Facade;
+use Skyflow\Service\ServiceInterface;
 
 /**
  * Abstract service class for the Skyflow addon services.

@@ -8,7 +8,7 @@
 
 namespace Wave\Domain;
 
-use skyflow\Domain\AbstractModel;
+use Skyflow\Domain\AbstractModel;
 
 /**
  * Domain class for a Wave InsightsExternalData.

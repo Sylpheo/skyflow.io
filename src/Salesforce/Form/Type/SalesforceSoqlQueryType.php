@@ -10,7 +10,7 @@ namespace Salesforce\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-use skyflow\Form\Type\AbstractType;
+use Skyflow\Form\Type\AbstractType;
 
 /**
  * Form for Salesforce SOQL query.

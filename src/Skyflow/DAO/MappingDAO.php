@@ -6,14 +6,14 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\DAO;
+namespace Skyflow\DAO;
 
 use Doctrine\DBAL\Connection;
 
-use skyflow\DAO\AbstractUserOwnedDAO;
-use skyflow\DAO\EventDAO;
-use skyflow\DAO\FlowDAO;
-use skyflow\Domain\AbstractModel;
+use Skyflow\DAO\AbstractUserOwnedDAO;
+use Skyflow\DAO\EventDAO;
+use Skyflow\DAO\FlowDAO;
+use Skyflow\Domain\AbstractModel;
 
 /**
  * DAO class for the Mapping domain object.
@@ -46,7 +46,7 @@ class MappingDAO extends AbstractUserOwnedDAO
     public function __construct(
         Connection $db,
         $objectType = 'mapping',
-        $domainObjectClass = 'skyflow\\Domain\\Mapping'
+        $domainObjectClass = 'Skyflow\\Domain\\Mapping'
     ) {
         parent::__construct($db, $objectType, $domainObjectClass);
     }

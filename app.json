@@ -4,5 +4,8 @@
   "repository": "https://github.com/Sylpheo/skyflow.io",
   "addons": [
     "heroku-postgresql:hobby-dev"
-  ]
+  ],
+  "env": {
+    "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-multi"
+  }
 }

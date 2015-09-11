@@ -6,15 +6,15 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Controller;
+namespace Skyflow\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use skyflow\Controller\AbstractController;
-use skyflow\DAO\OAuthUserDAO;
-use skyflow\Domain\OAuthUser;
-use skyflow\Facade;
-use skyflow\Service\OAuthServiceInterface;
+use Skyflow\Controller\AbstractController;
+use Skyflow\DAO\OAuthUserDAO;
+use Skyflow\Domain\OAuthUser;
+use Skyflow\Facade;
+use Skyflow\Service\OAuthServiceInterface;
 
 /**
  * Abstract helper controller for use by Skyflow addons.

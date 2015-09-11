@@ -6,14 +6,14 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Service;
+namespace Skyflow\Service;
 
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
-use skyflow\Domain\OAuthUser;
-use skyflow\OAuthAuthenticatedTrait;
-use skyflow\Service\RestService;
-use skyflow\Service\ServiceInterface;
+use Skyflow\Domain\OAuthUser;
+use Skyflow\OAuthAuthenticatedTrait;
+use Skyflow\Service\RestService;
+use Skyflow\Service\ServiceInterface;
 
 class RestOAuthAuthenticatedService extends RestService
 {

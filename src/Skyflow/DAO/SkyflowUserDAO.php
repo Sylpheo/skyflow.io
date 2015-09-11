@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\DAO;
+namespace Skyflow\DAO;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -14,10 +14,10 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Doctrine\DBAL\Connection;
 
-use skyflow\DAO\AbstractDAO;
-use skyflow\Domain\AbstractModel;
-use skyflow\Domain\SkyflowUser;
-use skyflow\Security\EncryptionTrait;
+use Skyflow\DAO\AbstractDAO;
+use Skyflow\Domain\AbstractModel;
+use Skyflow\Domain\SkyflowUser;
+use Skyflow\Security\EncryptionTrait;
 
 /**
  * DAO class for the Skyflow user.
@@ -32,7 +32,7 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
     public function __construct(
         Connection $db,
         $objectType = 'users',
-        $domainObjectClass = 'skyflow\\Domain\\SkyflowUser'
+        $domainObjectClass = 'Skyflow\\Domain\\SkyflowUser'
     ) {
         parent::__construct($db, $objectType, $domainObjectClass);
     }
@@ -160,6 +160,6 @@ class SkyflowUserDAO extends AbstractDAO implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return 'skyflow\Domain\SkyflowUser' === $class;
+        return 'Skyflow\Domain\SkyflowUser' === $class;
     }
 }

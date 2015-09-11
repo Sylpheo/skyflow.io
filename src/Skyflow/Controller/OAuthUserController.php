@@ -6,15 +6,15 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Controller;
+namespace Skyflow\Controller;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-use skyflow\Controller\OAuthController;
-use skyflow\DAO\OAuthUserDAO;
-use skyflow\Domain\OAuthUser;
-use skyflow\Service\OAuthServiceInterface;
+use Skyflow\Controller\OAuthController;
+use Skyflow\DAO\OAuthUserDAO;
+use Skyflow\Domain\OAuthUser;
+use Skyflow\Service\OAuthServiceInterface;
 
 /**
  * OAuth user controller.
