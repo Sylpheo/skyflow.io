@@ -8,7 +8,7 @@
 
 namespace Salesforce\Controller;
 
-use skyflow\Controller\OAuthUserController;
+use Skyflow\Controller\OAuthUserController;
 
 class SalesforceOAuthUserController extends OAuthUserController
 {

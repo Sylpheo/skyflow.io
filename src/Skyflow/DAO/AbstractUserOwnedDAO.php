@@ -6,10 +6,10 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\DAO;
+namespace Skyflow\DAO;
 
-use skyflow\DAO\AbstractDAO;
-use skyflow\Domain\AbstractModel;
+use Skyflow\DAO\AbstractDAO;
+use Skyflow\Domain\AbstractModel;
 
 /**
  * Abstract DAO class for DAO classes that manage models that are owned by a user.

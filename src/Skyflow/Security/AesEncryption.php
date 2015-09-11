@@ -6,9 +6,9 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Security;
+namespace Skyflow\Security;
 
-use skyflow\Security\EncryptionInterface;
+use Skyflow\Security\EncryptionInterface;
 
 /**
  * AES encryption class.

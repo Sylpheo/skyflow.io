@@ -2,7 +2,7 @@
 
 namespace Skyflow\Flow;
 
-use skyflow\Flow\AbstractFlow;
+use Skyflow\Flow\AbstractFlow;
 
 /**
  * My first flow class.

@@ -1,6 +1,6 @@
 <?php
 
-namespace skyflow\Service;
+namespace Skyflow\Service;
 
 use Silex\Application;
 use ET_Client;
@@ -14,7 +14,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  *
  * ExactTarget service. Provide login/management methods over the ET_Client.
  *
- * @package skyflow\Service
+ * @package Skyflow\Service
  */
 class ExactTarget  {
 

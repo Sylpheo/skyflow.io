@@ -8,8 +8,8 @@
 
 namespace skyflow;
 
-use skyflow\Domain\OAuthUser;
-use skyflow\Service\OAuthServiceInterface;
+use Skyflow\Domain\OAuthUser;
+use Skyflow\Service\OAuthServiceInterface;
 
 trait OAuthAuthenticatedTrait
 {

@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Security;
+namespace Skyflow\Security;
 
 /**
  * Interface for encryption classes.

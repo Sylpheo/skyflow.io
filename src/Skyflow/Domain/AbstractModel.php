@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Domain;
+namespace Skyflow\Domain;
 
 use Symfony\Component\Security\Acl\Model\ObjectIdentityInterface;
 

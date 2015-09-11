@@ -9,7 +9,7 @@
  *
  * Then you have to declare it on the Skyflow web interface. When specifying the
  * flow class on the web interface you must type the full namespace,
- * e.g. "skyflow\Flow\ExampleFlow".
+ * e.g. "Skyflow\Flow\ExampleFlow".
  *
  * Optionally, if you want to be able to run your flow by sending an HTTP POST
  * request you have to create an event on the Skyflow web interface and create
@@ -26,12 +26,12 @@
 
 namespace Skyflow\Flow;
 
-use skyflow\Flow\AbstractFlow;
+use Skyflow\Flow\AbstractFlow;
 
 /**
  * Example flow that shows usage of the Skyflow features.
  *
- * A flow must extend the class skyflow\Flow\AbstractFlow.
+ * A flow must extend the class Skyflow\Flow\AbstractFlow.
  */
 class ExampleFlow extends AbstractFlow
 {

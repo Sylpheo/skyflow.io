@@ -6,11 +6,11 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Form\Type;
+namespace Skyflow\Form\Type;
 
 use Symfony\Component\Form\AbstractType as BaseAbstractType;
 
-use skyflow\Form\Type\TypeInterface;
+use Skyflow\Form\Type\TypeInterface;
 
 /**
  * Abstract form type class for Skyflow form types.

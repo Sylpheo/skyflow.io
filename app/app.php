@@ -13,11 +13,11 @@ use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-use skyflow\DAO\SkyflowUserDAO;
-use skyflow\Security\AesEncryption;
-use skyflow\Service\ExactTarget;
-use skyflow\Service\GenerateToken;
-use skyflow\SilexOpauth\OpauthExtension;
+use Skyflow\DAO\SkyflowUserDAO;
+use Skyflow\Security\AesEncryption;
+use Skyflow\Service\ExactTarget;
+use Skyflow\Service\GenerateToken;
+use Skyflow\SilexOpauth\OpauthExtension;
 
 use Salesforce\Provider\SalesforceServiceProvider;
 use Salesforce\Provider\SalesforceControllerProvider;
@@ -148,22 +148,22 @@ $app['http.client'] = $app->share(function ($app) {
 // ========== DAO ==========
 
 $app['dao.user'] = $app->share(function ($app) {
-    $dao = new skyflow\DAO\SkyflowUserDAO($app['db']);
+    $dao = new Skyflow\DAO\SkyflowUserDAO($app['db']);
     $dao->setEncryption($app['skyflow.security.encryption']);
 
     return $dao;
 });
 
 $app['dao.event'] = $app->share(function ($app) {
-    return new skyflow\DAO\EventDAO($app['db']);
+    return new Skyflow\DAO\EventDAO($app['db']);
 });
 
 $app['dao.flow'] = $app->share(function ($app) {
-    return new skyflow\DAO\FlowDAO($app['db']);
+    return new Skyflow\DAO\FlowDAO($app['db']);
 });
 
 $app['dao.mapping'] = $app->share(function ($app) {
-    $mappingDAO = new skyflow\DAO\MappingDAO($app['db']);
+    $mappingDAO = new Skyflow\DAO\MappingDAO($app['db']);
     $mappingDAO->setEventDAO($app['dao.event']);
     $mappingDAO->setFlowDAO($app['dao.flow']);
     return $mappingDAO;
@@ -197,15 +197,15 @@ $app['user'] = $app->share(function () use ($app) {
 // ========== Services ==========
 
 $app['generatetoken'] = $app->share(function ($app) {
-    $generate = new skyflow\Service\GenerateToken();
+    $generate = new Skyflow\Service\GenerateToken();
     return $generate;
 });
 
 $app['exacttarget'] = $app->share(function ($app) {
     if ($app['security']->isGranted('IS_AUTHENTICATED_FULLY')) {
-        return skyflow\Service\ExactTarget::login($app);
+        return Skyflow\Service\ExactTarget::login($app);
     } else {
-        return skyflow\Service\ExactTarget::loginByApi($app);
+        return Skyflow\Service\ExactTarget::loginByApi($app);
     }
 });
 

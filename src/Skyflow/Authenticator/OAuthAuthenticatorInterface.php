@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Authenticator;
+namespace Skyflow\Authenticator;
 
 /**
  * Inteface for an OAuth authenticator.

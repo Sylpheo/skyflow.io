@@ -76,10 +76,10 @@ You will be asked to authenticate using your credentials for the remote applicat
 ~~~php
 namespace Skyflow\Flow;
 
-use skyflow\Flow\AbstractFlow;
+use Skyflow\Flow\AbstractFlow;
 
 /**
- * A flow must extend the class skyflow\Flow\AbstractFlow.
+ * A flow must extend the class Skyflow\Flow\AbstractFlow.
  */
 class ExampleFlow extends AbstractFlow
 {

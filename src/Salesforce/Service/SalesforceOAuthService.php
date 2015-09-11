@@ -8,8 +8,8 @@
 
 namespace Salesforce\Service;
 
-use skyflow\Authenticator\OAuthAuthenticatorInterface;
-use skyflow\Service\OAuthService;
+use Skyflow\Authenticator\OAuthAuthenticatorInterface;
+use Skyflow\Service\OAuthService;
 
 use Salesforce\DAO\SalesforceUserDAO;
 use Salesforce\Domain\SalesforceUser;

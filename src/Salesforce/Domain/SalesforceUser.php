@@ -8,7 +8,7 @@
 
 namespace Salesforce\Domain;
 
-use skyflow\Domain\OAuthUser;
+use Skyflow\Domain\OAuthUser;
 
 class SalesforceUser extends OAuthUser
 {

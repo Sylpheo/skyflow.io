@@ -8,7 +8,7 @@
 
 namespace skyflow;
 
-use skyflow\Service\ServiceInterface;
+use Skyflow\Service\ServiceInterface;
 
 /**
  * Interface for Skyflow addons facades.

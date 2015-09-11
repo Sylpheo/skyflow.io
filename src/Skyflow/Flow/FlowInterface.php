@@ -6,9 +6,9 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Flow;
+namespace Skyflow\Flow;
 
-use skyflow\FacadeInterface;
+use Skyflow\FacadeInterface;
 
 /**
  * Interface for a Skyflow Flow.

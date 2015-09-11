@@ -12,8 +12,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-use skyflow\Form\Type\OAuthCredentialsType;
-use skyflow\Domain\OAuthUser;
+use Skyflow\Form\Type\OAuthCredentialsType;
+use Skyflow\Domain\OAuthUser;
 
 use Salesforce\Domain\SalesforceUser;
 

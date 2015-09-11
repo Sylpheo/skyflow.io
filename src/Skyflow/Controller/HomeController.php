@@ -6,12 +6,12 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Controller;
+namespace Skyflow\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use skyflow\Domain\Users;
-use skyflow\Form\Type\UsersType;
+use Skyflow\Domain\Users;
+use Skyflow\Form\Type\UsersType;
 
 /**
  * Controller for Skyflow Home actions.

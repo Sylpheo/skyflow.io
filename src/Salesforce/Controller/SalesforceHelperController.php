@@ -11,8 +11,8 @@ namespace Salesforce\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
 
-use skyflow\Controller\AbstractHelperController;
-use skyflow\Facade;
+use Skyflow\Controller\AbstractHelperController;
+use Skyflow\Facade;
 
 /**
  * Controller for Salesforce helper actions.

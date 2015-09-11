@@ -6,9 +6,9 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Domain;
+namespace Skyflow\Domain;
 
-use skyflow\Domain\AbstractModel;
+use Skyflow\Domain\AbstractModel;
 
 /**
  * Abstract class for models that are owned by a user.

@@ -6,9 +6,9 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\Service;
+namespace Skyflow\Service;
 
-use skyflow\Service\WebServiceInterface;
+use Skyflow\Service\WebServiceInterface;
 
 use GuzzleHttp\Message\ResponseInterface as HttpResponseInterface;
 

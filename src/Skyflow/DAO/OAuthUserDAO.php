@@ -6,12 +6,12 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\DAO;
+namespace Skyflow\DAO;
 
 use Doctrine\DBAL\Connection;
 
-use skyflow\Domain\AbstractModel;
-use skyflow\Security\EncryptionTrait;
+use Skyflow\Domain\AbstractModel;
+use Skyflow\Security\EncryptionTrait;
 
 /**
  * DAO Obejct for OAuth users.
@@ -44,7 +44,7 @@ class OAuthUserDAO extends AbstractDAO
     public function __construct(
         Connection $db,
         $objectType = null,
-        $domainObjectClass = 'skyflow\\Domain\\OAuthUser',
+        $domainObjectClass = 'Skyflow\\Domain\\OAuthUser',
         $provider = null
     ) {
         parent::__construct($db, $objectType, $domainObjectClass);

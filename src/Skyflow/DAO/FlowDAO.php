@@ -6,12 +6,12 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow\DAO;
+namespace Skyflow\DAO;
 
 use Doctrine\DBAL\Connection;
 
-use skyflow\DAO\AbstractUserOwnedDAO;
-use skyflow\Domain\AbstractModel;
+use Skyflow\DAO\AbstractUserOwnedDAO;
+use Skyflow\Domain\AbstractModel;
 
 /**
  * DAO class for the Flow domain object.
@@ -24,7 +24,7 @@ class FlowDAO extends AbstractUserOwnedDAO
     public function __construct(
         Connection $db,
         $objectType = 'flow',
-        $domainObjectClass = 'skyflow\\Domain\\Flow'
+        $domainObjectClass = 'Skyflow\\Domain\\Flow'
     ) {
         parent::__construct($db, $objectType, $domainObjectClass);
     }

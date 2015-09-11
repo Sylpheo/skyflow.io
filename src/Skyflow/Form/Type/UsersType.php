@@ -1,10 +1,10 @@
 <?php
 
-namespace skyflow\Form\Type;
+namespace Skyflow\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
-use skyflow\Form\Type\AbstractType;
+use Skyflow\Form\Type\AbstractType;
 
 class UsersType extends AbstractType
 {
