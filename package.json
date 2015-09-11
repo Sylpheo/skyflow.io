@@ -1,0 +1,9 @@
+{
+  "name": "skyflow.io",
+  "description": "Cloud ETL for Heroku",
+  "author": "Adrien Desfourneaux <adrien.desfourneaux@sylpheo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bower": "~1.5.2"
+  }
+}

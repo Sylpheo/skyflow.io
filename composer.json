@@ -17,6 +17,11 @@
         "guzzlehttp/guzzle": "~5.3",
         "exacttarget/fuel-sdk-php": "^0.9.0"
     },
+    "scripts": {
+        "compile": [
+            "bower install"
+        ]
+    },
     "autoload": {
         "psr-4": {
             "Skyflow\\": "src\\Skyflow",

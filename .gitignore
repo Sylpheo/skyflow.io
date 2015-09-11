@@ -1,5 +1,5 @@
 /vendor/
-/web/bower_components/
+/web/vendor/
 *.log
 .DS_Store
 composer.phar
