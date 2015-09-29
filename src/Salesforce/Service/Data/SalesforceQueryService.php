@@ -144,21 +144,14 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
     private $isLocked = false;
 
     /**
-     * Execute a query from query string and return a new filled
-     * SalesforceQueryService instance.
+     * Execute a query from query string and return the records.
      *
      * @param SalesforceQueryService $parentService The query parent service to use.
      * @param string                 $query         The query to execute.
-     * @param boolean                $inherit       Whether the new query must
-     *                                              inherit its parent query.
-     * @return SalesforceQueryService A new SalesforceQueryService filled with
-     *                                the query results.
+     * @return array                 The records query result.
      */
-    public static function query(
-        SalesforceQueryService $parentService,
-        $query,
-        $inherit = false
-    ) {
+    public static function query(SalesforceQueryService $parentService, $query)
+    {
         $queryInstance = new SalesforceQueryService(
             $parentService,
             null,
@@ -167,11 +160,10 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
             $parentService->getAuthService()
         );
 
-        $queryInstance->init($inherit);
         $queryInstance->setQuery($query);
         $queryInstance->process();
 
-        return $queryInstance;
+        return $queryInstance->getRecords();
     }
 
     /**

@@ -65,7 +65,7 @@ class SalesforceHelperController extends AbstractHelperController
             $array = $this->getQueryForm()->getData();
             $query = $array['Request'];
 
-            $data = $this->getAddon()->getService('data')->query($query)->getRecords();
+            $data = $this->getAddon()->getService('data')->query($query);
 
             return $this->getTwig()->render(
                 'salesforce/helper/query-results.html.twig',
