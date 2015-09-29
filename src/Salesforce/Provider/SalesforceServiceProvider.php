@@ -22,6 +22,7 @@ use Salesforce\DAO\SalesforceUserDAO;
 use Salesforce\Domain\SalesforceUser;
 use Salesforce\Form\Type\SalesforceOAuthCredentialsType;
 use Salesforce\Form\Type\SalesforceSoqlQueryType;
+use Salesforce\Service\Data\SalesforceQueryService;
 use Salesforce\Service\Data\SalesforceSObjectsService;
 use Salesforce\Service\SalesforceDataService;
 use Salesforce\Service\SalesforceOAuthService;
@@ -147,6 +148,18 @@ class SalesforceServiceProvider implements ServiceProviderInterface
             return $service;
         });
 
+        $app['salesforce.data.query'] = $app->share(function () use ($app) {
+            return new SalesforceQueryService(
+                $app['salesforce.data'],
+                array(
+                    'extension' => '/query',
+                ),
+                $app['http.client'],
+                $app['salesforce.user'],
+                $app['salesforce.oauth']
+            );
+        });
+
         $app['salesforce.data.sobjects'] = $app->share(function () use ($app) {
             return new SalesforceSObjectsService(
                 $app['salesforce.data'],
@@ -198,6 +211,7 @@ class SalesforceServiceProvider implements ServiceProviderInterface
          */
         $app->before(function (Request $request, Application $app) {
             if ($app['user'] !== null) {
+                $app['salesforce.data']->addService('query', $app['salesforce.data.query']);
                 $app['salesforce.data']->addService('sobjects', $app['salesforce.data.sobjects']);
             }
         });
