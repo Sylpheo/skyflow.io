@@ -23,7 +23,7 @@ class RestOAuthAuthenticatedService extends RestService
      * Rest service constructor.
      *
      * @param ServiceInterface      $parentService The parent service.
-     * @param array                 $config        The service configuration.
+     * @param array                 $config        The optional service configuration.
      * @param HttpClientInterface   $httpClient    An HTTP Client.
      * @param OAuthUser             $user          The OAuth user.
      * @param OAuthServiceInterface $authService   The OAuth authentication service.

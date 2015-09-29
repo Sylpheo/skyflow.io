@@ -30,8 +30,8 @@ class RestService extends AbstractWebService implements RestServiceInterface
      * RestService constructor.
      *
      * @param ServiceInterface    $parentService The parent service.
-     * @param array               $config        The service configuration: provider,
-     *                                           endpoint, version, extension.
+     * @param array               $config        The optional service configuration:
+     *                                           provider, endpoint, version, extension.
      * @param HttpClientInterface $httpClient    The HTTP client.
      */
     public function __construct(

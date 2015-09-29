@@ -46,8 +46,8 @@ abstract class AbstractService extends Facade implements ServiceInterface
      * Use the parent Facade constructor.
      *
      * @param ServiceInterface $parentService The parent service.
-     * @param array            $config        The service configuration: provider,
-     *                                        version.
+     * @param array            $config        The optional service configuration:
+     *                                        provider, version.
      */
     public function __construct(
         $parentService,
@@ -59,7 +59,7 @@ abstract class AbstractService extends Facade implements ServiceInterface
             $this->setParentService($parentService);
         }
 
-        if (isset($config['provider'])) {
+        if (is_array($config) && isset($config['provider'])) {
             $this->setProvider($config['provider']);
         } elseif ($this->getParentService() !== null) {
             $this->setProvider($this->getParentService()->getProvider());
@@ -67,7 +67,7 @@ abstract class AbstractService extends Facade implements ServiceInterface
             $this->setProvider(null);
         }
 
-        if (isset($config['version'])) {
+        if (is_array($config) && isset($config['version'])) {
             $this->setVersion($config['version']);
         } elseif ($this->getParentService() !== null) {
             $this->setVersion($this->getParentService()->getVersion());
