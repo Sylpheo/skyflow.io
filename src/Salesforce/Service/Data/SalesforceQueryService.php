@@ -162,16 +162,16 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
         $queryInstance = new SalesforceQueryService(
             $parentService,
             null,
-            $this->getHttpClient(),
-            $this->getUser(),
-            $this->getAuthService()
+            $parentService->getHttpClient(),
+            $parentService->getUser(),
+            $parentService->getAuthService()
         );
 
-        $query->init($inherit);
-        $query->setQuery($query);
-        $query->process();
+        $queryInstance->init($inherit);
+        $queryInstance->setQuery($query);
+        $queryInstance->process();
 
-        return $query;
+        return $queryInstance;
     }
 
     /**
