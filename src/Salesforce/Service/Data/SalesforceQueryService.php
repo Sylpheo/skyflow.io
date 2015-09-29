@@ -701,6 +701,11 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
     /**
      * Include the missing relations fields in the records query result.
      *
+     * We must not be able to include missing relations fields once the query has
+     * been processed because this would change the value returned by public
+     * method getIncludeMissingRelationsFields(). That would cause ambiguity with
+     * the content of the records query result.
+     *
      * The opposite method is excludeMissingRelationsFields().
      *
      * @return SalesforceQueryService The current instance of SalesforceQueryService
@@ -708,12 +713,19 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
      */
     public function includeMissingRelationsFields()
     {
+        $this->checkIsLocked();
+
         $this->setIncludeMissingRelationsFields(true);
         return $this;
     }
 
     /**
      * Exclude the missing relations fields from the records query result.
+     *
+     * We must not be able to exclude missing relations fields once the query has
+     * been processed because this would change the value returned by public
+     * method getIncludeMissingRelationsFields(). That would cause ambiguity with
+     * the content of the records query result.
      *
      * The opposite method is includeMissingRelationsFields().
      *
@@ -722,6 +734,8 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
      */
     public function excludeMissingRelationsFields()
     {
+        $this->checkIsLocked();
+
         $this->setIncludeMissingRelationsFields(false);
         return $this;
     }
@@ -752,6 +766,11 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
     /**
      * Use the headings as key for the records associative array.
      *
+     * We must not be able to change the useHeadings option once the query has
+     * been processed because this would change the value returned by public
+     * method getUseHeadings(). That would cause ambiguity with the content of
+     * the records query result.
+     *
      * The opposite method is useFieldnames().
      *
      * @return SalesforceQueryService The current instance of SalesforceQueryService
@@ -759,12 +778,19 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
      */
     public function useHeadings()
     {
+        $this->checkIsLocked();
+
         $this->setUseHeadings(true);
         return $this;
     }
 
     /**
      * Use only the query field names as key for the records associative array.
+     *
+     * We must not be able to change the useHeadings option once the query has
+     * been processed because this would change the value returned by public
+     * method getUseHeadings(). That would cause ambiguity with the content of
+     * the records query result.
      *
      * The opposite method is useHeadings().
      *
@@ -773,6 +799,8 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
      */
     public function useFieldnames()
     {
+        $this->checkIsLocked();
+
         $this->setUseHeadings(false);
         return $this;
     }
