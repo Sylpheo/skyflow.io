@@ -118,7 +118,7 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
     private $includeMissingRelationsFields = true;
 
     /**
-     * Whether to use headings or query fieldnames for the keys in the records
+     * Whether to use aliases or query fieldnames for the keys in the records
      * associative array.
      *
      * Setting this to true means that if an alias has been set for the field,
@@ -130,7 +130,7 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
      *
      * @var boolean
      */
-    private $useHeadings = true;
+    private $useAliases = true;
 
     /**
      * Whether this query instance is locked or not.
@@ -351,7 +351,7 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
      */
     protected function applyHeadings(array $records)
     {
-        if ($this->getUseHeadings() === false) {
+        if ($this->getUseAliases() === false) {
             return $records;
         } else {
             $remappedRecords = array();
@@ -741,34 +741,34 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
     }
 
     /**
-     * Get whether the headings are used as key for the records associative array.
+     * Get whether the aliases are used as key for the records associative array.
      *
-     * @return boolean Whether the headings are used or not.
+     * @return boolean Whether the aliases are used or not.
      */
-    public function getUseHeadings()
+    public function getUseAliases()
     {
-        return $this->useHeadings;
+        return $this->useAliases;
     }
 
     /**
-     * Set whether the headings are used as key for the records associative array.
+     * Set whether the aliases are used as key for the records associative array.
      *
      * This method is not intended to be used by the outside world.
-     * Instead, use useHeadings() and useFieldnames().
+     * Instead, use useAliases() and useFieldnames().
      *
-     * @param boolean $useHeadings Whether the headings are used or not.
+     * @param boolean $useAliases Whether the aliases are used or not.
      */
-    protected function setUseHeadings($useHeadings)
+    protected function setUseAliases($useAliases)
     {
-        $this->useHeadings = $useHeadings;
+        $this->useAliases = $useAliases;
     }
 
     /**
-     * Use the headings as key for the records associative array.
+     * Use the aliases as key for the records associative array.
      *
-     * We must not be able to change the useHeadings option once the query has
+     * We must not be able to change the useAliases option once the query has
      * been processed because this would change the value returned by public
-     * method getUseHeadings(). That would cause ambiguity with the content of
+     * method getUseAliases(). That would cause ambiguity with the content of
      * the records query result.
      *
      * The opposite method is useFieldnames().
@@ -776,23 +776,23 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
      * @return SalesforceQueryService The current instance of SalesforceQueryService
      *                                to enable methods chaining.
      */
-    public function useHeadings()
+    public function useAliases()
     {
         $this->checkIsLocked();
 
-        $this->setUseHeadings(true);
+        $this->setUseAliases(true);
         return $this;
     }
 
     /**
      * Use only the query field names as key for the records associative array.
      *
-     * We must not be able to change the useHeadings option once the query has
+     * We must not be able to change the useAliases option once the query has
      * been processed because this would change the value returned by public
-     * method getUseHeadings(). That would cause ambiguity with the content of
+     * method getuseAliases()). That would cause ambiguity with the content of
      * the records query result.
      *
-     * The opposite method is useHeadings().
+     * The opposite method is useAliases().
      *
      * @return SalesforceQueryService The current instance of SalesforceQueryService
      *                                to enable methods chaining.
@@ -801,7 +801,7 @@ class SalesforceQueryService extends RestOAuthAuthenticatedService
     {
         $this->checkIsLocked();
 
-        $this->setUseHeadings(false);
+        $this->setUseAliases(false);
         return $this;
     }
 
