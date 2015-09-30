@@ -15,6 +15,7 @@ use Skyflow\Service\OAuthServiceInterface;
 use Skyflow\Service\RestOAuthAuthenticatedService;
 
 use Salesforce\Domain\SalesforceUser;
+use Salesforce\Service\Data\SalesforceQueryService;
 
 /**
  * Service for the Salesforce data API.
@@ -24,22 +25,14 @@ class SalesforceDataService extends RestOAuthAuthenticatedService
     /**
      * Send a SOQL query to Salesforce data API.
      *
-     * @param  string $query The SOQL query string.
-     * @return string Response as string encoded in JSON format.
+     * @param  string  $query   The SOQL query string.
+     * @param  boolean $inherit Whether the new query must inherit its parent query.
+     * @return string  Response as string encoded in JSON format.
      */
-    public function query($query)
+    public function query($query, $inherit = false)
     {
-        $response = $this->httpGet('/query', array('q' => rtrim($query, ';')));
-
-        $records = $response->json()['records'];
-        $values = array();
-
-        foreach ($records as $record) {
-            unset($record['attributes']);
-            array_push($values, $record);
-        }
-
-        return $values;
+        $queryService = $this->getService('query');
+        return SalesforceQueryService::query($queryService, $query, $inherit);
     }
 
     /**

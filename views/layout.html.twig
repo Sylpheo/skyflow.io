@@ -8,6 +8,8 @@
 
     <link href="{{ app.request.basepath }}/css/skyflow.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
+
     <title>Skyflow.io - {% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -66,6 +68,16 @@
 <script src="{{ app.request.basepath }}/vendor/ckeditor/ckeditor.js"></script>
 <script src="{{ app.request.basepath }}/vendor/ckeditor/adapters/jquery.js"></script>
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+<script>
+// apply highlight.js
+$(document).ready(function() {
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
+</script>
 
 {% block javascripts %}{% endblock %}
 

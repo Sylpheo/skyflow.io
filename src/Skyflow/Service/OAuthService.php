@@ -58,7 +58,7 @@ class OAuthService extends AbstractService implements OAuthServiceInterface
      * OAuth authentication service constructor.
      *
      * @param ServiceInterface            $parentService The parent service.
-     * @param array                       $config        The service configuration.
+     * @param array                       $config        The optional service configuration.
      * @param OAuthAuthenticatorInterface $oauth         The OAuth authenticator.
      * @param OAuthUser                   $user          The OAuth user.
      * @param OAuthUserDAO                $userDAO       The DAO object for the user.

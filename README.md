@@ -13,7 +13,7 @@ You can deploy your own version of Skyflow in seconds using the Heroku button be
 Please note your heroku application name, it will be referred as *your-app-name* in the additional steps below :
 
 1. Install the heroku toolbelt from [https://toolbelt.heroku.com/](https://toolbelt.heroku.com/).
-2. Download *install.sql* from <a href="https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/install.sql" download>https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/install.sql</a> and provision the database :
+2. Download *install.sql* from <a href="https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/db/install.sql" download>https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/db/install.sql</a> and provision the database :
 
 	~~~
 	heroku login
@@ -114,34 +114,384 @@ class ExampleFlow extends AbstractFlow
 
 ### Salesforce
 
-1. Data service to send SOQL query to Salesforce using the query() method.
+1. Send a SOQL query to Salesforce.
 
-	~~~php
-	$records = $this->get('salesforce.data')->query('SELECT FirstName, LastName FROM Contact');
+	- Simple version : using a query string.
 
-	var_dump($records);
-	~~~
+		Usage of `query()` from *salesforce.data* :
 
-	Result
+		~~~php
+		$records = $this->get('salesforce.data')->query('SELECT FirstName, LastName FROM Contact');
+		var_dump($records);
+		~~~
 
-	~~~php
-	array(2) {
-		[0]=>
+		Result
+
+		~~~php
 		array(2) {
-			["FirstName"]=>
-			string(4) "John"
-			["LastName"]=>
-			string(3) "Doe"
+			[0]=>
+			array(2) {
+				["FirstName"]=>
+				string(4) "John"
+				["LastName"]=>
+				string(3) "Doe"
+			}
+			[1]=>
+			array(2) {
+				["FirstName"]=>
+				string(4) "Jane"
+				["LastName"]=>
+				string(3) "Doe"
+			}
 		}
-		[1]=>
+		~~~
+
+	- Advanced version : building the query.
+
+		Usage of `create()`, `setFrom()`, `addField()`, `setWhere()`, `process()`, `getRecords()` from *salesforce.data.query* :
+
+		~~~php
+		$query = $this->get('salesforce.data.query')->create()
+		->setFrom('Contact')
+		->addField('FirstName', 'Contact First Name', function (&$value, $record) {
+			if ($value === 'Jane' && $record['LastName'] === 'Doe') {
+				$value = 'Sarah';
+			}
+		})
+		->addField('LastName', 'Contact Last Name', function (&$value, $record) {
+			if ($record['FirstName'] === 'Sarah' && $value === 'Doe') {
+				$value = 'Connor';
+			}
+		})
+		->setWhere("LeadSource = 'Series'")
+		->process();
+
+		$records = $query->getRecords();
+		var_dump($records);
+		~~~
+
+		Result
+
+		~~~php
 		array(2) {
-			["FirstName"]=>
-			string(4) "Jane"
-			["LastName"]=>
-			string(3) "Doe"
+			[0]=>
+			array(2) {
+				["Contact First Name"]=>
+				string(4) "John"
+				["Contact Last Name"]=>
+				string(3) "Doe"
+			}
+			[1]=>
+			array(2) {
+				["Contact First Name"]=>
+				string(4) "Sarah"
+				["Contact Last Name"]=>
+				string(3) "Connor"
+			}
 		}
-	}
-	~~~
+		~~~
+
+		#### Query service inheritance
+
+		Usage of `create($inherit = false)` from *salesforce.data.query* :
+
+		~~~php
+		// $query is the query above with John Doe and Sarah Connor.
+		// set $inherit = true, the default value for $inherit is false
+		// and add the field "LeadSource" without alias nor transform callback
+		$newQuery = $query->create(true)
+		->addField('LeadSource')
+		->process();
+
+		var_dump($newQuery->getRecords());
+		~~~
+
+		Result (note that the FirstName, LastName, aliases and transforms have been inherited)
+
+		~~~php
+		array(2) {
+			[0]=>
+			array(3) {
+				["Contact First Name"]=>
+				string(4) "John"
+				["Contact Last Name"]=>
+				string(3) "Doe"
+				["LeadSource"]=>
+				string(6) "Series"
+			}
+			[1]=>
+			array(3) {
+				["Contact First Name"]=>
+				string(4) "Sarah"
+				["Contact Last Name"]=>
+				string(3) "Connor",
+				["LeadSource"]=>
+				string(6) "Series"
+			}
+		}
+		~~~
+
+		#### Aliases and transforms callbacks
+
+		The `addField($name, $alias = null, $transform = null)` method accepts three arguments :
+
+		- $alias is the field alias (optional, set to `null` for no alias)
+		- $transform is the transform callback (optional)
+
+		#### Aliases
+
+		Usage of `useAliases()`, `useFieldnames()`, `setFields()`, `setAliases()`, `addAlias()`, `getHeadings()` from *salesforce.data.query* :
+
+		~~~php
+		// useAliases() is optional. This is the default when building the query.
+		$query = $this->get('salesforce.data.query')->create()
+		->useAliases()
+		->setFields(array(
+			'FirstName',
+			'LastName',
+			'LeadSource'
+		))
+		->setAliases(array(
+			'FirstName' => 'Contact First Name',
+			'LastName' => 'Contact Last Name'
+		))
+		->addAlias('LeadSource', 'Contact Lead Source')
+		->process();
+
+		var_dump($query->getRecords());
+		var_dump($query->getHeadings());
+
+		// inherit the above query
+		// use the fieldnames as written in the query
+		$query = $query->create(true)
+		->useFieldnames()
+		->process();
+
+		var_dump($query->getRecords());
+		var_dump($query->getHeadings());
+		~~~
+
+		Result
+
+		~~~php
+		// ----- with useAliases() -----
+
+		// getRecords()
+		array(2) {
+			[0]=>
+			array(3) {
+				["Contact First Name"]=>
+				string(4) "John"
+				["Contact Last Name"]=>
+				string(3) "Doe"
+				["Contact Lead Source"]=>
+				string(6) "Series"
+			}
+			[1]=>
+			array(3) {
+				["Contact First Name"]=>
+				string(4) "Jane"
+				["Contact Last Name"]=>
+				string(3) "Doe"
+				["Contact Lead Source"]=>
+				string(6) "Series"
+			}
+		}
+
+		// getHeadings()
+		array(3) {
+			string(18) "Contact First Name"
+			string(17) "Contact Last Name"
+			string(19) "Contact Lead Source"
+		}
+
+		// ----- with useFieldnames() -----
+
+		// getRecords()
+		array(2) {
+			[0]=>
+			array(3) {
+				["FirstName"]=>
+				string(4) "John"
+				["LastName"]=>
+				string(3) "Doe"
+				["LeadSource"]=>
+				string(6) "Series"
+			}
+			[1]=>
+			array(3) {
+				["FirstName"]=>
+				string(4) "Jane"
+				["LastName"]=>
+				string(3) "Doe"
+				["LeadSource"]=>
+				string(6) "Series"
+			}
+		}
+
+		// getHeadings()
+		array(3) {
+			string(9) "FirstName"
+			string(8) "LastName"
+			string(10) "LeadSource"
+		}
+		~~~
+
+		#### Transform callbacks
+
+		Usage of `setTransforms()`, `addTransform()`. The contacts in Salesforce are *John Doe* and *Jane Doe*.
+
+		~~~php
+		// callable variable
+		$transformFirstName = function (&$value, $record, $records) {
+			if ($value === 'Jane' && $record['LastName'] === 'Doe') {
+				$value = 'Sarah';
+			}
+		};
+
+		$query = $this->get('salesforce.data.query')->create()
+		->addField('FirstName')
+		->addField('LastName')
+		->setTransforms(array(
+			'LastName' => function(&$value, $record, $records) {
+				if ($record['FirstName'] === 'Sarah' && $value === 'Doe') {
+					$value = 'Connor';
+				}
+			}
+		))
+		->addTransform('FirstName', $transformFirstName)
+		->process();
+
+		// transforms are called following the fields order
+		// here, the transform callback for 'FirstName' will be called first
+		// then will be called the transform callback for 'LastName'
+		// even if the addTransform() for 'FirstName' appears after the one for 'LastName'
+
+		var_dump($query->getRecords());
+		~~~
+
+		Result
+
+		~~~php
+		array(2) {
+			[0]=>
+			array(2) {
+				["FirstName"]=>
+				string(4) "John"
+				["LastName"]=>
+				string(3) "Doe"
+			}
+			[1]=>
+			array(2) {
+				["FirstName"]=>
+				string(4) "Sarah"
+				["LastName"]=>
+				string(3) "Connor"
+			}
+		}
+		~~~
+
+		The transform callback must have the prototype :
+
+		~~~php
+		function (&$value, $record, $records)
+		~~~
+
+		- `&$value` is the field value of the record being processed, **it must be passed by reference `&`**
+		- `$record` is the record being processed (optional if not needed)
+		- `$records` is the entire records result (optional if not needed)
+
+		**The return value of the callback is ignored.** To change the `$value` you have to pass it by reference `&$value`.
+
+		The transform callback may be a anonymous function, a callable (anonymous function inside a variable) or a **public** method in the flow class. For public method, pass it as `array($this, 'methodName')` :
+
+		~~~php
+		<?php
+
+		use Skyflow\Flow\AbstractFlow;
+
+		class MyFlow extends AbstractFlow
+		{
+			/**
+			 * The transform callback for the FirstName field.
+			 *
+			 * It MUST be public or it won't be executed.
+			 *
+			 * @param mixed &$value  The field value of the record
+			 *                       being processed passed by reference.
+			 * @param array $record  The record being processed.
+			 * @param array $records The entire records result.
+			 */
+			public function transformFirstName(&$value, $record, $records)
+			{
+				if ($value === 'Jane' && $record['LastName'] === 'Doe') {
+					$value = 'Sarah';
+				}
+			}
+
+			public function event($requestJson)
+			{
+				$this->run();
+			}
+
+			public function run()
+			{
+				// array with [0]=>flow instance, [1]=>method name
+				$transformFirstName = array($this, 'transformFirstName');
+				$transformLastName = function (&$value, $record, $records) {
+					if ($record['FirstName'] === 'Sarah' && $value === 'Doe') {
+						$value = 'Connor';
+					}
+				};
+
+				$query = $this->get('salesforce.data.query')->create()
+				->addField('FirstName', null, $transformFirstName)
+				->addField('LastName', null, $transformLastName)
+				->process();
+
+				return $query->getRecords();
+			}
+		}
+		~~~
+
+		#### Querying through related objects
+
+		Usage of `addField()` with related objects field :
+
+		~~~php
+		$query = $this->get('salesforce.data.query')->create()
+		->addField('FirstName')
+		->addField('LastName')
+		->addField('Account.Name')
+		->process();
+
+		var_dump($query->getRecords());
+		~~~
+
+		Result
+
+		~~~php
+		array(2) {
+			[0]=>
+			array(3) {
+				["FirstName"]=>
+				string(4) "John"
+				["LastName"]=>
+				string(3) "Doe"
+				["Account.Name"]=>
+				string(22) "Fox Television Studios"
+			}
+			[1]=>
+			array(3) {
+				["FirstName"]=>
+				string(4) "Jane"
+				["LastName"]=>
+				string(3) "Doe"
+				["Account.Name"]=>
+				string(17) "RHI Entertainment"
+			}
+		}
+		~~~
 
 2. SObjects service to create, update and delete an SObject record.
 

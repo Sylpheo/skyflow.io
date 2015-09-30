@@ -40,8 +40,8 @@ abstract class AbstractWebService extends AbstractService
      * Service constructor.
      *
      * @param ServiceInterface $parentService The parent service.
-     * @param array            $config        The service configuration: endpoint,
-     *                                        extension.
+     * @param array            $config        The optional service configuration:
+     *                                        endpoint, extension.
      */
     public function __construct(
         $parentService,
@@ -49,7 +49,7 @@ abstract class AbstractWebService extends AbstractService
     ) {
         parent::__construct($parentService, $config);
 
-        if (isset($config['endpoint'])) {
+        if (is_array($config) && isset($config['endpoint'])) {
             $this->setEndpoint($config['endpoint']);
         } elseif ($this->getParentService() !== null) {
             $this->setEndpoint($this->getParentService()->getEndpoint());
@@ -58,7 +58,7 @@ abstract class AbstractWebService extends AbstractService
         }
 
         $extension = '';
-        if (isset($config['extension'])) {
+        if (is_array($config) && isset($config['extension'])) {
             $extension = $config['extension'];
             if ($this->getParentService() !== null) {
                 $extension = $this->getParentService()->getExtension() . $extension;

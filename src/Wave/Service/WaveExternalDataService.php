@@ -55,16 +55,6 @@ class WaveExternalDataService extends AbstractService
     protected $parts;
 
     /**
-     * The current WaveExternalDataService config.
-     *
-     * This is useful on the create() method when we are instantiating a new
-     * WaveExternalDataService that will store the Dataset state.
-     *
-     * @var array
-     */
-    private $config;
-
-    /**
      * Wave external data service constructor.
      *
      * @param ServiceInterface $parentService The parent service.
@@ -77,7 +67,6 @@ class WaveExternalDataService extends AbstractService
         SalesforceSObjectsService $sobjects
     ) {
         parent::__construct($parentService, $config);
-        $this->config = $config;
         $this->sobjects = $sobjects;
     }
 
@@ -146,8 +135,8 @@ class WaveExternalDataService extends AbstractService
          * current instance.
          */
         $dataset = new WaveExternalDataService(
+            $this,
             null,
-            $this->config,
             $this->sobjects
         );
 
