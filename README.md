@@ -74,6 +74,8 @@ You will be asked to authenticate using your credentials for the remote applicat
 * Create your flow class in the *src/Skyflow/Flow* directory. Example flow class :
 
 ~~~php
+<?php
+
 namespace Skyflow\Flow;
 
 use Skyflow\Flow\AbstractFlow;
@@ -407,6 +409,8 @@ class ExampleFlow extends AbstractFlow
 
 		~~~php
 		<?php
+
+		namespace Skyflow\Flow;
 
 		use Skyflow\Flow\AbstractFlow;
 
