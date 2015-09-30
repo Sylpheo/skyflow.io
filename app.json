@@ -1,7 +1,9 @@
 {
   "name": "skyflow.io",
   "description": "Cloud ETL for Heroku",
+  "website": "http://skyflow.io/",
   "repository": "https://github.com/Sylpheo/skyflow.io",
+  "success_url": "/login",
   "addons": [
     "heroku-postgresql:hobby-dev"
   ],
