@@ -435,7 +435,7 @@ class ExampleFlow extends AbstractFlow
 
 			public function event($requestJson)
 			{
-				$this->run();
+				return $this->run();
 			}
 
 			public function run()
