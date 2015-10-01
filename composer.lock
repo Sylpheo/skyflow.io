@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2c42b297dd3a0af179c1b282ab32c3bb",
+    "hash": "9d0ebb47bd982f80fe2c2d2809713335",
     "packages": [
         {
             "name": "betterbrief/opauth-salesforce",
@@ -2233,7 +2233,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "ext-soap": "*"
+        "ext-soap": "*",
+        "ext-mbstring": "*"
     },
     "platform-dev": []
 }
