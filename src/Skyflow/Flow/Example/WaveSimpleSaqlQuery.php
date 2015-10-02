@@ -21,15 +21,15 @@ class WaveSimpleSaqlQuery extends AbstractFlow
     /**
      * {@inheritdoc}
      */
-    public function run()
+    public function event($requestJson)
     {
-        return $this->event(null);
+        return $this->run();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function event($requestJson)
+    public function run()
     {
         // You have to provide the container id and version id of your dataset.
         $containerId = '0FbB000000070qNKAQ';

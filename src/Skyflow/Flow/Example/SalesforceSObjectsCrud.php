@@ -21,15 +21,15 @@ class SalesforceSObjectsCrud extends AbstractFlow
     /**
      * {@inheritdoc}
      */
-    public function run()
+    public function event($requestJson)
     {
-        return $this->event(null);
+        return $this->run();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function event($requestJson)
+    public function run()
     {
         // Send a SOQL query to Salesforce.
         // The return value is an array() of found records.
