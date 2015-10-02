@@ -23,7 +23,7 @@ class SalesforceSObjectsCrud extends AbstractFlow
      */
     public function run()
     {
-        return $this->event();
+        return $this->event(null);
     }
 
     /**
