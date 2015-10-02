@@ -58,7 +58,7 @@ if ($app['dev']) {
  * When executed in a web environment, the application name is retrieved from the
  * the application url :
  * * "https://application-name.herokuapp.com/" => "application-name" (heroku)
- * * "http://localhost:8080/" => "localhost:8080" (local development)
+ * * "http://localhost:8080/" => "localhost" (local development)
  *
  * When executed in a cli environment, the application name is :
  * * "localhost:8080" if in development environment.
@@ -67,7 +67,7 @@ if ($app['dev']) {
 $app['application_name'] = function () use ($app) {
     if (PHP_SAPI === 'cli') {
         if ($app['dev'] === true) {
-            return 'localhost:8080';
+            return 'localhost';
         } else {
             return $app['cli_default_application_name'];
         }
@@ -102,7 +102,7 @@ $app['server_name'] = function () use ($app) {
  * command-line.
  */
 $app['http_host'] = function () use ($app) {
-    if ($app['application_name'] === 'localhost:8080'
+    if ($app['application_name'] === 'localhost'
         || $app['application_name'] === $app['cli_default_application_name']
     ) {
         // development machine
