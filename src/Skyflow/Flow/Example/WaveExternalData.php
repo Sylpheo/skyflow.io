@@ -21,15 +21,15 @@ class WaveExternalData extends AbstractFlow
     /**
      * {@inheritdoc}
      */
-    public function run()
+    public function event($requestJson)
     {
-        return $this->event(null);
+        return $this->run();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function event($requestJson)
+    public function run()
     {
         $data = array(
             array(

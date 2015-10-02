@@ -22,15 +22,15 @@ class SalesforceSimpleSoqlQuery extends AbstractFlow
     /**
      * {@inheritdoc}
      */
-    public function run()
+    public function event($requestJson)
     {
-        return $this->event(null);
+        return $this->run();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function event($requestJson)
+    public function run()
     {
         $records = $this->get('salesforce.data')->query(
             'SELECT FirstName, LastName, Account.Name '
