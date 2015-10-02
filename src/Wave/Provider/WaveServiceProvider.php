@@ -53,8 +53,8 @@ class WaveServiceProvider implements ServiceProviderInterface
                 $loginUrl = 'https://login.salesforce.com';
             }
 
-            $server = $_SERVER['SERVER_NAME'];
-            $host = $_SERVER['HTTP_HOST'];
+            $server = $app['server_name'];
+            $host = $app['http_host'];
 
             // code must be defined later in the AuthController callback action
             $authenticator = new SalesforceOAuthAuthenticator(array(

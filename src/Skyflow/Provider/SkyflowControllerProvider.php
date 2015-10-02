@@ -25,10 +25,15 @@ class SkyflowControllerProvider implements ControllerProviderInterface
      */
     private function apiControllers(ControllerCollection $controllers)
     {
-        $controllers->post(
-            '/api/event/{event}',
+        $controllers->get(
+            '/api/flow',
             'Skyflow\Controller\ApiController::flowAction'
         )->bind('flow');
+
+        $controllers->post(
+            '/api/event/{event}',
+            'Skyflow\Controller\ApiController::eventAction'
+        )->bind('event');
     }
 
     /**

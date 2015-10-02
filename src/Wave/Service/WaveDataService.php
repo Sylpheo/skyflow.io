@@ -22,7 +22,7 @@ use Salesforce\Domain\SalesforceUser;
 class WaveDataService extends RestOAuthAuthenticatedService
 {
     /**
-     * Send a query to Wave.
+     * Executes a query written in the Salesforce Analytics Query Language (SAQL).
      *
      * @param  string $query The query string.
      * @return string Response as string encoded in JSON format.
@@ -30,6 +30,17 @@ class WaveDataService extends RestOAuthAuthenticatedService
     public function query($query)
     {
         $response = $this->httpPost('/query', array('query' => $query));
+        return $response->json();
+    }
+
+    /**
+     * Returns a list of Analytics Cloud datasets.
+     *
+     * @return array List of Analytics Cloud datasets.
+     */
+    public function datasets()
+    {
+        $response = $this->httpGet('/datasets');
         return $response->json();
     }
 }

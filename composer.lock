@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9d0ebb47bd982f80fe2c2d2809713335",
+    "hash": "ec48aaa588c1cab9939a96b2d2f5b143",
     "packages": [
         {
             "name": "betterbrief/opauth-salesforce",
@@ -2182,16 +2182,16 @@
     "packages-dev": [
         {
             "name": "heroku/heroku-buildpack-php",
-            "version": "v76",
+            "version": "v78",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heroku/heroku-buildpack-php.git",
-                "reference": "5a770b914549cf2a897cbbaf379eb5adf410d464"
+                "reference": "6db8c2a37e131ad811f5518ddfbe0e6248f49337"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/5a770b914549cf2a897cbbaf379eb5adf410d464",
-                "reference": "5a770b914549cf2a897cbbaf379eb5adf410d464",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/6db8c2a37e131ad811f5518ddfbe0e6248f49337",
+                "reference": "6db8c2a37e131ad811f5518ddfbe0e6248f49337",
                 "shasum": ""
             },
             "bin": [
@@ -2222,7 +2222,7 @@
                 "nginx",
                 "php"
             ],
-            "time": "2015-09-08 13:40:29"
+            "time": "2015-10-01 19:46:08"
         }
     ],
     "aliases": [],
