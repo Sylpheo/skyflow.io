@@ -20,34 +20,91 @@ use Wave\Provider\WaveServiceProvider;
 $app['debug'] = true;
 
 /**
+ * The application name when the application is run via the command-line and
+ * we can't guess the name of the heroku application.
+ */
+$app['cli_default_application_name'] = 'cli';
+
+/**
  * The application is in development environment if at least one of the following
  * statements, in order, is true :
  *
  * * The run command has been prefixed with "DEV=" (whatever the value of DEV).
  * * The application is run on localhost.
+ *
+ * To run the application in development environment from the command-line you
+ * MUST prefix the run command with "DEV=".
  */
 $app['dev'] = function () {
     if (getenv('DEV') !== false) {
         return true;
-    } else if ($_SERVER['SERVER_NAME'] === 'localhost') {
-        return true;
+    } else if (!array_key_exists('SERVER_NAME', $_SERVER)) {
+        return false;
+    } else {
+        if ($_SERVER['SERVER_NAME'] === 'localhost') {
+            return true;
+        } else {
+            return false;
+        }
     }
-
-    return false;
 };
 
 /**
- * The application name is retrieved from the heroku application url :
- * https://application-name.herokuapp.com/
+ * When executed in a web environment, the application name is retrieved from the
+ * the application url :
+ * * "https://application-name.herokuapp.com/" => "application-name" (heroku)
+ * * "http://localhost:8080/" => "localhost:8080" (local development)
  *
- * If the application has been run from the command-line, the application name
- * is "cli".
+ * When executed in a cli environment, the application name is :
+ * * "localhost:8080" if in development environment.
+ * * $app['cli_default_application_name'] if we can't guess the application name.
  */
-$app['application_name'] = function () {
+$app['application_name'] = function () use ($app) {
     if (PHP_SAPI === 'cli') {
-        return 'cli';
+        if ($app['dev'] === true) {
+            return 'localhost:8080';
+        } else {
+            return $app['cli_default_application_name'];
+        }
     } else {
         return explode('.', $_SERVER['SERVER_NAME'], 2)[0];
+    }
+};
+
+/**
+ * The server name.
+ *
+ * Use $app['server_name'] instead of $_SERVER['SERVER_NAME'] because using
+ * $app['server_name'] allows execution of the Skyflow.io application from the
+ * command-line.
+ */
+$app['server_name'] = function () use ($app) {
+    if ($app['application_name'] === 'localhost'
+        || $app['application_name'] === $app['cli_default_application_name']
+    ) {
+        // development machine
+        return 'localhost';
+    } else {
+        return $app['application_name'] . '.herokuapp.com';
+    }
+};
+
+/**
+ * The http host name.
+ *
+ * Use $app['http_host'] instead of $_SERVER['HTTP_HOST'] because using
+ * $app['http_host'] allows execution of the Skyflow.io application from the
+ * command-line.
+ */
+$app['http_host'] = function () use ($app) {
+    if ($app['application_name'] === 'localhost:8080'
+        || $app['application_name'] === $app['cli_default_application_name']
+    ) {
+        // development machine
+        return 'localhost:8080';
+    } else {
+        // heroku dyno
+        return $app['application_name'] . '.herokuapp.com';
     }
 };
 

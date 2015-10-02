@@ -78,13 +78,30 @@ class SkyflowServiceProvider implements ServiceProviderInterface
         });
 
         /**
-         * Definition of the current executing flow when handling an event.
+         * Definition of the current executing flow.
          *
-         * When handling an HTTP request to the flow route, the flow is automatically
-         * instantiated from the requested event and saved into $app['flow'].
+         * When handling an HTTP request to the flow route, the flow is
+         * automatically instantiated and saved into $app['flow'].
+         *
+         * When handling an HTTP request to the event route, the associated flow
+         * is automatically instantiated from the requested event and saved into
+         * $app['flow'].
          */
         $app->before(function (Request $request, Application $app) {
             if ($request->get('_route') === 'flow') {
+                $flowName = $request->headers->get('Flow-Name');
+
+                if ($flowName !== '') {
+                    $userId = $app['user']->getId();
+                    $flow = $app['dao.flow']->findOne($flowName, $userId);
+
+                    if (isset($flow)) {
+                        $class = $flow->getClass();
+
+                        $app['flow'] = new $class();
+                    }
+                }
+            } elseif ($request->get('_route') === 'event') {
                 $eventName = $request
                     ->attributes
                     ->get('_route_params')['event'];
