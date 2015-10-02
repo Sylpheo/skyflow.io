@@ -37,7 +37,7 @@ Please note your heroku application name, it will be referred as *your-app-name*
 
 In order to communicate with the different third-party platforms (such as Salesforce and Wave) you will need to setup the corresponding addons and provide your connected applications client id and client secret. You need to do this once.
 
-### Setup your connected applications
+### <a name="setup-your-connected-applications"></a>Setup your connected applications
 
 #### Salesforce
 
@@ -61,6 +61,22 @@ Needed OAuth Scopes
 Callback URL
 
 * https://your-app-name.herokuapp.com/wave/auth/callback
+
+## Install the example flows
+
+There are example flows in directory `src/Skyflow/Flow/Example/`. You can view their source code to see example uses of the different services offered by Skyflow.io.
+
+If you want to test them you will need to declare the flows/events/mappings in the database. **If you already created flows, events or mappings this won't work. If you want to test the examples you have to declare them right after the Setup process.**
+
+1. Download *examples.sql* from <a href="https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/db/examples.sql" download>https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/db/examples.sql</a> and run :
+
+	~~~
+	heroku pg:psql -a your-app-name < examples.sql
+	~~~
+
+2. Setup the addons (client id and client secret) before testing the example flows (see [Setup your connected applications](#setup-your-connected-applications)).
+
+3. Test the example flows by send HTTP POST requests (see [Setup events & Skyflow API](#setup-events-and-skyflow-api)).
 
 ### Setup the Skyflow addons
 
@@ -591,7 +607,7 @@ class ExampleFlow extends AbstractFlow
 	$dataset->process();
 	~~~
 
-## Setup events & Skyflow API
+## <a name="setup-events-and-skyflow-api"></a>Setup events & Skyflow API
 
 1. Create a new Event from the Skyflow web interface
 2. Map it to a flow
