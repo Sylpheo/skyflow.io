@@ -17,8 +17,6 @@ use Salesforce\Provider\SalesforceServiceProvider;
 use Wave\Provider\WaveControllerProvider;
 use Wave\Provider\WaveServiceProvider;
 
-$app['debug'] = true;
-
 /**
  * The application name when the application is run via the command-line and
  * we can't guess the name of the heroku application.
@@ -48,6 +46,13 @@ $app['dev'] = function () {
         }
     }
 };
+
+/**
+ * Turn on debugging on development environment.
+ */
+if ($app['dev']) {
+    $app['debug'] = true;
+}
 
 /**
  * When executed in a web environment, the application name is retrieved from the
