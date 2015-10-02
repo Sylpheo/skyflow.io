@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-namespace skyflow;
+namespace Skyflow\Security;
 
 use Skyflow\Domain\OAuthUser;
 use Skyflow\Service\OAuthServiceInterface;

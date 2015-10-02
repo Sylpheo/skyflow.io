@@ -11,7 +11,7 @@ namespace Skyflow\Service;
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 
 use Skyflow\Domain\OAuthUser;
-use Skyflow\OAuthAuthenticatedTrait;
+use Skyflow\Security\OAuthAuthenticatedTrait;
 use Skyflow\Service\RestService;
 use Skyflow\Service\ServiceInterface;
 
