@@ -66,7 +66,7 @@ Callback URL
 
 There are example flows in directory `src/Skyflow/Flow/Example/`. You can view their source code to see example uses of the different services offered by Skyflow.io.
 
-If you want to test them you will need to declare the flows/events/mappings in the database. **If you already created flows, events or mappings this won't work. If you want to test the examples you have to declare them right after the Setup process.**
+If you want to test them you will need to declare the flows/events/mappings in the database. **The flows are set to be owned by the default user "skyflow". If you removed the default user "skyflow", you will need to manually edit the file examples.sql.**
 
 1. Download *examples.sql* from <a href="https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/db/examples.sql" download>https://raw.githubusercontent.com/Sylpheo/skyflow.io/master/db/examples.sql</a> and run :
 

@@ -20,7 +20,7 @@ class Flow
     {
         echo "ERROR: missing skyflow-token and flow !\n\n";
         echo "Usage:\n";
-        echo "php flow.php --skyflow-token 'your_skyflow_token' --flow 'your_flow_name'\n";
+        echo "php bin/flow.php --skyflow-token 'your_skyflow_token' --flow 'your_flow_name'\n";
     }
 
     public function __invoke()

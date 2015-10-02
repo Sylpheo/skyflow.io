@@ -6,7 +6,7 @@
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
 
-// development datbase in localhost
+// development database in localhost
 if ($app['dev']) {
     return array(
         'driver' => 'pdo_pgsql',

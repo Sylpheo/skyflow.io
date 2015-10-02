@@ -1,6 +1,12 @@
 --
 -- This is for development only.
 --
+-- Installation instructions for development:
+--
+-- psql < db/dev.sql
+-- psql -U skyflow -d skyflow < db/install.sql
+-- psql -U skyflow -d skyflow < db/examples.sql
+--
 
 CREATE ROLE _www;
 CREATE USER skyflow PASSWORD 'skyflow' ROLE _www;
