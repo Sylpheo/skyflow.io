@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Domain class for a Wave InsightsExternalData, and enumerations for Picklists.
+ * Domain class for a Wave InsightsExternalData.
  *
  * @license http://opensource.org/licenses/MIT The MIT License (MIT)
  */
