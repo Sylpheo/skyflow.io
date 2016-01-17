@@ -1,5 +1,6 @@
 {
     "require": {
+        "php": "^5.5.0",
         "silex/silex": "~1.2",
         "doctrine/dbal": "~2.4",
         "twig/twig": "~1.16",
